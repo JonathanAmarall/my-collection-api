@@ -1,4 +1,5 @@
 ﻿using MyCollection.Domain.Contracts;
+using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 
 namespace MyCollection.Domain.Repositories
@@ -7,6 +8,8 @@ namespace MyCollection.Domain.Repositories
     {
         Task CreateAsync(Location location);    
         void Delete(Location location);
-        void Update(Location location); 
+        void Update(Location location);
+        Task<List<Location>> GetRootsAsync();
+        Task<List<LocationDto>?> GetChildrensAsync(Guid id);
     }
 }

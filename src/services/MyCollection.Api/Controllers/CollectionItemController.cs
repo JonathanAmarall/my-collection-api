@@ -5,7 +5,7 @@ using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/collection-items")]
     [ApiController]
     public class CollectionItemController : MainController
     {

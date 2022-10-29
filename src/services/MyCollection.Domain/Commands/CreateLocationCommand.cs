@@ -6,7 +6,7 @@ namespace MyCollection.Domain.Commands
 {
     public class CreateLocationCommand : ICommand
     {
-        public ValidationResult? ValidationResult { get; protected set; }
+        internal ValidationResult? ValidationResult { get;  set; }
 
         public CreateLocationCommand(string initials, string description, Guid? parentId)
         {

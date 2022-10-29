@@ -14,7 +14,7 @@ namespace MyCollection.Domain.Handler
             _collectionItemRepository = collectionItemRepository;
         }
 
-        public async Task<ICommandResult> HandleAsync(CreateCollectionItemCommand command, int companyId, string userId)
+        public async Task<ICommandResult> HandleAsync(CreateCollectionItemCommand command)
         {
             if (!command.IsValidate())
                 return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);

@@ -1,4 +1,6 @@
-﻿using MyCollection.Domain.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCollection.Domain.Contracts;
+using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 
@@ -28,6 +30,35 @@ namespace MyCollection.Data.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)
+        {
+            var locations = await _context.Locations
+                .Include(x => x.Childrens)
+                .AsNoTracking()
+                .Where(x => x.Childrens != null && x.Id == id)
+                .Select(x => x.Childrens.Select(c => 
+                new LocationDto 
+                { 
+                    Description = c.Description,
+                    Id = c.Id,
+                    Initials = c.Initials,
+                    ParentId = c.ParentId
+                }).ToList())
+                .FirstAsync();
+
+            return locations;
+        }
+
+        public async Task<List<Location>> GetRootsAsync()
+        {
+            var locations = await _context.Locations
+                 .Where(x => x.ParentId == null)
+                 .AsNoTracking()
+                 .ToListAsync();
+
+            return locations;
         }
 
         public void Update(Location location)

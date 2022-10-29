@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCollection.Data;
+using System.Text.Json.Serialization;
 
 namespace MyCollection.Api.Setup
 {
@@ -7,7 +8,8 @@ namespace MyCollection.Api.Setup
     {
         public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             services.AddDbContext<MyCollectionContext>(options =>
             {

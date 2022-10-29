@@ -14,7 +14,7 @@ namespace MyCollection.Domain.Handler
             _locationRepository = locationRepository;
         }
 
-        public async Task<ICommandResult> HandleAsync(CreateLocationCommand command, int companyId, string userId)
+        public async Task<ICommandResult> HandleAsync(CreateLocationCommand command)
         {
             if (!command.IsValidate())
                 return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);

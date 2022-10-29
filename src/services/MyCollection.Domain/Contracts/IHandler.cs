@@ -7,6 +7,6 @@
 
     public interface IHandlerAsync<T> where T : ICommand
     {
-        Task<ICommandResult> HandleAsync(T command, int companyId, string userId);
+        Task<ICommandResult> HandleAsync(T command);
     }
 }
