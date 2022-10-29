@@ -1,4 +1,6 @@
-﻿namespace MyCollection.Domain.Contracts
+﻿using FluentValidation.Results;
+
+namespace MyCollection.Domain.Contracts
 {
     public interface IValidatable
     {

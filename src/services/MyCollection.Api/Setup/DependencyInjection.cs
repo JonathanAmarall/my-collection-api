@@ -7,7 +7,8 @@ namespace MyCollection.Api.Setup
     {
         public static void AddDependencies(this IServiceCollection services)
         {
-            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
+            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>(); 
+            services.AddScoped<ILocationRepository, LocationRepository>(); 
 
         }
     }
