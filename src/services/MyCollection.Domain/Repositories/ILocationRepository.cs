@@ -11,5 +11,6 @@ namespace MyCollection.Domain.Repositories
         void Update(Location location);
         Task<List<Location>> GetRootsAsync();
         Task<List<LocationDto>?> GetChildrensAsync(Guid id);
+        Task<Location?> GetByIdAsync(Guid locationId);
     }
 }

@@ -32,6 +32,11 @@ namespace MyCollection.Data.Repositories
             _context?.Dispose();
         }
 
+        public async Task<Location?> GetByIdAsync(Guid id)
+        {
+            return await _context.Locations.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)
         {
             var locations = await _context.Locations

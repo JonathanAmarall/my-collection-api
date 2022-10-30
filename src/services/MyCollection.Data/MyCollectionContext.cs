@@ -10,6 +10,8 @@ namespace MyCollection.Data
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Location> Locations { get; set; }
 
+        public MyCollectionContext() { }
+
         public MyCollectionContext(DbContextOptions<MyCollectionContext> options) : base(options) { }
 
 
@@ -29,5 +31,5 @@ namespace MyCollection.Data
         }
     }
 
-  
+
 }

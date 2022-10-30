@@ -1,4 +1,5 @@
 using MyCollection.Api.Setup;
+using MyCollection.Data.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    DataSeeders.ApplySeeders(app.Services).Wait();
 }
 
 app.UseHttpsRedirection();

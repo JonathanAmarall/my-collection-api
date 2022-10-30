@@ -1,4 +1,5 @@
-﻿using MyCollection.Domain.Contracts;
+﻿using MyCollection.Data.Extensions;
+using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 using X.PagedList;
@@ -31,13 +32,32 @@ namespace MyCollection.Data.Repositories
             _context?.Dispose();
         }
 
-        public async Task<CollectionItemPaged<CollectionItem>> GetAllPagedAsync(string globalFilter, string sortOrder, string sortField, int pageNumber = 1, int pageSize = 10)
+        public async Task<CollectionItemPaged<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.CollectionItems.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
+                query = query.Where(x =>
+                    x.Autor.ToUpper().Contains(globalFilter.ToUpper()) ||
+                    x.Title.ToUpper().Contains(globalFilter.ToUpper()) ||
+                    x.Edition.ToUpper().Contains(globalFilter.ToUpper())
+                );
+            }
 
+            if (!string.IsNullOrWhiteSpace(sortOrder) && !string.IsNullOrWhiteSpace(sortField))
+            {
+                query = query.GenericOrderBy(sortField, sortOrder.ToUpper() == "DESC");
+            }
+
+            if (status != null)
+            {
+                query = query.Where(x => x.Status == status);
+            }
+
+            if (type != null)
+            {
+                query = query.Where(x => x.ItemType == type);
             }
 
             return new CollectionItemPaged<CollectionItem>

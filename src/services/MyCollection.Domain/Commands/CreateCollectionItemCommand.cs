@@ -2,20 +2,23 @@
 using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain
 {
     public class CreateCollectionItemCommand : ICommand
     {
-        public ValidationResult? ValidationResult { get; protected set; }
-        public CreateCollectionItemCommand(string title, string autor, int quantity, string? edition, EType itemType, Guid locationId)
+        [JsonIgnore]
+        internal ValidationResult? ValidationResult { get;  set; }
+
+        public CreateCollectionItemCommand(string title, string autor, int quantity, string? edition, EType itemType)
         {
             Title = title;
             Autor = autor;
             Quantity = quantity;
             Edition = edition;
             ItemType = itemType;
-            LocationId = locationId;
         }
 
         public string Title { get; set; }
@@ -23,7 +26,9 @@ namespace MyCollection.Domain
         public int Quantity { get; set; }
         public string? Edition { get; set; }
         public EType ItemType { get; private set; }
-        public Guid LocationId { get;  set; }
+
+        public string Imagem { get; private set; }
+        public IFormFile ImagemUpload { get; set; }
 
         public bool IsValidate()
         {
@@ -49,11 +54,6 @@ namespace MyCollection.Domain
 
             RuleFor(e => e.ItemType)
                 .IsInEnum().WithMessage("Por favor, informe um tipo de Item válido");
-
-            RuleFor(e => e.LocationId)
-                .NotNull()
-                .NotEqual(Guid.Empty)
-                .WithMessage("Informe uma localização corretamente");
         }
     }
 }

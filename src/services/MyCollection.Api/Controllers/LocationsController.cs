@@ -23,7 +23,7 @@ namespace MyCollection.Api.Controllers
         [HttpGet("{id:guid}/childrens")]
         public async Task<ActionResult<List<LocationDto>>> GetChildrens(Guid id, [FromServices] ILocationRepository locationRepository)
         {
-            List<LocationDto> locationsroots = await locationRepository.GetChildrensAsync(id);
+            List<LocationDto>? locationsroots = await locationRepository.GetChildrensAsync(id);
             return Ok(locationsroots);
         }
 

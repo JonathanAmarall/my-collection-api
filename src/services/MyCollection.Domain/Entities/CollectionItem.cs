@@ -5,14 +5,13 @@ namespace MyCollection.Domain.Entities
     public class CollectionItem : EntityBase, IAggregateRoot
     {
         private IList<Contact>? _contacts;
-        public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType, Guid locationId)
+        public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType)
         {
             Title = title;
             Autor = autor;
             Quantity = quantity;
             Edition = edition;
             ItemType = itemType;
-            LocationId = locationId;
 
             Status = ECollectionStatus.AVAILABLE;
         }
@@ -28,7 +27,7 @@ namespace MyCollection.Domain.Entities
         // EF Rel.
         public ICollection<Contact>? Contacts { get => _contacts; }
 
-        public Guid LocationId { get; private set; }
+        public Guid? LocationId { get; private set; }
         public Location Location { get; private set; }
 
 
@@ -54,6 +53,17 @@ namespace MyCollection.Domain.Entities
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;
             UpdateAt = DateTime.Now;
+        }
+
+        public void AddLocation(Guid locationId)
+        {
+            LocationId = locationId;
+            UpdateAt = DateTime.Now;
+        }
+
+        public bool ICanLend()
+        {
+            return Quantity > 0 && Status == ECollectionStatus.AVAILABLE;
         }
 
     }
