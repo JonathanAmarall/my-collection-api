@@ -56,6 +56,35 @@ namespace MyCollection.Data.Repositories
             return locations;
         }
 
+        public async Task<string> GetFullLocationTag(Guid id)
+        {
+            string tag = "";
+
+            Location? currentLocation = await _context.Locations.AsNoTracking()
+                .Where(x => x.Id == id)
+                .Include(x => x.Parent)
+                .FirstOrDefaultAsync();
+
+            if (currentLocation == null)
+                return tag;
+
+            tag += $"{currentLocation.Description}";
+
+            while (currentLocation?.ParentId != null)
+            {
+                currentLocation = await _context.Locations
+                .AsNoTracking()
+                .Include(x => x.Parent)
+                .ThenInclude(x => x.Parent)
+                .Where(x => x.Id == currentLocation.ParentId)
+                .FirstOrDefaultAsync();
+
+                tag = $"{currentLocation?.Description} > {tag}";
+            }
+
+            return tag;
+        }
+
         public async Task<List<Location>> GetRootsAsync()
         {
             var locations = await _context.Locations

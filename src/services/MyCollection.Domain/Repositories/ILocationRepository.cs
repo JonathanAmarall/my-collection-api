@@ -12,5 +12,7 @@ namespace MyCollection.Domain.Repositories
         Task<List<Location>> GetRootsAsync();
         Task<List<LocationDto>?> GetChildrensAsync(Guid id);
         Task<Location?> GetByIdAsync(Guid locationId);
+
+        Task<string> GetFullLocationTag(Guid id);
     }
 }

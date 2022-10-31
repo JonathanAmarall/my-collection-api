@@ -66,5 +66,22 @@ namespace MyCollection.Domain.Entities
             return Quantity > 0 && Status == ECollectionStatus.AVAILABLE;
         }
 
+
+        public bool HasLocation()
+        {
+            if (LocationId == null)
+                return false;
+
+            return true;
+        }
+
+        public string GetAbbreviatedLocation()
+        {
+            if (Location == null)
+                return "";
+
+            return Location.Initials;
+        }
+
     }
 }

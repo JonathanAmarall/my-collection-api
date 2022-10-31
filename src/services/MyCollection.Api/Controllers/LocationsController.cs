@@ -27,6 +27,12 @@ namespace MyCollection.Api.Controllers
             return Ok(locationsroots);
         }
 
+        [HttpGet("{id:guid}/full-location")]
+        public async Task<ActionResult> GetFullLocation(Guid id, [FromServices] ILocationRepository locationRepository)
+        {
+            return Ok(await locationRepository.GetFullLocationTag(id));
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateLocationCommand command, [FromServices] LocationHandler handler)
