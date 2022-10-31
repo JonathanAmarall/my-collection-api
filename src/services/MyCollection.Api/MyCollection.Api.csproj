@@ -5,17 +5,19 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..\..\MyCollection</DockerfileContext>
+		<DockerfileContext>..\..\..</DockerfileContext>
+		<UserSecretsId>861bcec5-4fef-4361-b9e5-2f7cd71e024a</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MyCollection.Data\MyCollection.Data.csproj" />
+		<ProjectReference Include="..\MyCollection.Data\MyCollection.Data.csproj" />
 	</ItemGroup>
 
 </Project>

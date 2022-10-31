@@ -11,10 +11,10 @@ builder.Services.AddDependencies();
 
 var app = builder.Build();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     DataSeeders.ApplySeeders(app.Services).Wait();
 }
 
