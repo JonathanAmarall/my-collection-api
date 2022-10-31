@@ -13,8 +13,9 @@ namespace MyCollection.Data.Extensions
         {
             var type = typeof(TEntity);
             string command = desc ? "OrderByDescending" : "OrderBy";
-
-            var propertyQuery = type.GetProperty(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(property));
+            
+            var propertyInPascalCase = char.ToUpper(property[0]) + property.Substring(1);
+            var propertyQuery = type.GetProperty(propertyInPascalCase);
 
             if (propertyQuery == null)
                 throw new Exception($"Propriedade {property} inválida!");
