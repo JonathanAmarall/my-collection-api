@@ -26,3 +26,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Build docker image
+      run: docker build -t jonathan31amaral/mycollection-api -f src/services/MyCollection.Api/Dockerfile .
