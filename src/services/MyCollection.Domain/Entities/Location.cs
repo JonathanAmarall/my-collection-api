@@ -4,8 +4,8 @@ namespace MyCollection.Domain.Entities
 {
     public class Location : EntityBase, IAggregateRoot
     {
-        private ICollection<CollectionItem>? _colletionItems;
         private ICollection<Location>? _childrens;
+        private ICollection<CollectionItem>? _colletionItems;
 
         public Location(string initials, string description, Guid? parentId)
         {
@@ -26,6 +26,9 @@ namespace MyCollection.Domain.Entities
 
         public bool HasChildren()
         {
+            if (_childrens == null)
+                _childrens = new List<Location>();
+
             return _childrens?.Count > 0;
         }
 
@@ -36,6 +39,9 @@ namespace MyCollection.Domain.Entities
 
         public void AddChildrens(ICollection<Location> productLocations)
         {
+            if (_childrens == null)
+                _childrens = new List<Location>();
+
             foreach (var productLocation in productLocations)
             {
                 _childrens?.Add(productLocation);

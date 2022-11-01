@@ -27,8 +27,6 @@ namespace MyCollection.Domain
         public string? Edition { get; set; }
         public EType ItemType { get; private set; }
 
-        public string Imagem { get; private set; }
-        public IFormFile ImagemUpload { get; set; }
 
         public bool IsValid()
         {

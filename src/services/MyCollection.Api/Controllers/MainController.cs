@@ -10,7 +10,7 @@ namespace MyCollection.Api.Controllers
     {
         protected ICollection<string> Errors = new List<string>();
 
-        protected ActionResult CustomReponse(object result = null)
+        protected ActionResult CustomReponse(object result = null!)
         {
             if (OperationValid())
             {

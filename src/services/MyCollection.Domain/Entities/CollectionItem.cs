@@ -28,7 +28,7 @@ namespace MyCollection.Domain.Entities
         public ICollection<Contact>? Contacts { get => _contacts; }
 
         public Guid? LocationId { get; private set; }
-        public Location Location { get; private set; }
+        public Location? Location { get; private set; }
 
 
         public void LendOneItem(Contact contact)

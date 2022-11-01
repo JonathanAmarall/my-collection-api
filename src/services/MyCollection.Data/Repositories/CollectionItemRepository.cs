@@ -19,12 +19,12 @@ namespace MyCollection.Data.Repositories
 
         public async Task CreateAsync(CollectionItem item)
         {
-            await _context.CollectionItems.AddAsync(item);
+            await _context.CollectionItems!.AddAsync(item);
         }
 
         public void Delete(CollectionItem item)
         {
-            _context.CollectionItems.Remove(item);
+            _context.CollectionItems!.Remove(item);
         }
 
         public void Dispose()
@@ -34,14 +34,14 @@ namespace MyCollection.Data.Repositories
 
         public async Task<CollectionItemPaged<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
-            var query = _context.CollectionItems.AsQueryable();
+            var query = _context.CollectionItems!.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
                 query = query.Where(x =>
                     x.Autor.ToUpper().Contains(globalFilter.ToUpper()) ||
                     x.Title.ToUpper().Contains(globalFilter.ToUpper()) ||
-                    x.Edition.ToUpper().Contains(globalFilter.ToUpper())
+                    x.Edition!.ToUpper().Contains(globalFilter.ToUpper())
                 );
             }
 
@@ -60,16 +60,13 @@ namespace MyCollection.Data.Repositories
                 query = query.Where(x => x.ItemType == type);
             }
 
-            return new CollectionItemPaged<CollectionItem>
-            {
-                Data = await query.ToPagedListAsync(pageNumber, pageSize),
-                TotalCount = query.Count()
-            };
+            return new CollectionItemPaged<CollectionItem>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
+          
         }
 
         public async Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)
         {
-            return await _context.CollectionItems.FindAsync(collectionItemId);
+            return await _context.CollectionItems!.FindAsync(collectionItemId);
         }
 
         public Task<Contact?> GetContactByIdAsync(Guid contactId)
@@ -79,7 +76,7 @@ namespace MyCollection.Data.Repositories
 
         public void Update(CollectionItem item)
         {
-            _context.CollectionItems.Update(item);
+            _context.CollectionItems!.Update(item);
         }
     }
 }

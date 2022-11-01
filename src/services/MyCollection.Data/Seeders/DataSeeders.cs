@@ -33,9 +33,8 @@ namespace MyCollection.Data.Seeders
                 itemsList.Add(new CollectionItem("U2", "The Joshua Tree", rnd.Next(1, 10), "1987", EType.DVD));
 
                 foreach (var item in itemsList)
-                    if (!await context.CollectionItems.AnyAsync(x => x.Title == item.Title))
-                        await context.CollectionItems.AddAsync(item);
-
+                    if (!await context.CollectionItems!.AnyAsync(x => x.Title == item.Title))
+                        await context.CollectionItems!.AddAsync(item);
 
                 var locationsList = new List<Location>();
 
@@ -46,8 +45,8 @@ namespace MyCollection.Data.Seeders
                 locationsList.Add(new Location("PRT 5", "Prateleira 5", null));
 
                 foreach (var item in locationsList)
-                    if (!await context.Locations.AnyAsync(x => x.Description == item.Description))
-                        await context.Locations.AddAsync(item);
+                    if (!await context.Locations!.AnyAsync(x => x.Description == item.Description))
+                        await context.Locations!.AddAsync(item);
 
                 await context.SaveChangesAsync();
             }

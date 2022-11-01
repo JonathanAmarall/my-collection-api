@@ -29,7 +29,7 @@ namespace MyCollection.Domain.Tests
 
 
         [Fact]
-        public void CollectionItem_GetAbbreviatedLocation_MustDecreaseTheAmount()
+        public void CollectionItem_GetAbbreviatedLocation_MustReturnLocation()
         {
             // Arrange
             var item = _fixture.GenerateCollectionWithLocation();
@@ -39,6 +39,7 @@ namespace MyCollection.Domain.Tests
 
             // Assert
             Assert.True(item.HasLocation());
+            Assert.False(string.IsNullOrWhiteSpace(abbreviatedLocation));
         }
     }
 }

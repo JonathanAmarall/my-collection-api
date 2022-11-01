@@ -19,12 +19,12 @@ namespace MyCollection.Data.Repositories
 
         public async Task CreateAsync(Location location)
         {
-            await _context.Locations.AddAsync(location);
+            await _context.Locations!.AddAsync(location);
         }
 
         public void Delete(Location location)
         {
-            _context.Locations.Remove(location);
+            _context.Locations!.Remove(location);
         }
 
         public void Dispose()
@@ -34,23 +34,18 @@ namespace MyCollection.Data.Repositories
 
         public async Task<Location?> GetByIdAsync(Guid id)
         {
-            return await _context.Locations.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Locations!.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)
         {
-            var locations = await _context.Locations
+            var locations = await _context.Locations!
                 .Include(x => x.Childrens)
                 .AsNoTracking()
                 .Where(x => x.Childrens != null && x.Id == id)
-                .Select(x => x.Childrens.Select(c => 
-                new LocationDto 
-                { 
-                    Description = c.Description,
-                    Id = c.Id,
-                    Initials = c.Initials,
-                    ParentId = c.ParentId
-                }).ToList())
+                .Select(x => x.Childrens!.Select(c
+                    => new LocationDto(c.Id, c.Initials, c.Description, c.ParentId))
+                .ToList())
                 .FirstAsync();
 
             return locations;
@@ -60,7 +55,7 @@ namespace MyCollection.Data.Repositories
         {
             string tag = "";
 
-            Location? currentLocation = await _context.Locations.AsNoTracking()
+            Location? currentLocation = await _context.Locations!.AsNoTracking()
                 .Where(x => x.Id == id)
                 .Include(x => x.Parent)
                 .FirstOrDefaultAsync();
@@ -72,10 +67,10 @@ namespace MyCollection.Data.Repositories
 
             while (currentLocation?.ParentId != null)
             {
-                currentLocation = await _context.Locations
+                currentLocation = await _context.Locations!
                 .AsNoTracking()
                 .Include(x => x.Parent)
-                .ThenInclude(x => x.Parent)
+                .ThenInclude(x => x!.Parent)
                 .Where(x => x.Id == currentLocation.ParentId)
                 .FirstOrDefaultAsync();
 
@@ -87,7 +82,7 @@ namespace MyCollection.Data.Repositories
 
         public async Task<List<Location>> GetRootsAsync()
         {
-            var locations = await _context.Locations
+            var locations = await _context.Locations!
                  .Where(x => x.ParentId == null)
                  .AsNoTracking()
                  .ToListAsync();
@@ -97,7 +92,7 @@ namespace MyCollection.Data.Repositories
 
         public void Update(Location location)
         {
-            _context.Locations.Update(location);
+            _context.Locations!.Update(location);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace MyCollection.Data
 {
     public class MyCollectionContext : DbContext, IUnitOfWork
     {
-        public DbSet<CollectionItem> CollectionItems { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<CollectionItem>? CollectionItems { get; set; }
+        public DbSet<Contact>? Contacts { get; set; }
+        public DbSet<Location>? Locations { get; set; }
 
         public MyCollectionContext() { }
 
