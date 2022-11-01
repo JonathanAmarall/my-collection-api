@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using MyCollection.Domain.Contracts;
+using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain.Commands
 {
     public class CreateLocationCommand : ICommand
     {
-        internal ValidationResult? ValidationResult { get;  set; }
+        [JsonIgnore]
+        public ValidationResult? ValidationResult { get;  set; }
 
         public CreateLocationCommand(string initials, string description, Guid? parentId)
         {
@@ -20,7 +22,7 @@ namespace MyCollection.Domain.Commands
         public Guid? ParentId { get; private set; }
 
 
-        public bool IsValidate()
+        public bool IsValid()
         {
             ValidationResult = new CreateLocationCommandValidation().Validate(this);
             return ValidationResult.IsValid;

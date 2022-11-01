@@ -16,7 +16,7 @@ namespace MyCollection.Domain.Handler
 
         public async Task<ICommandResult> HandleAsync(CreateLocationCommand command)
         {
-            if (!command.IsValidate())
+            if (!command.IsValid())
                 return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
 
             var location = new Location(command.Initials, command.Description, command.ParentId);

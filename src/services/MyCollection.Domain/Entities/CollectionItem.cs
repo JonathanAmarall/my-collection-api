@@ -55,9 +55,10 @@ namespace MyCollection.Domain.Entities
             UpdateAt = DateTime.Now;
         }
 
-        public void AddLocation(Guid locationId)
+        public void AddLocation(Location location)
         {
-            LocationId = locationId;
+            LocationId = location.Id;
+            Location = location;
             UpdateAt = DateTime.Now;
         }
 

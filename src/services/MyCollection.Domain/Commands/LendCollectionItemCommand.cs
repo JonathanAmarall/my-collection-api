@@ -7,7 +7,8 @@ namespace MyCollection.Domain.Commands
 {
     public class LendCollectionItemCommand : ICommand
     {
-        internal ValidationResult? ValidationResult { get; set; }
+        [JsonIgnore]
+        public ValidationResult? ValidationResult { get; set; }
 
         public LendCollectionItemCommand(Guid collectionItemId, Guid? contactId, string? fullName, string? email, string? phone)
         {
@@ -24,7 +25,7 @@ namespace MyCollection.Domain.Commands
         public string? Email { get; private set; }
         public string? Phone { get; private set; }
 
-        public bool IsValidate()
+        public bool IsValid()
         {
             ValidationResult = new BorrowCollectionItemCommandValidation().Validate(this);
             return ValidationResult.IsValid;

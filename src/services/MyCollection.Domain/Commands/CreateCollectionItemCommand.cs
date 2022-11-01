@@ -30,7 +30,7 @@ namespace MyCollection.Domain
         public string Imagem { get; private set; }
         public IFormFile ImagemUpload { get; set; }
 
-        public bool IsValidate()
+        public bool IsValid()
         {
             ValidationResult = new CreateCollectionItemCommandValidation().Validate(this);
             return ValidationResult.IsValid;

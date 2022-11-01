@@ -2,34 +2,32 @@ name: .NET
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['main']
   pull_request:
-    branches: [ "master" ]
+    branches: ['main']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Build docker image
-      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api -f src/services/MyCollection.Api/Dockerfile .
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-    - name: Push To Docker Hub
-      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api
-      
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Build docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api -f src/services/MyCollection.Api/Dockerfile .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Push To Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mycollection-api

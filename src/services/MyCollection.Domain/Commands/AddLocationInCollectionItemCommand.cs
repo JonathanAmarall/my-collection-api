@@ -9,7 +9,7 @@ namespace MyCollection.Domain.Commands
     {
 
         [JsonIgnore]
-        internal ValidationResult? ValidationResult { get; set; }
+        public ValidationResult? ValidationResult { get; set; }
         public AddLocationInCollectionItemCommand(Guid collectionItemId, Guid locationId)
         {
             CollectionItemId = collectionItemId;
@@ -20,7 +20,7 @@ namespace MyCollection.Domain.Commands
         public Guid CollectionItemId { get; set; }
         public Guid LocationId { get; set; }
 
-        public bool IsValidate()
+        public bool IsValid()
         {
             ValidationResult = new AddLocationInCollectionItemCommandValidation().Validate(this);
             return ValidationResult.IsValid;
