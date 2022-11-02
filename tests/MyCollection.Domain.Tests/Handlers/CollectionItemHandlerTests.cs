@@ -135,7 +135,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result)
-                .Returns(new Location("CX 1", "Caixa 1", null));
+                .Returns(new Location("CX 1", "Caixa 1", null, 0));
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 

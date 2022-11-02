@@ -30,7 +30,7 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] CreateCollectionItemCommand command, [FromServices] CollectionItemHandler handler)
+        public async Task<ActionResult> Post([FromBody] CreateCollectionItemCommand command, [FromServices] CollectionItemHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
             if (!result.Success)
@@ -39,7 +39,7 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(result.Message);
+            return CustomReponse(new { Message = result.Message });
         }
 
         [HttpPost("{id:guid}/lend")]

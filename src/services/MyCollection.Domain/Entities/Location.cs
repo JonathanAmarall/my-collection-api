@@ -7,17 +7,19 @@ namespace MyCollection.Domain.Entities
         private IList<Location>? _childrens;
         private IList<CollectionItem>? _colletionItems;
 
-        public Location(string initials, string description, Guid? parentId)
+        public Location(string initials, string description, Guid? parentId, int level)
         {
             Initials = initials.ToUpper();
             Description = description;
             ParentId = parentId;
 
             _colletionItems = new List<CollectionItem>();
+            Level = level;
         }
 
         public string Initials { get; private set; }
         public string Description { get; private set; }
+        public int Level { get; private set; }
 
         // EF Rel.
         public ICollection<Location>? Childrens { get => _childrens; }

@@ -47,7 +47,7 @@ namespace MyCollection.Data.Repositories
                 .AsNoTracking()
                 .Where(x => x.Childrens != null && x.Id == id)
                 .Select(x => x.Childrens!.Select(c
-                    => new LocationDto(c.Id, c.Initials, c.Description, c.ParentId))
+                    => new LocationDto(c.Id, c.Initials, c.Description, c.ParentId, c.Level))
                 .ToList())
                 .FirstAsync();
 

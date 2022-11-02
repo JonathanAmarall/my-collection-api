@@ -22,7 +22,7 @@ namespace MyCollection.Domain.Tests
         public CollectionItem GenerateCollectionWithLocation()
         {
             var item = new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK);
-            var location = new Location("PRT 1", "Prateleira 1", null);
+            var location = new Location("PRT 1", "Prateleira 1", null, 0);
             item.AddLocation(location);
 
             return item;

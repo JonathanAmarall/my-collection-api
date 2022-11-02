@@ -38,11 +38,11 @@ namespace MyCollection.Data.Seeders
 
                 var locationsList = new List<Location>();
 
-                locationsList.Add(new Location("PRT 1", "Prateleira 1", null));
-                locationsList.Add(new Location("PRT 2", "Prateleira 2", null));
-                locationsList.Add(new Location("PRT 3", "Prateleira 3", null));
-                locationsList.Add(new Location("PRT 4", "Prateleira 4", null));
-                locationsList.Add(new Location("PRT 5", "Prateleira 5", null));
+                locationsList.Add(new Location("PRT 1", "Prateleira 1", null, 0));
+                locationsList.Add(new Location("PRT 2", "Prateleira 2", null, 0));
+                locationsList.Add(new Location("PRT 3", "Prateleira 3", null, 0));
+                locationsList.Add(new Location("PRT 4", "Prateleira 4", null, 0));
+                locationsList.Add(new Location("PRT 5", "Prateleira 5", null, 0));
 
                 foreach (var item in locationsList)
                     if (!await context.Locations!.AnyAsync(x => x.Description == item.Description))
