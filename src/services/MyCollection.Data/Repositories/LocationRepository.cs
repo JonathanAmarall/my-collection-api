@@ -34,7 +34,10 @@ namespace MyCollection.Data.Repositories
 
         public async Task<Location?> GetByIdAsync(Guid id)
         {
-            return await _context.Locations!.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Locations!
+                .Include(x => x.CollectionItems)
+                .Include(x => x.Childrens)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)

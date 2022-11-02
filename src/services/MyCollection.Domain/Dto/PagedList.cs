@@ -1,11 +1,11 @@
 ﻿using MyCollection.Domain.Entities;
 using X.PagedList;
 
-namespace MyCollection.Domain.Contracts
+namespace MyCollection.Domain.Dto
 {
-    public class CollectionItemPaged<T>  where T : EntityBase
+    public class PagedList<T> where T : EntityBase
     {
-        public CollectionItemPaged(int totalCount, IPagedList<T> data)
+        public PagedList(int totalCount, IPagedList<T> data)
         {
             TotalCount = totalCount;
             Data = data;

@@ -1,4 +1,5 @@
-﻿using MyCollection.Data.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCollection.Data.Extensions;
 using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
@@ -32,7 +33,22 @@ namespace MyCollection.Data.Repositories
             _context?.Dispose();
         }
 
-        public async Task<CollectionItemPaged<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
+        public async Task<Domain.Dto.PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
+        {
+            var query = _context.Contacts!.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(globalFilter))
+            {
+                query = query.Where(x =>
+                                   x.Email.ToUpper().Contains(globalFilter.ToUpper()) ||
+                                   x.FullName.ToUpper().Contains(globalFilter.ToUpper()) ||
+                                   x.Phone!.ToUpper().Contains(globalFilter.ToUpper())
+                               );
+            }
+            return new Domain.Dto.PagedList<Contact>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
+        }
+
+        public async Task<Domain.Dto.PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.CollectionItems!.AsQueryable();
 
@@ -60,23 +76,26 @@ namespace MyCollection.Data.Repositories
                 query = query.Where(x => x.ItemType == type);
             }
 
-            return new CollectionItemPaged<CollectionItem>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
-          
+            return new Domain.Dto.PagedList<CollectionItem>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
+
         }
 
         public async Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)
         {
-            return await _context.CollectionItems!.FindAsync(collectionItemId);
+            return await _context.CollectionItems!.FirstOrDefaultAsync(x => x.Id == collectionItemId);
         }
 
-        public Task<Contact?> GetContactByIdAsync(Guid contactId)
+        public async Task<Contact?> GetContactByIdAsync(Guid contactId)
         {
-            throw new NotImplementedException();
+            return await _context.Contacts!.FirstOrDefaultAsync(x => x.Id == contactId);
         }
 
         public void Update(CollectionItem item)
         {
-            _context.CollectionItems!.Update(item);
+            //_context.CollectionItems!.Update(item);
+            _context.Entry(item).State = EntityState.Modified;
         }
+
+
     }
 }

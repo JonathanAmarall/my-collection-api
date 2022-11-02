@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyCollection.Data.Migrations
 {
     [DbContext(typeof(MyCollectionContext))]
-    [Migration("20221029134556_Init_Migrate")]
-    partial class Init_Migrate
+    [Migration("20221102195655_init_migrate")]
+    partial class init_migrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,7 @@ namespace MyCollection.Data.Migrations
                     b.Property<int>("ItemType")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("LocationId")
+                    b.Property<Guid?>("LocationId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
@@ -133,10 +133,8 @@ namespace MyCollection.Data.Migrations
             modelBuilder.Entity("MyCollection.Domain.Entities.CollectionItem", b =>
                 {
                     b.HasOne("MyCollection.Domain.Entities.Location", "Location")
-                        .WithMany("CollectionItems")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
                 });
@@ -165,8 +163,6 @@ namespace MyCollection.Data.Migrations
             modelBuilder.Entity("MyCollection.Domain.Entities.Location", b =>
                 {
                     b.Navigation("Childrens");
-
-                    b.Navigation("CollectionItems");
                 });
 #pragma warning restore 612, 618
         }

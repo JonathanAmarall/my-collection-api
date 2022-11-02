@@ -7,7 +7,6 @@ namespace MyCollection.Domain.Entities
 
         public EntityBase()
         {
-            Id = Guid.NewGuid();
             CreatedAt = DateTime.Now;
         }
 

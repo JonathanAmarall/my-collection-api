@@ -4,14 +4,16 @@ namespace MyCollection.Domain.Entities
 {
     public class Location : EntityBase, IAggregateRoot
     {
-        private ICollection<Location>? _childrens;
-        private ICollection<CollectionItem>? _colletionItems;
+        private IList<Location>? _childrens;
+        private IList<CollectionItem>? _colletionItems;
 
         public Location(string initials, string description, Guid? parentId)
         {
             Initials = initials.ToUpper();
             Description = description;
             ParentId = parentId;
+
+            _colletionItems = new List<CollectionItem>();
         }
 
         public string Initials { get; private set; }
@@ -52,10 +54,16 @@ namespace MyCollection.Domain.Entities
 
         public void LinkACollectionItem(CollectionItem item)
         {
-            if (_colletionItems == null)
-                _colletionItems = new List<CollectionItem>();
+
 
             _colletionItems?.Add(item);
+        }
+
+        public bool HasCollectionItem()
+        {
+            if (_colletionItems == null)
+                _colletionItems = new List<CollectionItem>();
+            return _colletionItems?.Count > 0;
         }
     }
 

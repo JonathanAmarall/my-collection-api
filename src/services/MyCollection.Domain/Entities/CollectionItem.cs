@@ -28,8 +28,7 @@ namespace MyCollection.Domain.Entities
         public ICollection<Contact>? Contacts { get => _contacts; }
 
         public Guid? LocationId { get; private set; }
-        public Location? Location { get; private set; }
-
+        public Location Location { get; private set; }
 
         public void LendOneItem(Contact contact)
         {
@@ -59,6 +58,7 @@ namespace MyCollection.Domain.Entities
         {
             LocationId = location.Id;
             Location = location;
+
             UpdateAt = DateTime.Now;
         }
 
@@ -67,21 +67,21 @@ namespace MyCollection.Domain.Entities
             return Quantity > 0 && Status == ECollectionStatus.AVAILABLE;
         }
 
-
         public bool HasLocation()
         {
-            if (LocationId == null)
-                return false;
+            //if (LocationId == null)
+            //    return false;
 
             return true;
         }
 
         public string GetAbbreviatedLocation()
         {
-            if (Location == null)
-                return "";
+            //if (Location == null)
+            //    return "";
 
-            return Location.Initials;
+            //return Location.Initials;
+            return "";
         }
 
     }

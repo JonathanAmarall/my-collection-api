@@ -7,8 +7,8 @@ namespace MyCollection.Data
     public class MyCollectionContext : DbContext, IUnitOfWork
     {
         public DbSet<CollectionItem>? CollectionItems { get; set; }
-        public DbSet<Contact>? Contacts { get; set; }
         public DbSet<Location>? Locations { get; set; }
+        public DbSet<Contact>? Contacts { get; set; }
 
         public MyCollectionContext() { }
 
@@ -20,6 +20,8 @@ namespace MyCollection.Data
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(
                e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
+
+            builder.ApplyConfigurationsFromAssembly(typeof(MyCollectionContext).Assembly);
 
             base.OnModelCreating(builder);
         }

@@ -9,7 +9,7 @@ namespace MyCollection.Domain.Handler
     {
         private readonly ICollectionItemRepository _collectionItemRepository;
         private readonly ILocationRepository _locationRepository;
-      
+
         public CollectionItemHandler(ICollectionItemRepository collectionItemRepository, ILocationRepository locationRepository)
         {
             _collectionItemRepository = collectionItemRepository;
@@ -63,11 +63,10 @@ namespace MyCollection.Domain.Handler
                 return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command, command.ValidationResult);
 
             var location = await _locationRepository.GetByIdAsync(command.LocationId);
-            if(location == null)
+            if (location == null)
                 return new CommandResult(false, "Localização inválida. Verifique e tente novamente.", command, command.ValidationResult);
 
-            item.AddLocation(location!);
-
+            item.AddLocation(location);
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();
 

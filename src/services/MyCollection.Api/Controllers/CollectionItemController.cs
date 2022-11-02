@@ -2,7 +2,7 @@
 using MyCollection.Api.Dto;
 using MyCollection.Domain;
 using MyCollection.Domain.Commands;
-using MyCollection.Domain.Contracts;
+using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
@@ -14,13 +14,13 @@ namespace MyCollection.Api.Controllers
     public class CollectionItemController : MainController
     {
         [HttpGet]
-        public async Task<ActionResult<CollectionItemPaged<CollectionItem>>> Get(
+        public async Task<ActionResult<PagedList<CollectionItem>>> Get(
             [FromServices] ICollectionItemRepository collectionItemRepository,
             [FromQuery] QueryCollectionItemDto query)
         {
             try
             {
-                CollectionItemPaged<CollectionItem> items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
+                PagedList<CollectionItem> items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
                 return Ok(items);
             }
             catch
@@ -55,7 +55,7 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(result.Message);
+            return CustomReponse(new { Message = result.Message });
         }
 
         [HttpPut("{id:guid}")]
@@ -71,31 +71,24 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(result.Message);
+            return CustomReponse(new { Message = result.Message });
         }
 
-
-        private bool UploadArquivo(string arquivo, string imgNome)
+        [HttpGet("{id:guid}/location")]
+        public async Task<ActionResult<string>> GetFullLocation(Guid id, [FromServices] ILocationRepository locationRepository)
         {
-            if (string.IsNullOrEmpty(arquivo))
-            {
-                AddProcessingError("Forneça uma imagem para este Item!");
-                return false;
-            }
-
-            var imageDataByteArray = Convert.FromBase64String(arquivo);
-
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgNome);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                AddProcessingError("Já exite um arquivo com este nome!");
-                return false;
-            }
-
-            System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
-
-            return true;
+            return Ok(new { Location = await locationRepository.GetFullLocationTag(id) });
         }
+
+        [HttpGet("contacts")]
+        public async Task<ActionResult> GetContacts(
+            [FromServices] ICollectionItemRepository collectionItemRepository,
+            string? globalFilter, int pageNumber = 1, int pageSize = 5)
+        {
+            return Ok(await collectionItemRepository.GetAllContactsPagedAsync(globalFilter, pageNumber, pageSize));
+        }
+
+
+
     }
 }

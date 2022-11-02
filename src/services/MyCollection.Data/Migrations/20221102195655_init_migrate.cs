@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyCollection.Data.Migrations
 {
-    public partial class Init_Migrate : Migration
+    public partial class init_migrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,9 +39,9 @@ namespace MyCollection.Data.Migrations
                     Autor = table.Column<string>(type: "varchar(100)", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Edition = table.Column<string>(type: "varchar(100)", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
                     ItemType = table.Column<int>(type: "integer", nullable: false),
-                    LocationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    LocationId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -52,8 +52,7 @@ namespace MyCollection.Data.Migrations
                         name: "FK_CollectionItems_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

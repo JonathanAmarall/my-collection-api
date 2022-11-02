@@ -12,7 +12,6 @@ namespace MyCollection.Api.Controllers
     [ApiController]
     public class LocationsController : MainController
     {
-
         [HttpGet]
         public async Task<ActionResult<List<Location>>> Get([FromServices] ILocationRepository locationRepository)
         {
@@ -33,7 +32,6 @@ namespace MyCollection.Api.Controllers
             return Ok(await locationRepository.GetFullLocationTag(id));
         }
 
-
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateLocationCommand command, [FromServices] LocationHandler handler)
         {
@@ -41,9 +39,26 @@ namespace MyCollection.Api.Controllers
             if (!result.Success)
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
 
-            return CustomReponse(result.Message);
+            return CustomReponse(result.Data);
         }
 
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id, [FromServices] ILocationRepository locationRepository)
+        {
+            var location = await locationRepository.GetByIdAsync(id);
+            if (location == null)
+                return BadRequest();
 
+            if (location.HasChildren())
+                return BadRequest(new { Message = "Esta localização não pode ser excluída, pois possui Localizações pendentes." });
+
+            if (location.HasCollectionItem())
+                return BadRequest(new { Message = "Esta localização não pode ser excluída, pois possui Itens armazenados." });
+
+            locationRepository.Delete(location);
+            await locationRepository.UnitOfWork.Commit();
+
+            return NoContent();
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace MyCollection.Data.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("CollectionItems");
+                    b.ToTable("CollectionItems", (string)null);
                 });
 
             modelBuilder.Entity("MyCollection.Domain.Entities.Contact", b =>
@@ -95,7 +95,7 @@ namespace MyCollection.Data.Migrations
 
                     b.HasIndex("CollectionItemId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("MyCollection.Domain.Entities.Location", b =>
@@ -125,13 +125,13 @@ namespace MyCollection.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("MyCollection.Domain.Entities.CollectionItem", b =>
                 {
                     b.HasOne("MyCollection.Domain.Entities.Location", "Location")
-                        .WithMany("CollectionItems")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
@@ -161,8 +161,6 @@ namespace MyCollection.Data.Migrations
             modelBuilder.Entity("MyCollection.Domain.Entities.Location", b =>
                 {
                     b.Navigation("Childrens");
-
-                    b.Navigation("CollectionItems");
                 });
 #pragma warning restore 612, 618
         }
