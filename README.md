@@ -226,6 +226,8 @@ Enviar no corpo da requisição:
 | :-------- | :----- | :----------------------------------- |
 | `id`      | `uuid` | **Obrigatório**. O ID da Localização |
 
+#### Location - Deleta uma localização
+
 ```http
   DELETE /api/v1/locations/${id}
 ```
