@@ -84,10 +84,6 @@ Com o projeto já clonado, rode o seguinte comando na raíz do projeto:
   GET /api/v1/collection-items
 ```
 
-| Parâmetro | Tipo     | Descrição                           |
-| :-------- | :------- | :---------------------------------- |
-| `api_key` | `string` | **Obrigatório**. A chave da sua API |
-
 #### CollectionItem - Também é possível filtrar os itens e ordená-los
 
 ```http
