@@ -236,11 +236,11 @@ Enviar no corpo da requisição:
 
 ## Demonstração - Cadastro de Localização
 
-![](https://github.com/Your_Repository_Name/Your_GIF_Name.gif)
+![](https://github.com/JonathanAmarall/my-collection-api/blob/criando-readme/images/localizacao-demonstracao.gif)
 
 ## Demonstração - Adicionando Localização à um Item
 
-![](https://github.com/Your_Repository_Name/Your_GIF_Name.gif)
+![](https://github.com/JonathanAmarall/my-collection-api/blob/criando-readme/images/localizacao-uso.gif)
 
 \*\*Nota: O cadastro de Localização permite, de forma flexível, adicionar qualquer tipo de localização.
 Podendo atender grandes e pequenos cenários.
