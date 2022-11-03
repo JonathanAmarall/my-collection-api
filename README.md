@@ -6,13 +6,13 @@ Link do projeto Frontend: https://github.com/JonathanAmarall/my-collection-front
 
 # Índice
 
-- [Funcionalidades](#Sobre)
-- [Stack](#tabela-de-conteudo)
-- [Rodando com Docker Compose](#instalacao)
-- [Rodando os testes](#como-usar)
-- [Documentação da API](#pre-requisitos)
-- [Demonstração](#local-files)
-- [Melhorias](#remote-files)
+- [Funcionalidades](#funcionalidades)
+- [Stack](#stack)
+- [Rodando com Docker Compose](#rodando-com-docker-compose)
+- [Rodando os testes](#rodando-testes)
+- [Documentação da API](#documentacao-da-api)
+- [Demonstração](#demonstracao)
+- [Futuras Implementações](#futuras-melhorias)
 
 ## Funcionalidades
 
