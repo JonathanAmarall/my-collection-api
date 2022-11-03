@@ -9,7 +9,7 @@ Link do projeto Frontend: https://github.com/JonathanAmarall/my-collection-front
 - [Funcionalidades](#funcionalidades)
 - [Stack](#stack)
 - [Rodando com Docker Compose](#rodando-com-docker-compose)
-- [Rodando os testes](#rodando-testes)
+- [Rodando os testes](#rodando-os-testes)
 - [Documentação da API](#documentação-da-api)
 - [Demonstração](#demonstração)
 - [Futuras Implementações](#futuras-implementações)
@@ -234,11 +234,13 @@ Enviar no corpo da requisição:
 | :-------- | :----- | :----------------------------------- |
 | `id`      | `uuid` | **Obrigatório**. O ID da Localização |
 
-## Demonstração - Cadastro de Localização
+
+## Demonstração
+### Demonstração - Cadastro de Localização
 
 ![](https://github.com/JonathanAmarall/my-collection-api/blob/criando-readme/images/localizacao-demonstracao.gif)
 
-## Demonstração - Adicionando Localização à um Item
+### Demonstração - Adicionando Localização à um Item
 
 ![](https://github.com/JonathanAmarall/my-collection-api/blob/criando-readme/images/localizacao-uso.gif)
 
