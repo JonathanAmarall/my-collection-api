@@ -8,10 +8,16 @@ namespace MyCollection.Data.Seeders
     {
         public static async Task ApplySeeders(IServiceProvider serviceProvider)
         {
+
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<MyCollectionContext>();
+
+                Console.WriteLine("======= CRIANDO BANCO DE DADOS =======");
+                bool criado = context.Database.EnsureCreated();
+                Console.WriteLine("======= BANCO DE DADOS CRIADO: {0} =======", criado);
                 var itemsList = new List<CollectionItem>();
+                Console.WriteLine("====== APLICANDO SEEDERS =========");
 
                 Random rnd = new Random();
                 itemsList.Add(new CollectionItem("O Programador Apaixonado", "Chad Fowler", rnd.Next(1, 10), "Professional", EType.BOOK));
@@ -51,6 +57,7 @@ namespace MyCollection.Data.Seeders
                 await context.SaveChangesAsync();
             }
 
+            Console.WriteLine("====== SEEDERS FINALIZADOS =========");
         }
     }
 }

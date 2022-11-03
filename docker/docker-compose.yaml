@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  frontend:
+    image: jonathan31amaral/mycollection-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - mycollection-network
+
+  backend:
+    image: jonathan31amaral/mycollection-api
+    ports:
+      - "5099:80"
+    restart: always
+    networks:
+      - mycollection-network
+    environment:
+      DB_CONNECTION_STRING: "Host=database;Port=5432;Database=MyCollectionDb;Username=postgres;Password=postgrespw"
+
+  database:
+    image: postgres:14
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgrespw"
+      POSTGRES_DB: "MyCollectionDb"
+    networks:
+      - mycollection-network
+
+networks:
+  mycollection-network:
+    driver: bridge
