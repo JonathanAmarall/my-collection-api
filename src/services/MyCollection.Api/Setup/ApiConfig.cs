@@ -14,9 +14,10 @@ namespace MyCollection.Api.Setup
             });
 
             services.AddDbContext<MyCollectionContext>(options =>
-                {
-                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-                });
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            });
+
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }

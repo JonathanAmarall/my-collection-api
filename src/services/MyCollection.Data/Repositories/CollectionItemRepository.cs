@@ -36,7 +36,7 @@ namespace MyCollection.Data.Repositories
         public async Task<Domain.Dto.PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.Contacts!.AsQueryable();
-
+            
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
                 query = query.Where(x =>
@@ -92,7 +92,6 @@ namespace MyCollection.Data.Repositories
 
         public void Update(CollectionItem item)
         {
-            //_context.CollectionItems!.Update(item);
             _context.Entry(item).State = EntityState.Modified;
         }
 

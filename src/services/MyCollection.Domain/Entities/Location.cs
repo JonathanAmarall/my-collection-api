@@ -41,14 +41,14 @@ namespace MyCollection.Domain.Entities
             return ParentId != Guid.Empty;
         }
 
-        public void AddChildrens(ICollection<Location> productLocations)
+        public void AddChildrens(ICollection<Location> itemLocations)
         {
             if (_childrens == null)
                 _childrens = new List<Location>();
 
-            foreach (var productLocation in productLocations)
+            foreach (var item in itemLocations)
             {
-                _childrens?.Add(productLocation);
+                _childrens?.Add(item);
             }
 
             UpdateAt = DateTime.Now;
@@ -56,8 +56,6 @@ namespace MyCollection.Domain.Entities
 
         public void LinkACollectionItem(CollectionItem item)
         {
-
-
             _colletionItems?.Add(item);
         }
 

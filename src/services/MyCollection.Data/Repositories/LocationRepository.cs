@@ -40,6 +40,7 @@ namespace MyCollection.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        // TODO: retornar entidade ao inves de DTO
         public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)
         {
             var locations = await _context.Locations!

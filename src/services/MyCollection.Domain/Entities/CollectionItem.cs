@@ -32,9 +32,7 @@ namespace MyCollection.Domain.Entities
 
         public void LendOneItem(Contact contact)
         {
-            if (_contacts == null)
-                _contacts = new List<Contact>();
-
+            _contacts = _contacts ?? new List<Contact>();
             _contacts.Add(contact);
 
             Quantity--;
