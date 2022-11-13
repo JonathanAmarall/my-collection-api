@@ -18,6 +18,8 @@ namespace MyCollection.Api.Setup
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddAutoMapper(typeof(MapperConfiguration));
+
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }

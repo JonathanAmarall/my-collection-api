@@ -3,7 +3,7 @@ using X.PagedList;
 
 namespace MyCollection.Domain.Dto
 {
-    public class PagedList<T> where T : EntityBase
+    public class PagedList<T> where T : class
     {
         public PagedList(int totalCount, IPagedList<T> data)
         {

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MyCollection.Api.Dto;
 using MyCollection.Domain.Commands;
-using MyCollection.Domain.Dto;
-using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 
@@ -12,18 +11,25 @@ namespace MyCollection.Api.Controllers
     [ApiController]
     public class LocationsController : MainController
     {
-        [HttpGet]
-        public async Task<ActionResult<List<Location>>> Get([FromServices] ILocationRepository locationRepository)
+        private readonly IMapper _mapper;
+
+        public LocationsController(IMapper mapper)
         {
-            List<Location> locationsroots = await locationRepository.GetRootsAsync();
-            return Ok(locationsroots);
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<LocationDto>>> Get([FromServices] ILocationRepository locationRepository)
+        {
+            var locations = _mapper.Map<List<LocationDto>>(await locationRepository.GetRootsAsync());
+
+            return Ok(locations);
         }
 
         [HttpGet("{id:guid}/childrens")]
         public async Task<ActionResult<List<LocationDto>>> GetChildrens(Guid id, [FromServices] ILocationRepository locationRepository)
         {
-            // TODO: Puxar entidade e mapear para DTO
-            List<LocationDto>? locationsroots = await locationRepository.GetChildrensAsync(id);
+            List<LocationDto> locationsroots = _mapper.Map<List<LocationDto>>(await locationRepository.GetChildrensAsync(id));
             return Ok(locationsroots);
         }
 

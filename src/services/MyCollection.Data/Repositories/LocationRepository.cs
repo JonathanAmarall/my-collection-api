@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCollection.Domain.Contracts;
-using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 
@@ -40,19 +39,12 @@ namespace MyCollection.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        // TODO: retornar entidade ao inves de DTO
-        public async Task<List<LocationDto>?> GetChildrensAsync(Guid id)
+        public async Task<List<Location>?> GetChildrensAsync(Guid id)
         {
-            var locations = await _context.Locations!
+            return await _context.Locations!
                 .Include(x => x.Childrens)
-                .AsNoTracking()
                 .Where(x => x.Childrens != null && x.Id == id)
-                .Select(x => x.Childrens!.Select(c
-                    => new LocationDto(c.Id, c.Initials, c.Description, c.ParentId, c.Level))
-                .ToList())
-                .FirstAsync();
-
-            return locations;
+                .ToListAsync();
         }
 
         public async Task<string> GetFullLocationTag(Guid id)

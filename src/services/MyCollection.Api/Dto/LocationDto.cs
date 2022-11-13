@@ -1,4 +1,4 @@
-﻿namespace MyCollection.Domain.Dto
+﻿namespace MyCollection.Api.Dto
 {
     public class LocationDto
     {

@@ -6,13 +6,12 @@ namespace MyCollection.Domain.Repositories
 {
     public interface ILocationRepository : IRepository<Location>
     {
-        Task CreateAsync(Location location);    
+        Task CreateAsync(Location location);
         void Delete(Location location);
         void Update(Location location);
         Task<List<Location>> GetRootsAsync();
-        Task<List<LocationDto>?> GetChildrensAsync(Guid id);
+        Task<List<Location>?> GetChildrensAsync(Guid id);
         Task<Location?> GetByIdAsync(Guid locationId);
-
         Task<string> GetFullLocationTag(Guid id);
     }
 }
