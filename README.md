@@ -84,10 +84,6 @@ Com o projeto já clonado, rode o seguinte comando na raíz do projeto:
   GET /api/v1/collection-items
 ```
 
-| Parâmetro | Tipo     | Descrição                           |
-| :-------- | :------- | :---------------------------------- |
-| `api_key` | `string` | **Obrigatório**. A chave da sua API |
-
 #### CollectionItem - Também é possível filtrar os itens e ordená-los
 
 ```http
@@ -225,6 +221,8 @@ Enviar no corpo da requisição:
 | Parâmetro | Tipo   | Descrição                            |
 | :-------- | :----- | :----------------------------------- |
 | `id`      | `uuid` | **Obrigatório**. O ID da Localização |
+
+#### Location - Deleta uma localização
 
 ```http
   DELETE /api/v1/locations/${id}
