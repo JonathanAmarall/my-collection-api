@@ -11,6 +11,7 @@ namespace MyCollection.Domain.Repositories
         void Update(CollectionItem item);
         Task<CollectionItem?> GetByIdAsync(Guid collectionItemId);
         Task<Contact?> GetContactByIdAsync(Guid contactId);
+        Task<List<Contact>?> GetContactsByCollectionItemIdAsync(Guid collectionItemId);
         Task<PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5);
         Task<PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5);
     }

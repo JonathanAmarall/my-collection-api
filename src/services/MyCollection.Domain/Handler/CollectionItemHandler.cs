@@ -1,6 +1,7 @@
 ﻿using MyCollection.Domain.Commands;
 using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
+using MyCollection.Domain.Queries;
 using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Domain.Handler
@@ -9,11 +10,14 @@ namespace MyCollection.Domain.Handler
     {
         private readonly ICollectionItemRepository _collectionItemRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly ICollectionItemsQueries _collectionItemsQueries;
 
-        public CollectionItemHandler(ICollectionItemRepository collectionItemRepository, ILocationRepository locationRepository)
+
+        public CollectionItemHandler(ICollectionItemRepository collectionItemRepository, ILocationRepository locationRepository, ICollectionItemsQueries collectionItemsQueries)
         {
             _collectionItemRepository = collectionItemRepository;
             _locationRepository = locationRepository;
+            _collectionItemsQueries = collectionItemsQueries;
         }
 
         public async Task<ICommandResult> HandleAsync(CreateCollectionItemCommand command)
@@ -25,6 +29,8 @@ namespace MyCollection.Domain.Handler
 
             await _collectionItemRepository.CreateAsync(item);
             await _collectionItemRepository.UnitOfWork.Commit();
+
+            _collectionItemsQueries.Insert(item);
 
             return new CommandResult(true, "Cadastrado com sucesso!", item);
         }
@@ -50,6 +56,8 @@ namespace MyCollection.Domain.Handler
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();
 
+            _collectionItemsQueries.Update(item);
+
             return new CommandResult(true, "Item emprestado com sucesso.", item, null);
         }
 
@@ -69,6 +77,8 @@ namespace MyCollection.Domain.Handler
             item.AddLocation(location);
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();
+
+            _collectionItemsQueries.Update(item);
 
             return new CommandResult(true, "Localização adicionado com sucesso.", item, null);
         }

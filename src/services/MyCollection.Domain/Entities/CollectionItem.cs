@@ -23,6 +23,7 @@ namespace MyCollection.Domain.Entities
 
         public EType ItemType { get; private set; }
         public ECollectionStatus Status { get; private set; }
+        public bool HasContact { get; private set; }
 
         // EF Rel.
         public ICollection<Contact>? Contacts { get => _contacts; }
@@ -35,6 +36,8 @@ namespace MyCollection.Domain.Entities
             _contacts = _contacts ?? new List<Contact>();
             _contacts.Add(contact);
 
+            HasContact = true;
+
             Quantity--;
             if (Quantity == 0)
                 Status = ECollectionStatus.UNAVAILABLE;
@@ -46,6 +49,9 @@ namespace MyCollection.Domain.Entities
         public void RecoveredItem(Contact contact)
         {
             _contacts?.Remove(contact);
+
+            if (_contacts?.Count == 0)
+                HasContact = false;
 
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;

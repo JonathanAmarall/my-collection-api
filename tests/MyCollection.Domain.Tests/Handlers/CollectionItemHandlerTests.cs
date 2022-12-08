@@ -33,7 +33,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var command = _fixture.GenerateCreateCollectionItemCommandValid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -56,7 +56,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var command = _fixture.GenerateCreateCollectionItemCommandInvalid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -84,7 +84,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -111,7 +111,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -137,7 +137,7 @@ namespace MyCollection.Domain.Tests.Handlers
             locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result)
                 .Returns(new Location("CX 1", "Caixa 1", null, 0));
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -163,7 +163,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result);
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, null);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
