@@ -36,7 +36,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var command = _fixture.GenerateCreateCollectionItemCommandValid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -61,7 +61,7 @@ namespace MyCollection.Domain.Tests.Handlers
             
             var command = _fixture.GenerateCreateCollectionItemCommandInvalid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -91,7 +91,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -120,7 +120,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -148,7 +148,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -176,7 +176,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;

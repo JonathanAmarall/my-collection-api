@@ -22,7 +22,7 @@ namespace MyCollection.Api.Setup
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            services.AddScoped<IMongoDBClient, MongoDBClient>();
+            //services.AddScoped<IMongoDBClient, MongoDBClient>();
         }
     }
 }

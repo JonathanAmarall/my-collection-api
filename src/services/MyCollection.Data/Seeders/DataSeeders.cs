@@ -12,7 +12,7 @@ namespace MyCollection.Data.Seeders
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<MyCollectionContext>();
-                var mongo = scope.ServiceProvider.GetRequiredService<IMongoDBClient>();
+                //var mongo = scope.ServiceProvider.GetRequiredService<IMongoDBClient>();
 
                 Console.WriteLine("======= CRIANDO BANCO DE DADOS =======");
                 bool criado = context.Database.EnsureCreated();
@@ -44,8 +44,8 @@ namespace MyCollection.Data.Seeders
                     if (!await context.CollectionItems!.AnyAsync(x => x.Title == item.Title))
                         await context.CollectionItems!.AddAsync(item);
 
-                    if (!mongo.Get<CollectionItem>().Any(x => x.Title == item.Title))
-                        mongo.InsertOne(item);
+                    //if (!mongo.Get<CollectionItem>().Any(x => x.Title == item.Title))
+                    //    mongo.InsertOne(item);
                 }
 
                 var locationsList = new List<Location>();

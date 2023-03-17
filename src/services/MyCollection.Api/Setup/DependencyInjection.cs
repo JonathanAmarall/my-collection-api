@@ -8,7 +8,7 @@ namespace MyCollection.Api.Setup
 {
     public static class DependencyInjection
     {
-        public static void AddDependencies(this IServiceCollection services)
+        public static void AddServiceDependencies(this IServiceCollection services)
         {
             services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
@@ -16,7 +16,7 @@ namespace MyCollection.Api.Setup
             services.AddScoped<LocationHandler>();
             services.AddScoped<CollectionItemHandler>();
 
-            services.AddScoped<ICollectionItemsQueries, CollectionItemsQueries>();
+            //services.AddScoped<ICollectionItemsQueries, CollectionItemsQueries>();
         }
     }
 }

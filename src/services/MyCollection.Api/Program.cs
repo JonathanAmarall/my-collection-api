@@ -7,7 +7,7 @@ builder.Services.AddCorsConfiguration();
 builder.Services.AddApiConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
-builder.Services.AddDependencies();
+builder.Services.AddServiceDependencies();
 
 var app = builder.Build();
 
@@ -28,3 +28,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+public partial class Program { }

@@ -1,16 +1,9 @@
 ﻿using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using System;
-using Xunit;
 
 namespace MyCollection.Domain.Tests.Commands
 {
-
-    [CollectionDefinition(nameof(CreateCollectionItemCollection))]
-    public class CreateCollectionItemCollection : ICollectionFixture<CollectionItemCommandTestsFixture>
-    {
-
-    }
 
 
     public class CollectionItemCommandTestsFixture : IDisposable

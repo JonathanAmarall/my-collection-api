@@ -15,14 +15,13 @@ namespace MyCollection.Api.Controllers
     public class CollectionItemController : MainController
     {
         [HttpGet]
-        public ActionResult<PagedList<CollectionItem>> Get(
+        public async Task<ActionResult<PagedList<CollectionItem>>> Get(
             [FromServices] ICollectionItemRepository collectionItemRepository,
-            [FromQuery] QueryCollectionItemDto query,
-            [FromServices] ICollectionItemsQueries queries)
+            [FromQuery] QueryCollectionItemDto query)
         {
             try
             {
-                PagedList<CollectionItem> items = queries.GetAllPaged(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
+                PagedList<CollectionItem> items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
                 return Ok(items);
             }
             catch
