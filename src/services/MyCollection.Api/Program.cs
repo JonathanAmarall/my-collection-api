@@ -26,7 +26,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
     ResponseWriter = new Func<HttpContext, HealthReport, Task>(CustomUIResponseWriter.WriteHealthCheckResponse)
 });
 
-//DataSeeders.ApplySeeders(app.Services).Wait();
+DataSeeders.ApplySeeders(app.Services).Wait();
 
 app.UseCors("CorsPolicy");
 
