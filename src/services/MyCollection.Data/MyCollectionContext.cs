@@ -15,15 +15,15 @@ namespace MyCollection.Data
         public MyCollectionContext(DbContextOptions<MyCollectionContext> options) : base(options) { }
 
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var property in builder.Model.GetEntityTypes().SelectMany(
+            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
-            builder.ApplyConfigurationsFromAssembly(typeof(MyCollectionContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyCollectionContext).Assembly);
 
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
         }
 
         public async Task<bool> Commit()
@@ -31,6 +31,4 @@ namespace MyCollection.Data
             return await SaveChangesAsync() > 0;
         }
     }
-
-
 }
