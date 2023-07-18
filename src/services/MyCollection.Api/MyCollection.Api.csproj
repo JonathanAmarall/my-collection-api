@@ -23,8 +23,4 @@
 		<ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Application\Events\" />
-	</ItemGroup>
-
 </Project>

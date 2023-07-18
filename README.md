@@ -4,9 +4,6 @@ Este projeto foi criado com base em um desafio, onde é possível gerenciar a co
 
 Link do projeto Frontend: https://github.com/JonathanAmarall/my-collection-frontend
 
-Implementado padrão CQRS utilizando banco de dados segredado para leitura (mongodb) e escrita (postgres) da entidade CollectionItem.
-A estratégia de sincronização utilizada foi _atualização automática_ onde toda atualização da entidade dispara um processo síncrono para atualizar o banco de leitura.
-
 # Índice
 
 - [Funcionalidades](#funcionalidades)
@@ -33,12 +30,9 @@ A estratégia de sincronização utilizada foi _atualização automática_ onde 
 
 - ASP.NET 6 (backend)
 - Angular (frontned)
-- PostgreSQL (banco de dados escrita)
-- MongoDB (banco de dados leitura)
+- PostgreSQL (banco de dados)
 - Github Actions (CI)
 - Docker
-
-Padrão do projeto CQRS
 
 ## Rodando com Docker Compose
 
@@ -238,8 +232,8 @@ Enviar no corpo da requisição:
 | :-------- | :----- | :----------------------------------- |
 | `id`      | `uuid` | **Obrigatório**. O ID da Localização |
 
-## Demonstração
 
+## Demonstração
 ### Demonstração - Cadastro de Localização
 
 ![](https://github.com/JonathanAmarall/my-collection-api/blob/criando-readme/images/localizacao-demonstracao.gif)

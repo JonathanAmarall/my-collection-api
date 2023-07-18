@@ -36,7 +36,7 @@ namespace MyCollection.Data.Repositories
         public async Task<Domain.Dto.PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.Contacts!.AsQueryable();
-
+            
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
                 query = query.Where(x =>
@@ -82,23 +82,12 @@ namespace MyCollection.Data.Repositories
 
         public async Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)
         {
-            return await _context.CollectionItems!
-                .Include(ci => ci.Contacts)
-                .Include(ci => ci.Location)
-                .FirstOrDefaultAsync(x => x.Id == collectionItemId);
+            return await _context.CollectionItems!.FirstOrDefaultAsync(x => x.Id == collectionItemId);
         }
 
         public async Task<Contact?> GetContactByIdAsync(Guid contactId)
         {
             return await _context.Contacts!.FirstOrDefaultAsync(x => x.Id == contactId);
-        }
-
-        public async Task<List<Contact>?> GetContactsByCollectionItemIdAsync(Guid collectionItemId)
-        {
-            return await _context.CollectionItems!.Where(x => x.Id == collectionItemId)
-                        .Include(x => x.Contacts)
-                        .Select(x => x.Contacts!.ToList())
-                        .FirstOrDefaultAsync();
         }
 
         public void Update(CollectionItem item)

@@ -1,4 +1,5 @@
 using MyCollection.Api.Setup;
+using MyCollection.Data;
 using MyCollection.Data.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +12,10 @@ builder.Services.AddDependencies();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+if (app.Environment.IsDevelopment()) { }
 
 DataSeeders.ApplySeeders(app.Services).Wait();
 

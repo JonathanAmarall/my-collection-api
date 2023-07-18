@@ -38,9 +38,6 @@ namespace MyCollection.Data.Migrations
                     b.Property<string>("Edition")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("HasContact")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ItemType")
                         .HasColumnType("integer");
 

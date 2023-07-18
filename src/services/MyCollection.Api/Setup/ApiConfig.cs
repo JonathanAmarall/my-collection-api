@@ -21,8 +21,6 @@ namespace MyCollection.Api.Setup
             services.AddAutoMapper(typeof(MapperConfiguration));
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-            services.AddScoped<IMongoDBClient, MongoDBClient>();
         }
     }
 }

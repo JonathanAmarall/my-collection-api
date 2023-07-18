@@ -5,7 +5,6 @@ using MyCollection.Domain.Commands;
 using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
-using MyCollection.Domain.Queries;
 using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Api.Controllers
@@ -15,27 +14,19 @@ namespace MyCollection.Api.Controllers
     public class CollectionItemController : MainController
     {
         [HttpGet]
-        public ActionResult<PagedList<CollectionItem>> Get(
+        public async Task<ActionResult<PagedList<CollectionItem>>> Get(
             [FromServices] ICollectionItemRepository collectionItemRepository,
-            [FromQuery] QueryCollectionItemDto query,
-            [FromServices] ICollectionItemsQueries queries)
+            [FromQuery] QueryCollectionItemDto query)
         {
             try
             {
-                PagedList<CollectionItem> items = queries.GetAllPaged(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
+                PagedList<CollectionItem> items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
                 return Ok(items);
             }
             catch
             {
                 return BadRequest();
             }
-        }
-
-        [HttpGet("{id:guid}")]
-        public ActionResult Get(Guid id, [FromServices] ICollectionItemsQueries queries)
-        {
-            var item = queries.GetById(id);
-            return Ok(item);
         }
 
         [HttpPost]
@@ -89,12 +80,6 @@ namespace MyCollection.Api.Controllers
             return Ok(new { Location = await locationRepository.GetFullLocationTag(id) });
         }
 
-        [HttpGet("{id:guid}/contacts")]
-        public async Task<ActionResult> GetContacts(Guid id, [FromServices] ICollectionItemRepository collectionItemRepository)
-        {
-            return Ok(await collectionItemRepository.GetContactsByCollectionItemIdAsync(id));
-        }
-
         [HttpGet("contacts")]
         public async Task<ActionResult> GetContacts(
             [FromServices] ICollectionItemRepository collectionItemRepository,
@@ -102,6 +87,8 @@ namespace MyCollection.Api.Controllers
         {
             return Ok(await collectionItemRepository.GetAllContactsPagedAsync(globalFilter, pageNumber, pageSize));
         }
+
+
 
     }
 }

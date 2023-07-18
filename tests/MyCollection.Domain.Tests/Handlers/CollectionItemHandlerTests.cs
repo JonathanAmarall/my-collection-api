@@ -2,7 +2,6 @@
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
-using MyCollection.Domain.Queries;
 using MyCollection.Domain.Repositories;
 using MyCollection.Domain.Tests.Commands;
 using System;
@@ -32,11 +31,9 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-
             var command = _fixture.GenerateCreateCollectionItemCommandValid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -57,11 +54,9 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(false);
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-            
             var command = _fixture.GenerateCreateCollectionItemCommandInvalid();
 
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -89,9 +84,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -118,9 +111,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
 
@@ -146,9 +137,7 @@ namespace MyCollection.Domain.Tests.Handlers
             locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result)
                 .Returns(new Location("CX 1", "Caixa 1", null, 0));
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
@@ -174,9 +163,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var locationRepository = new Mock<ILocationRepository>();
             locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result);
 
-            var collectionItemsQueries = new Mock<ICollectionItemsQueries>();
-
-            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object, collectionItemsQueries.Object);
+            var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
             var result = (CommandResult)handler.HandleAsync(command).Result;
