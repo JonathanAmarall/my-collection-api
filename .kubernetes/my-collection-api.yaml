@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mycollection-api
+  labels:
+    app: mycollection-api
+spec:
+  containers:
+    - name: mycollection-api
+      image: jonathan31amaral/mycollection-api
+      ports:
+        - containerPort: 80
+      env:
+      - name: DB_CONNECTION_STRING
+        value: "Host=svc-database;Port=5432;Database=MyCollectionDb;Username=postgres;Password=postgrespw"
+    

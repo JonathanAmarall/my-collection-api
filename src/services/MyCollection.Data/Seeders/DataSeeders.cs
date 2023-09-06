@@ -12,8 +12,9 @@ namespace MyCollection.Data.Seeders
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<MyCollectionContext>();
-
-                Console.WriteLine("======= CRIANDO BANCO DE DADOS =======");
+                var connections = context.Database.GetDbConnection();
+                
+                Console.WriteLine("======= CRIANDO BANCO DE DADOS: {0} =======", connections.ConnectionString);
                 bool criado = context.Database.EnsureCreated();
                 Console.WriteLine("======= BANCO DE DADOS CRIADO: {0} =======", criado);
                 var itemsList = new List<CollectionItem>();

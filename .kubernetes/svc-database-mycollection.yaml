@@ -1,0 +1,11 @@
+# ClusterIP serve para fazer comunicação entre diferentes pods dentro de um mesmo Cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-database
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: database
