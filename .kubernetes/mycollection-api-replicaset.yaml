@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mycollection-api-replicaset
+spec:
+  template: 
+    metadata:
+      name: mycollection-api
+      labels:
+        app: mycollection-api
+    spec:
+      containers:
+        - name: mycollection-api-container
+          image: jonathan31amaral/mycollection-api
+          ports:
+            - containerPort: 80
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mycollection-api
