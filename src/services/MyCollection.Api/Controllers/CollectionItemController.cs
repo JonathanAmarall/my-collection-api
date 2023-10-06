@@ -39,7 +39,7 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(new { Message = result.Message });
+            return CustomReponse(new { result.Message });
         }
 
         [HttpPost("{id:guid}/lend")]
@@ -55,7 +55,7 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(new { Message = result.Message });
+            return CustomReponse(new { result.Message });
         }
 
         [HttpPut("{id:guid}")]
@@ -71,7 +71,7 @@ namespace MyCollection.Api.Controllers
                 AddProcessingError(result.Message);
             }
 
-            return CustomReponse(new { Message = result.Message });
+            return CustomReponse(new { result.Message });
         }
 
         [HttpGet("{id:guid}/location")]
