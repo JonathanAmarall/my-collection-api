@@ -1,4 +1,5 @@
-﻿using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Models;
+using MyCollection.Domain.Contracts;
 
 namespace MyCollection.Domain.Entities
 {
@@ -22,18 +23,23 @@ namespace MyCollection.Domain.Entities
         public int Level { get; private set; }
 
         // EF Rel.
-        public ICollection<Location>? Childrens { get => _childrens; }
-        public ICollection<CollectionItem>? CollectionItems { get => _colletionItems; }
+        public ICollection<Location>? Childrens
+        {
+            get => _childrens;
+        }
+
+        public ICollection<CollectionItem>? CollectionItems
+        {
+            get => _colletionItems;
+        }
 
         public Guid? ParentId { get; private set; }
         public Location? Parent { get; private set; }
 
         public bool HasChildren()
         {
-            if (_childrens == null)
-                _childrens = new List<Location>();
-
-            return _childrens?.Count > 0;
+            _childrens ??= new List<Location>();
+            return _childrens.Count > 0;
         }
 
         public bool HasParent()
@@ -43,12 +49,11 @@ namespace MyCollection.Domain.Entities
 
         public void AddChildrens(ICollection<Location> itemLocations)
         {
-            if (_childrens == null)
-                _childrens = new List<Location>();
+            _childrens ??= new List<Location>();
 
             foreach (var item in itemLocations)
             {
-                _childrens?.Add(item);
+                _childrens.Add(item);
             }
 
             UpdateAt = DateTime.Now;
@@ -61,11 +66,8 @@ namespace MyCollection.Domain.Entities
 
         public bool HasCollectionItem()
         {
-            if (_colletionItems == null)
-                _colletionItems = new List<CollectionItem>();
+            _colletionItems ??= new List<CollectionItem>();
             return _colletionItems?.Count > 0;
         }
     }
-
-
 }

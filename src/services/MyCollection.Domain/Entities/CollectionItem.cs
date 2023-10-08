@@ -1,10 +1,12 @@
-﻿using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Models;
+using MyCollection.Domain.Contracts;
 
 namespace MyCollection.Domain.Entities
 {
     public class CollectionItem : EntityBase, IAggregateRoot
     {
         private IList<Contact>? _contacts;
+
         public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType)
         {
             Title = title;
@@ -25,7 +27,10 @@ namespace MyCollection.Domain.Entities
         public ECollectionStatus Status { get; private set; }
 
         // EF Rel.
-        public ICollection<Contact>? Contacts { get => _contacts; }
+        public ICollection<Contact>? Contacts
+        {
+            get => _contacts;
+        }
 
         public Guid? LocationId { get; private set; }
         public Location? Location { get; private set; }
@@ -41,7 +46,6 @@ namespace MyCollection.Domain.Entities
 
             UpdateAt = DateTime.Now;
         }
-
 
         public void RecoveredItem(Contact contact)
         {
@@ -60,26 +64,19 @@ namespace MyCollection.Domain.Entities
             UpdateAt = DateTime.Now;
         }
 
-        public bool ICanLend()
+        public bool CanLend()
         {
             return Quantity > 0 && Status == ECollectionStatus.AVAILABLE;
         }
 
         public bool HasLocation()
         {
-            if (LocationId == null)
-                return false;
-
-            return true;
+            return LocationId != null;
         }
 
         public string GetAbbreviatedLocation()
         {
-            if (Location == null)
-                return "";
-
-            return Location.Initials;
+            return Location is null ? string.Empty : Location.Initials;
         }
-
     }
 }

@@ -23,7 +23,7 @@ namespace MyCollection.Domain.Tests
             item.LendOneItem(new Contact("Maria Doe", "maria@mail.com", "049999398534"));
 
             // Assert
-            Assert.False(item.ICanLend());
+            Assert.False(item.CanLend());
             Assert.Equal(0, item.Quantity);
         }
 

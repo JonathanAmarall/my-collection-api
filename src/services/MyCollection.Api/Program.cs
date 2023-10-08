@@ -13,7 +13,7 @@ builder.Services.AddDependencies();
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy())
-    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty);
 
 var app = builder.Build();
 
@@ -22,8 +22,8 @@ app.UseSwaggerUI();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
-    Predicate = (HealthCheckRegistration _) => true,
-    ResponseWriter = new Func<HttpContext, HealthReport, Task>(CustomUIResponseWriter.WriteHealthCheckResponse)
+    Predicate = _ => true,
+    ResponseWriter = CustomUIResponseWriter.WriteHealthCheckResponse
 });
 
 DataSeeders.ApplySeeders(app.Services).Wait();

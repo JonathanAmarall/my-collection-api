@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MyCollection.Domain.Entities
+﻿namespace MyCollection.Core.Models
 {
     public abstract class EntityBase
     {
-
         public EntityBase()
         {
             CreatedAt = DateTime.Now;
@@ -13,6 +10,5 @@ namespace MyCollection.Domain.Entities
         public Guid Id { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdateAt { get; protected set; }
-
     }
 }

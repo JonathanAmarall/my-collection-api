@@ -5,12 +5,14 @@ using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Domain.Handler
 {
-    public class CollectionItemHandler : IHandlerAsync<CreateCollectionItemCommand>, IHandlerAsync<LendCollectionItemCommand>, IHandlerAsync<AddLocationInCollectionItemCommand>
+    public class CollectionItemHandler : IHandlerAsync<CreateCollectionItemCommand>,
+        IHandlerAsync<LendCollectionItemCommand>, IHandlerAsync<AddLocationInCollectionItemCommand>
     {
         private readonly ICollectionItemRepository _collectionItemRepository;
         private readonly ILocationRepository _locationRepository;
 
-        public CollectionItemHandler(ICollectionItemRepository collectionItemRepository, ILocationRepository locationRepository)
+        public CollectionItemHandler(ICollectionItemRepository collectionItemRepository,
+            ILocationRepository locationRepository)
         {
             _collectionItemRepository = collectionItemRepository;
             _locationRepository = locationRepository;
@@ -19,9 +21,13 @@ namespace MyCollection.Domain.Handler
         public async Task<ICommandResult> HandleAsync(CreateCollectionItemCommand command)
         {
             if (!command.IsValid())
-                return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
+            {
+                return new CommandResult(false, "Ops, parece que há algo de errado.", command,
+                    command.ValidationResult);
+            }
 
-            var item = new CollectionItem(command.Title, command.Autor, command.Quantity, command.Edition, command.ItemType);
+            var item = new CollectionItem(command.Title, command.Autor, command.Quantity, command.Edition,
+                command.ItemType);
 
             await _collectionItemRepository.CreateAsync(item);
             await _collectionItemRepository.UnitOfWork.Commit();
@@ -32,18 +38,28 @@ namespace MyCollection.Domain.Handler
         public async Task<ICommandResult> HandleAsync(LendCollectionItemCommand command)
         {
             if (!command.IsValid())
-                return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
+            {
+                return new CommandResult(false, "Ops, parece que há algo de errado.", command,
+                    command.ValidationResult);
+            }
 
             var item = await _collectionItemRepository.GetByIdAsync(command.CollectionItemId);
-            if (item == null)
-                return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command, command.ValidationResult);
+            if (item is null)
+            {
+                return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command,
+                    command.ValidationResult);
+            }
 
-            if (!item.ICanLend())
-                return new CommandResult(false, "Este item não está disponível para ser emprestado.", command, command.ValidationResult);
+            if (!item.CanLend())
+                return new CommandResult(false, "Este item não está disponível para ser emprestado.", command,
+                    command.ValidationResult);
 
-            Contact? contact = await GetOrCreateContactIfNotExistasync(command);
-            if (contact == null)
-                return new CommandResult(false, "Contato informado é inválido. Por favor, verifique e tente novamente", command, null);
+            var contact = await GetOrCreateContactIfNotExistAsync(command);
+            if (contact is null)
+            {
+                return new CommandResult(false, "Contato informado é inválido. Por favor, verifique e tente novamente",
+                    command, null);
+            }
 
             item.LendOneItem(contact);
 
@@ -56,15 +72,24 @@ namespace MyCollection.Domain.Handler
         public async Task<ICommandResult> HandleAsync(AddLocationInCollectionItemCommand command)
         {
             if (!command.IsValid())
-                return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
+            {
+                return new CommandResult(false, "Ops, parece que há algo de errado.", command,
+                    command.ValidationResult);
+            }
 
             var item = await _collectionItemRepository.GetByIdAsync(command.CollectionItemId);
-            if (item == null)
-                return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command, command.ValidationResult);
+            if (item is null)
+            {
+                return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command,
+                    command.ValidationResult);
+            }
 
             var location = await _locationRepository.GetByIdAsync(command.LocationId);
-            if (location == null)
-                return new CommandResult(false, "Localização inválida. Verifique e tente novamente.", command, command.ValidationResult);
+            if (location is null)
+            {
+                return new CommandResult(false, "Localização inválida. Verifique e tente novamente.", command,
+                    command.ValidationResult);
+            }
 
             item.AddLocation(location);
             _collectionItemRepository.Update(item);
@@ -73,22 +98,15 @@ namespace MyCollection.Domain.Handler
             return new CommandResult(true, "Localização adicionado com sucesso.", item, null);
         }
 
-        private async Task<Contact?> GetOrCreateContactIfNotExistasync(LendCollectionItemCommand command)
+        private async Task<Contact?> GetOrCreateContactIfNotExistAsync(LendCollectionItemCommand command)
         {
-            Contact? contact;
-
-            if (command.ContactId != null)
+            if (command.ContactId is null)
             {
-                contact = await _collectionItemRepository.GetContactByIdAsync((Guid)command.ContactId);
-                if (contact == null)
-                    return null;
-            }
-            else
-            {
-                contact = new Contact(command.FullName!, command.Email!, command.Phone!);
+                return new Contact(command.FullName!, command.Email!, command.Phone!);
             }
 
-            return contact;
+            var contact = await _collectionItemRepository.GetContactByIdAsync((Guid)command.ContactId);
+            return contact ?? default;
         }
     }
 }

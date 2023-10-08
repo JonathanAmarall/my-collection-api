@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Entities
 {
