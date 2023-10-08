@@ -1,4 +1,5 @@
-﻿namespace MyCollection.Api.Setup
+﻿
+namespace MyCollection.Api.Setup
 {
     public static class CORSConfig
     {

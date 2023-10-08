@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyCollection.Api.Dto;
 using MyCollection.Domain.Commands;
+using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 
@@ -11,25 +11,19 @@ namespace MyCollection.Api.Controllers
     [ApiController]
     public class LocationsController : MainController
     {
-        private readonly IMapper _mapper;
-
-        public LocationsController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<List<LocationDto>>> Get([FromServices] ILocationRepository locationRepository)
+        public async Task<ActionResult<List<Location>>> Get([FromServices] ILocationRepository locationRepository)
         {
-            var locations = _mapper.Map<List<LocationDto>>(await locationRepository.GetRootsAsync());
+            var locations = await locationRepository.GetRootsAsync();
 
             return Ok(locations);
         }
 
-        [HttpGet("{id:guid}/childrens")]
-        public async Task<ActionResult<List<LocationDto>>> GetChildrens(Guid id, [FromServices] ILocationRepository locationRepository)
+        [HttpGet("{id:guid}/children")]
+        public async Task<ActionResult<List<Location>>> GetChildren(Guid id,
+            [FromServices] ILocationRepository locationRepository)
         {
-            var locationsRoots = _mapper.Map<List<LocationDto>>(await locationRepository.GetChildrensAsync(id));
+            var locationsRoots = await locationRepository.GetLocationsChildrenAsync(id);
             return Ok(locationsRoots);
         }
 
@@ -40,7 +34,8 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateLocationCommand command, [FromServices] LocationHandler handler)
+        public async Task<ActionResult> Post([FromBody] CreateLocationCommand command,
+            [FromServices] LocationHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
             if (!result.Success)
@@ -57,10 +52,12 @@ namespace MyCollection.Api.Controllers
                 return BadRequest();
 
             if (location.HasChildren())
-                return BadRequest(new { Message = "Esta localização não pode ser excluída, pois possui Localizações pendentes." });
+                return BadRequest(new
+                    { Message = "Esta localização não pode ser excluída, pois possui Localizações pendentes." });
 
             if (location.HasCollectionItem())
-                return BadRequest(new { Message = "Esta localização não pode ser excluída, pois possui Itens armazenados." });
+                return BadRequest(new
+                    { Message = "Esta localização não pode ser excluída, pois possui Itens armazenados." });
 
             locationRepository.Delete(location);
             await locationRepository.UnitOfWork.Commit();

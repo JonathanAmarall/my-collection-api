@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -10,19 +10,40 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.2" />
-		<PackageReference Include="AutoMapper" Version="12.0.0" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10" />
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\MyCollection.Data\MyCollection.Data.csproj" />
 		<ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Application\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Application\AutoMapper\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="Application\AutoMapper\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="Application\AutoMapper\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Application\AutoMapper\**" />
 	</ItemGroup>
 
 </Project>

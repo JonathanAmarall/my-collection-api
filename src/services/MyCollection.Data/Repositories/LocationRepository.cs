@@ -39,7 +39,7 @@ namespace MyCollection.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<Location>?> GetChildrensAsync(Guid id)
+        public async Task<List<Location>?> GetLocationsChildrenAsync(Guid id)
         {
             return await _context.Locations!
                 .Include(x => x.Childrens)

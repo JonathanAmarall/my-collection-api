@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="11.2.2" />
-		<PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.3" />
+		<PackageReference Include="FluentValidation" Version="11.7.1" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="9.0.0-prerelease" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
 	</ItemGroup>
 
 </Project>

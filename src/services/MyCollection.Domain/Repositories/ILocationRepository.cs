@@ -1,5 +1,4 @@
 ﻿using MyCollection.Domain.Contracts;
-using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 
 namespace MyCollection.Domain.Repositories
@@ -10,7 +9,7 @@ namespace MyCollection.Domain.Repositories
         void Delete(Location location);
         void Update(Location location);
         Task<List<Location>> GetRootsAsync();
-        Task<List<Location>?> GetChildrensAsync(Guid id);
+        Task<List<Location>?> GetLocationsChildrenAsync(Guid id);
         Task<Location?> GetByIdAsync(Guid locationId);
         Task<string> GetFullLocationTag(Guid id);
     }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCollection.Api.Dto;
+using MyCollection.Core.DTOs;
 using MyCollection.Domain;
 using MyCollection.Domain.Commands;
-using MyCollection.Domain.Dto;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;

@@ -5,11 +5,11 @@ using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 using MyCollection.Domain.Tests.Commands;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MyCollection.Domain.Tests.Handlers
 {
-
     [Collection(nameof(CreateCollectionItemCollection))]
     public class CollectionItemHandlerTests
     {
@@ -22,21 +22,21 @@ namespace MyCollection.Domain.Tests.Handlers
 
 
         [Fact]
-        public void CollectionItemHandler_CreateCollectionItemCommand_CreateWithSuccess()
+        public async Task CollectionItemHandler_CreateCollectionItemCommand_CreateWithSuccess()
         {
             // Arrange
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
+            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
 
             var command = _fixture.GenerateCreateCollectionItemCommandValid();
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             // Assert
             Assert.True(result.Success);
@@ -45,21 +45,21 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public void CollectionItemHandler_CreateCollectionItemCommand_CreateFail()
+        public async Task CollectionItemHandler_CreateCollectionItemCommand_CreateFail()
         {
             // Arrange
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(false);
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(false);
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(false);
+            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(false);
 
             var command = _fixture.GenerateCreateCollectionItemCommandInvalid();
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             // Assert
             Assert.False(result.Success);
@@ -68,25 +68,25 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public void CollectionItemHandler_LendCollectionItemCommand_CreateWithSuccess()
+        public async Task CollectionItemHandler_LendCollectionItemCommand_CreateWithSuccess()
         {
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result)
-                .Returns(true);
-            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId).Result)
-                .Returns(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
-            collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!).Result)
-                .Returns(new Contact("John Doe", "john@mail.com", "5599398654"));
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+                .ReturnsAsync(true);
+            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
+                .ReturnsAsync(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
+            collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
+                .ReturnsAsync(new Contact("John Doe", "john@mail.com", "5599398654"));
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
+            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
             Assert.True(result.Success);
@@ -95,25 +95,25 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public void CollectionItemHandler_LendCollectionItemCommand_CreateFail()
+        public async Task CollectionItemHandler_LendCollectionItemCommand_CreateFail()
         {
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandInvalid();
 
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result)
-                .Returns(true);
-            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId).Result)
-                .Returns(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
-            collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!).Result)
-                .Returns(new Contact("John Doe", "john@mail.com", "5599398654"));
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+                .ReturnsAsync(true);
+            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
+                .ReturnsAsync(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
+            collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
+                .ReturnsAsync(new Contact("John Doe", "john@mail.com", "5599398654"));
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit().Result).Returns(true);
+            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.Success);
@@ -122,25 +122,25 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public void CollectionItemHandler_AddLocationInCollectionItemCommand_AddWithSuccess()
+        public async Task CollectionItemHandler_AddLocationInCollectionItemCommand_AddWithSuccess()
         {
             // Arrange
             var command = new AddLocationInCollectionItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result)
-               .Returns(true);
-            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId).Result)
-               .Returns(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+                .ReturnsAsync(true);
+            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
+                .ReturnsAsync(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result)
-                .Returns(new Location("CX 1", "Caixa 1", null, 0));
+            locationRepository.Setup(l => l.GetByIdAsync(command.LocationId))
+                .ReturnsAsync(new Location("CX 1", "Caixa 1", null, 0));
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
             Assert.True(result.Success);
@@ -149,24 +149,24 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public void CollectionItemHandler_AddLocationInCollectionItemCommand_AddWithFail()
+        public async Task CollectionItemHandler_AddLocationInCollectionItemCommand_AddWithFail()
         {
             // Arrange
             var command = new AddLocationInCollectionItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
             var collectionItemRepository = new Mock<ICollectionItemRepository>();
-            collectionItemRepository.Setup(c => c.UnitOfWork.Commit().Result)
-               .Returns(true);
-            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId).Result)
-               .Returns(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
+            collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+                .ReturnsAsync(true);
+            collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
+                .ReturnsAsync(new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK));
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(l => l.GetByIdAsync(command.LocationId).Result);
+            locationRepository.Setup(l => l.GetByIdAsync(command.LocationId));
 
             var handler = new CollectionItemHandler(collectionItemRepository.Object, locationRepository.Object);
 
             // Act
-            var result = (CommandResult)handler.HandleAsync(command).Result;
+            var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.Success);

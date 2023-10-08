@@ -1,4 +1,3 @@
-using AutoMapper;
 using MyCollection.Api.Dto;
 using MyCollection.Domain.Entities;
 
