@@ -16,21 +16,17 @@ namespace MyCollection.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<CollectionItem>>> Get(
             [FromServices] ICollectionItemRepository collectionItemRepository,
-            [FromQuery] QueryCollectionItemDto query)
+            [FromQuery] QueryCollectionItemResponse query)
         {
-            try
-            {
-                PagedList<CollectionItem> items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter, query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
-                return Ok(items);
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            var items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter,
+                query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
+            
+            return Ok(items);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateCollectionItemCommand command, [FromServices] CollectionItemHandler handler)
+        public async Task<ActionResult> Post([FromBody] CreateCollectionItemCommand command,
+            [FromServices] CollectionItemHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
             if (!result.Success)
@@ -43,7 +39,8 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpPost("{id:guid}/lend")]
-        public async Task<ActionResult> Post(Guid id, [FromBody] LendCollectionItemCommand command, [FromServices] CollectionItemHandler handler)
+        public async Task<ActionResult> Post(Guid id, [FromBody] LendCollectionItemCommand command,
+            [FromServices] CollectionItemHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();
@@ -59,7 +56,8 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command, [FromServices] CollectionItemHandler handler)
+        public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
+            [FromServices] CollectionItemHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();
@@ -75,7 +73,8 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpGet("{id:guid}/location")]
-        public async Task<ActionResult<string>> GetFullLocation(Guid id, [FromServices] ILocationRepository locationRepository)
+        public async Task<ActionResult<string>> GetFullLocation(Guid id,
+            [FromServices] ILocationRepository locationRepository)
         {
             return Ok(new { Location = await locationRepository.GetFullLocationTag(id) });
         }
@@ -87,8 +86,5 @@ namespace MyCollection.Api.Controllers
         {
             return Ok(await collectionItemRepository.GetAllContactsPagedAsync(globalFilter, pageNumber, pageSize));
         }
-
-
-
     }
 }

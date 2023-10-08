@@ -2,7 +2,7 @@
 
 namespace MyCollection.Api.Dto
 {
-    public class QueryCollectionItemDto
+    public class QueryCollectionItemResponse
     {
         public string? GlobalFilter { get; set; }
         public string? SortOrder { get; set; }

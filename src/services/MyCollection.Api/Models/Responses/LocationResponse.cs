@@ -1,9 +1,9 @@
 ﻿namespace MyCollection.Api.Dto
 {
-    public class LocationDto
+    public class LocationResponse
     {
 
-        public LocationDto(Guid id, string initials, string description, Guid? parentId, int level)
+        public LocationResponse(Guid id, string initials, string description, Guid? parentId, int level)
         {
             Id = id;
             Initials = initials;

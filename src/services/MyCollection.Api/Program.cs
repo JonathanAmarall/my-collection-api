@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyCollection.Api.Setup;
+using MyCollection.Core.Middlewares;
 using MyCollection.Data.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,10 +31,11 @@ DataSeeders.ApplySeeders(app.Services).Wait();
 
 app.UseCors("CorsPolicy");
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

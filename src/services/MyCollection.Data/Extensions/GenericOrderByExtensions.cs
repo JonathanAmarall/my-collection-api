@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using MyCollection.Core.Exceptions;
 
 namespace MyCollection.Data.Extensions
 {
@@ -15,9 +16,9 @@ namespace MyCollection.Data.Extensions
             
             var propertyInPascalCase = char.ToUpper(property[0]) + property.Substring(1);
             var propertyQuery = type.GetProperty(propertyInPascalCase);
-
+            
             if (propertyQuery == null)
-                throw new Exception($"Propriedade {property} inválida!");
+                throw new PropertyQueryNullException($"Propriedade {property} inválida!");
 
             var parameter = Expression.Parameter(type, "p");
             var propertyAccess = Expression.MakeMemberAccess(parameter, propertyQuery);

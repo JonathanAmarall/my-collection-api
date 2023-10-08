@@ -50,7 +50,6 @@ namespace MyCollection.Api.Controllers
             return !Errors.Any();
         }
 
-
         protected Guid GetUserId()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
