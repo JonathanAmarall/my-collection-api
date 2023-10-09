@@ -26,7 +26,6 @@ namespace MyCollection.Domain.Tests.Commands
             Assert.Equal(0, command.ValidationResult?.Errors.Count);
         }
 
-
         [Fact]
         public void LendCollectionItemCommandTests_LendCollectionItemCommand_Invalid()
         {

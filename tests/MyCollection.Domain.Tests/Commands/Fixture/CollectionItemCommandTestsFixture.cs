@@ -12,7 +12,6 @@ namespace MyCollection.Domain.Tests.Commands
 
     }
 
-
     public class CollectionItemCommandTestsFixture : IDisposable
     {
         public CreateCollectionItemCommand GenerateCreateCollectionItemCommandValid()
@@ -39,12 +38,23 @@ namespace MyCollection.Domain.Tests.Commands
             return command;
         }
 
-
         public LendCollectionItemCommand GenerateLendCollectionItemCommandValid()
         {
             var command = new LendCollectionItemCommand(
                Guid.NewGuid(),
                Guid.NewGuid(),
+               "John Doe",
+               "john.d@mail.com",
+               "559939865");
+
+            return command;
+        }
+
+        public LendCollectionItemCommand GenerateLendCollectionItemCommandWithoutContactIdValid()
+        {
+            var command = new LendCollectionItemCommand(
+               Guid.NewGuid(),
+               Guid.Empty,
                "John Doe",
                "john.d@mail.com",
                "559939865");
@@ -64,13 +74,8 @@ namespace MyCollection.Domain.Tests.Commands
             return command;
         }
 
-
-
-
-
         public void Dispose()
         {
-
         }
     }
 }

@@ -26,7 +26,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateCollectionItemCommand command,
-            [FromServices] CollectionItemHandler handler)
+            [FromServices] CreateCollectionItemCommandHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
             if (!result.Success)
@@ -40,7 +40,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPost("{id:guid}/lend")]
         public async Task<ActionResult> Post(Guid id, [FromBody] LendCollectionItemCommand command,
-            [FromServices] CollectionItemHandler handler)
+            [FromServices] CreateCollectionItemCommandHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();
@@ -57,7 +57,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
-            [FromServices] CollectionItemHandler handler)
+            [FromServices] CreateCollectionItemCommandHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();

@@ -8,11 +8,15 @@ namespace MyCollection.Api.Setup
     {
         public static void AddDependencies(this IServiceCollection services)
         {
-            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>(); 
+            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
 
-            services.AddScoped<LocationHandler>(); 
-            services.AddScoped<CollectionItemHandler>(); 
+            services.AddScoped<LocationHandler>();
+
+            services
+                .AddScoped<CreateCollectionItemCommandHandler>()
+                .AddScoped<LendCollectionItemCommandHandler>()
+                .AddScoped<AddLocationInCollectionCommandHandler>();
         }
     }
 }
