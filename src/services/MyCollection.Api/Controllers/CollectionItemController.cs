@@ -20,7 +20,7 @@ namespace MyCollection.Api.Controllers
         {
             var items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter,
                 query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
-            
+
             return Ok(items);
         }
 
@@ -40,7 +40,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPost("{id:guid}/lend")]
         public async Task<ActionResult> Post(Guid id, [FromBody] LendCollectionItemCommand command,
-            [FromServices] CreateCollectionItemCommandHandler handler)
+            [FromServices] LendCollectionItemCommandHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();
@@ -57,7 +57,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
-            [FromServices] CreateCollectionItemCommandHandler handler)
+            [FromServices] AddLocationInCollectionCommandHandler handler)
         {
             if (id != command.CollectionItemId)
                 return BadRequest();
