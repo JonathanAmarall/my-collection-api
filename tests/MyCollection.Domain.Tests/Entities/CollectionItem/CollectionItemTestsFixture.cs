@@ -28,9 +28,9 @@ namespace MyCollection.Domain.Tests
             return item;
         }
 
-        public CollectionItem GenerateCollectionItemUnavailable()
+        public CollectionItem GenerateCollectionItemWithLendOneItem(int quantity = 1)
         {
-            var item = new CollectionItem("Livro Teste", "John Doe", 1, "Deluxe", EType.BOOK);
+            var item = new CollectionItem("Livro Teste", "John Doe", quantity, "Deluxe", EType.BOOK);
             item.LendOneItem(new Contact("Maria Doe", "maria@mail.com", "49559398564"));
             return item;
         }

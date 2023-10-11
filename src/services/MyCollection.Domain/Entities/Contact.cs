@@ -11,6 +11,7 @@ namespace MyCollection.Domain.Entities
             Phone = phone;
 
         }
+
         public string FullName { get; private set; }
         public string Email { get; private set; }
         public string Phone { get; private set; }

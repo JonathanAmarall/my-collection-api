@@ -1,7 +1,9 @@
+using FluentAssertions;
 using MyCollection.Domain.Entities;
+using System.Linq;
 using Xunit;
 
-namespace MyCollection.Domain.Tests
+namespace MyCollection.Domain.Tests.Entities.CollectionItem
 {
     [Collection(nameof(CollectionItemCollection))]
     public class CollectionItemTests
@@ -40,6 +42,24 @@ namespace MyCollection.Domain.Tests
             // Assert
             Assert.True(item.HasLocation());
             Assert.False(string.IsNullOrWhiteSpace(abbreviatedLocation));
+        }
+
+        [Fact]
+        public void CollectionItem_RecoveredItem_MustReturnAddTheAmount()
+        {
+            // Arrange
+            var numberOfItemsConsideringLoanedItem = 5;
+            var numberOriginalOfItens = numberOfItemsConsideringLoanedItem + 1;
+            var item = _fixture.GenerateCollectionItemWithLendOneItem(numberOriginalOfItens);
+            var contactCopy = item.Contacts!.First();
+            // Act
+            item.RecoveredItem(contactCopy);
+
+            // Assert
+            item.Quantity.Should().Be(numberOriginalOfItens);
+            item.Status.Should().Be(ECollectionStatus.AVAILABLE);
+            item.UpdateAt.Should().NotBeNull();
+            item.Contacts.Should().NotContain(contactCopy);
         }
     }
 }

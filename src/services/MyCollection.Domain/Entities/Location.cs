@@ -61,7 +61,7 @@ namespace MyCollection.Domain.Entities
 
         public void LinkACollectionItem(CollectionItem item)
         {
-            _colletionItems?.Add(item);
+            _colletionItems!.Add(item);
         }
 
         public bool HasCollectionItem()
