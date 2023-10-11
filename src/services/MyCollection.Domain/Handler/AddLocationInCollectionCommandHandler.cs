@@ -22,7 +22,7 @@ namespace MyCollection.Domain.Handler
                 return new CommandResult(false, "Ops, parece que há algo de errado.", command,
                     command.ValidationResult);
             }
-
+            var itens = await _collectionItemRepository.GetAllPagedAsync(string.Empty, string.Empty, string.Empty, null, null, 1, 100);
             var item = await _collectionItemRepository.GetByIdAsync(command.CollectionItemId);
             if (item is null)
             {

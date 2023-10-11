@@ -12,9 +12,12 @@ namespace MyCollection.Data.Seeders
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<MyCollectionContext>();
-                var connections = context.Database.GetDbConnection();
-                
-                Console.WriteLine("======= CRIANDO BANCO DE DADOS: {0} =======", connections.ConnectionString);
+                if (context.Database.IsRelational())
+                {
+                    var connections = context.Database.GetDbConnection();
+                    Console.WriteLine("======= CRIANDO BANCO DE DADOS: {0} =======", connections.ConnectionString);
+                }
+
                 bool criado = context.Database.EnsureCreated();
                 Console.WriteLine("======= BANCO DE DADOS CRIADO: {0} =======", criado);
                 var itemsList = new List<CollectionItem>();
@@ -43,13 +46,14 @@ namespace MyCollection.Data.Seeders
                     if (!await context.CollectionItems!.AnyAsync(x => x.Title == item.Title))
                         await context.CollectionItems!.AddAsync(item);
 
-                var locationsList = new List<Location>();
-
-                locationsList.Add(new Location("PRT 1", "Prateleira 1", null, 0));
-                locationsList.Add(new Location("PRT 2", "Prateleira 2", null, 0));
-                locationsList.Add(new Location("PRT 3", "Prateleira 3", null, 0));
-                locationsList.Add(new Location("PRT 4", "Prateleira 4", null, 0));
-                locationsList.Add(new Location("PRT 5", "Prateleira 5", null, 0));
+                var locationsList = new List<Location>
+                {
+                    new Location("PRT 1", "Prateleira 1", null, 0),
+                    new Location("PRT 2", "Prateleira 2", null, 0),
+                    new Location("PRT 3", "Prateleira 3", null, 0),
+                    new Location("PRT 4", "Prateleira 4", null, 0),
+                    new Location("PRT 5", "Prateleira 5", null, 0)
+                };
 
                 foreach (var item in locationsList)
                     if (!await context.Locations!.AnyAsync(x => x.Description == item.Description))

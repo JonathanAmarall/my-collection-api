@@ -2,8 +2,9 @@
 {
     public abstract class EntityBase
     {
-        public EntityBase()
+        protected EntityBase()
         {
+            Id = Guid.NewGuid();
             CreatedAt = DateTime.Now;
         }
 
