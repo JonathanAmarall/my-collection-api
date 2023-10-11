@@ -11,7 +11,7 @@ namespace MyCollection.Api.Setup
             services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
 
-            services.AddScoped<LocationHandler>();
+            services.AddScoped<CreateLocationCommandHandler>();
 
             services
                 .AddScoped<CreateCollectionItemCommandHandler>()

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
+using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 using MyCollection.Domain.Tests.Commands;
 using System;
@@ -29,7 +30,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
                 .ReturnsAsync(true);
-            _collectionItemRepository.Setup<Task<CollectionItem>>(c => c.GetByIdAsync(command.CollectionItemId))
+            _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
             _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
                 .ReturnsAsync(GenericContact());

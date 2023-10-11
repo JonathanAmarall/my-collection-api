@@ -5,11 +5,11 @@ using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Domain.Handler
 {
-    public class LocationHandler : IHandlerAsync<CreateLocationCommand>
+    public class CreateLocationCommandHandler : IHandlerAsync<CreateLocationCommand>
     {
         private readonly ILocationRepository _locationRepository;
 
-        public LocationHandler(ILocationRepository locationRepository)
+        public CreateLocationCommandHandler(ILocationRepository locationRepository)
         {
             _locationRepository = locationRepository;
         }
@@ -17,13 +17,15 @@ namespace MyCollection.Domain.Handler
         public async Task<ICommandResult> HandleAsync(CreateLocationCommand command)
         {
             if (!command.IsValid())
+            {
                 return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
+            }
 
             int level = 0;
-            if (command.ParentId != null)
+            if (command.ParentId is not null)
             {
                 var parent = await _locationRepository.GetByIdAsync((Guid)command.ParentId);
-                if (parent != null)
+                if (parent is not null)
                 {
                     level = parent.Level + 1;
                 }

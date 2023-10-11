@@ -35,7 +35,7 @@ namespace MyCollection.Api.Controllers
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateLocationCommand command,
-            [FromServices] LocationHandler handler)
+            [FromServices] CreateLocationCommandHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
             if (!result.Success)
