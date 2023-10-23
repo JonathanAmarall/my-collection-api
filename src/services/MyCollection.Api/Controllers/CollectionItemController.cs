@@ -57,8 +57,9 @@ namespace MyCollection.Api.Controllers
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
-            [FromServices] AddLocationInCollectionCommandHandler handler)
+            [FromServices] AddLocationInCollectionCommandHandler handler, [FromServices] ICollectionItemRepository repository)
         {
+            var item = await repository.GetByIdAsync(id);
             if (id != command.CollectionItemId)
                 return BadRequest();
 

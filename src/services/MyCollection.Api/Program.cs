@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MyCollection.Api.Setup;
 using MyCollection.Core.Middlewares;
@@ -20,11 +21,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.MapHealthChecks("/health", new HealthCheckOptions
-//{
-//    Predicate = _ => true,
-//    ResponseWriter = CustomUIResponseWriter.WriteHealthCheckResponse
-//});
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = CustomUIResponseWriter.WriteHealthCheckResponse
+});
 
 DataSeeders.ApplySeeders(app.Services).Wait();
 

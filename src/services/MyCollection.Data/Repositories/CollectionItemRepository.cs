@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCollection.Core.DTOs;
 using MyCollection.Data.Extensions;
 using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
@@ -77,7 +78,6 @@ namespace MyCollection.Data.Repositories
             }
 
             return new Core.DTOs.PagedList<CollectionItem>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
-
         }
 
         public async Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)

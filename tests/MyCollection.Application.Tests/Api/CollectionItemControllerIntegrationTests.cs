@@ -51,28 +51,42 @@ namespace MyCollection.Application.Tests.Api
         [Fact]
         public async Task Update_WithInvalidRequest_ShouldReturnBadRequest()
         {
-            var getAllCollectionItensResponse = await _client.GetAsync("/api/v1/collection-items");
+            var getAllCollectionItensResponse = await _client.GetAsync("/api/v1/collection-items?pageSize=1&pageIndex=1");
             getAllCollectionItensResponse.EnsureSuccessStatusCode();
 
-            var collectionItemContent = await getAllCollectionItensResponse.Content.ReadAsStringAsync();
-            var collectionItemPagedList = collectionItemContent.ToObject<PagedListDto<CollectionItem>>();
-            var collectionItem = collectionItemPagedList.Data.First();
-
-            var getAllLocationsResponse = await _client.GetAsync("/api/v1/locations");
+            var getAllLocationsResponse = await _client.GetAsync("/api/v1/locations?pageSize=1&pageIndex=1");
             getAllLocationsResponse.EnsureSuccessStatusCode();
-
-            var locationsContent = await getAllLocationsResponse.Content.ReadAsStringAsync();
-            var locationsPagedList = locationsContent.ToObject<List<Location>>();
-            var location = locationsPagedList.First();
+            
+            var collectionItem = await GetCollectionItemByResponse(getAllCollectionItensResponse);
+            var location = await GetLocationByResponse(getAllLocationsResponse);
 
             var command = new AddLocationInCollectionItemCommand(collectionItem.Id, location.Id);
 
-            var addLocationResponse = await _client.PutAsJsonAsync($"/api/v1/collection-items/{collectionItem.Id}", command);
-            //var msg = await addLocationResponse.Content.ReadAsStringAsync();
-            //addLocationResponse.EnsureSuccessStatusCode();
+            var addLocationResponse = await _client.PutAsJsonAsync($"/api/v1/collection-items/{command.CollectionItemId}", command);
+            
+            var msg = await addLocationResponse.Content.ReadAsStringAsync();
+            addLocationResponse.EnsureSuccessStatusCode();
+            
             getAllCollectionItensResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             getAllLocationsResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            //addLocationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            addLocationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        }
+        
+
+        private static async Task<Location> GetLocationByResponse(HttpResponseMessage getAllLocationsResponse)
+        {
+            var locationsContent = await getAllLocationsResponse.Content.ReadAsStringAsync();
+            var locationsList = locationsContent.ToObject<List<Location>>();
+            var location = locationsList.First();
+            return location;
+        }
+
+        private static async Task<CollectionItem> GetCollectionItemByResponse(HttpResponseMessage getAllCollectionItensResponse)
+        {
+            var collectionItemContent = await getAllCollectionItensResponse.Content.ReadAsStringAsync();
+            var collectionItemPagedList = collectionItemContent.ToObject<PagedListDto<CollectionItem>>();
+            var collectionItem = collectionItemPagedList.Data.First();
+            return collectionItem;
         }
     }
 }
