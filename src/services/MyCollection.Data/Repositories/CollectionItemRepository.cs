@@ -4,7 +4,6 @@ using MyCollection.Data.Extensions;
 using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
-using X.PagedList;
 
 namespace MyCollection.Data.Repositories
 {
@@ -34,7 +33,7 @@ namespace MyCollection.Data.Repositories
             _context?.Dispose();
         }
 
-        public async Task<Core.DTOs.PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
+        public async Task<PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.Contacts!.AsQueryable();
             
@@ -46,7 +45,7 @@ namespace MyCollection.Data.Repositories
                                    x.Phone!.ToUpper().Contains(globalFilter.ToUpper())
                                );
             }
-            return new Core.DTOs.PagedList<Contact>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
+            return await query.ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task<Core.DTOs.PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
@@ -77,7 +76,7 @@ namespace MyCollection.Data.Repositories
                 query = query.Where(x => x.ItemType == type);
             }
 
-            return new Core.DTOs.PagedList<CollectionItem>(query.Count(), await query.ToPagedListAsync(pageNumber, pageSize));
+            return await query.ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)
