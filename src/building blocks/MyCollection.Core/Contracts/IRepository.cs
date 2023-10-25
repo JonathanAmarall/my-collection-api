@@ -1,6 +1,4 @@
-﻿using MyCollection.Domain.Contracts;
-
-namespace MyCollection.Domain.Contracts
+﻿namespace MyCollection.Core.Contracts
 {
     public interface IRepository<T> : IDisposable where T : IAggregateRoot
     {

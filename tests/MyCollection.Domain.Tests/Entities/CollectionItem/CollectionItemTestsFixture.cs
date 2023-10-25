@@ -31,7 +31,7 @@ namespace MyCollection.Domain.Tests
         public CollectionItem GenerateCollectionItemWithLendOneItem(int quantity = 1)
         {
             var item = new CollectionItem("Livro Teste", "John Doe", quantity, "Deluxe", EType.BOOK);
-            item.LendOneItem(new Contact("Maria Doe", "maria@mail.com", "49559398564"));
+            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", "49559398564"));
             return item;
         }
 

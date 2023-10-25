@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCollection.Core.DTOs;
 using MyCollection.Data.Extensions;
-using MyCollection.Domain.Contracts;
+using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 
@@ -33,7 +33,7 @@ namespace MyCollection.Data.Repositories
             _context?.Dispose();
         }
 
-        public async Task<PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
+        public async Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.Contacts!.AsQueryable();
             
@@ -84,7 +84,7 @@ namespace MyCollection.Data.Repositories
             return await _context.CollectionItems!.FirstOrDefaultAsync(x => x.Id == collectionItemId);
         }
 
-        public async Task<Contact?> GetContactByIdAsync(Guid contactId)
+        public async Task<Borrower?> GetContactByIdAsync(Guid contactId)
         {
             return await _context.Contacts!.FirstOrDefaultAsync(x => x.Id == contactId);
         }

@@ -1,4 +1,4 @@
-﻿namespace MyCollection.Domain.Contracts
+﻿namespace MyCollection.Core.Contracts
 {
     public interface IAggregateRoot { }
 }

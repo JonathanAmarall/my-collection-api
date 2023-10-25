@@ -1,11 +1,11 @@
-﻿using MyCollection.Core.Models;
-using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Entities
 {
     public class CollectionItem : EntityBase, IAggregateRoot
     {
-        private IList<Contact>? _contacts;
+        private List<Borrower> _contacts = new();
 
         public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType)
         {
@@ -27,7 +27,7 @@ namespace MyCollection.Domain.Entities
         public ECollectionStatus Status { get; private set; }
 
         // EF Rel.
-        public ICollection<Contact>? Contacts
+        public ICollection<Borrower> Contacts
         {
             get => _contacts;
         }
@@ -35,10 +35,9 @@ namespace MyCollection.Domain.Entities
         public Guid? LocationId { get; private set; }
         public Location? Location { get; private set; }
 
-        public void LendOneItem(Contact contact)
+        public void LendOneItem(Borrower borrower)
         {
-            _contacts = _contacts ?? new List<Contact>();
-            _contacts.Add(contact);
+            _contacts.Add(borrower);
 
             Quantity--;
             if (Quantity == 0)
@@ -47,9 +46,9 @@ namespace MyCollection.Domain.Entities
             UpdateAt = DateTime.Now;
         }
 
-        public void RecoveredItem(Contact contact)
+        public void RecoveredItem(Borrower borrower)
         {
-            _contacts?.Remove(contact);
+            _contacts?.Remove(borrower);
 
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;

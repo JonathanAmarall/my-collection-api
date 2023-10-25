@@ -1,7 +1,7 @@
-﻿using MyCollection.Domain.Contracts;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using MyCollection.Core.Contracts;
 
-namespace MyCollection.Domain.Commands
+namespace MyCollection.Core.Models
 {
     public class CommandResult : ICommandResult
     {

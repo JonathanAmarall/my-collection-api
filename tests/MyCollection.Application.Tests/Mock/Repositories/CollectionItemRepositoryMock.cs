@@ -34,7 +34,7 @@ public class CollectionItemRepositoryMock : ICollectionItemRepository
         return Task.FromResult(item);
     }
 
-    public Task<Contact?> GetContactByIdAsync(Guid contactId)
+    public Task<Borrower?> GetContactByIdAsync(Guid contactId)
     {
         throw new NotImplementedException();
     }
@@ -47,7 +47,7 @@ public class CollectionItemRepositoryMock : ICollectionItemRepository
         return Task.FromResult(itens);
     }
 
-    public Task<PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
+    public Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
     {
         throw new NotImplementedException();
     }

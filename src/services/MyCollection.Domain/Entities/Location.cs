@@ -1,20 +1,18 @@
 ﻿using MyCollection.Core.Models;
-using MyCollection.Domain.Contracts;
+using MyCollection.Core.Contracts;
 
 namespace MyCollection.Domain.Entities
 {
     public class Location : EntityBase, IAggregateRoot
     {
-        private IList<Location>? _childrens;
-        private IList<CollectionItem>? _colletionItems;
+        private List<Location> _childrens = new();
+        private List<CollectionItem>? _colletionItems = new();
 
         public Location(string initials, string description, Guid? parentId, int level)
         {
             Initials = initials.ToUpper();
             Description = description;
             ParentId = parentId;
-
-            _colletionItems = new List<CollectionItem>();
             Level = level;
         }
 
@@ -38,7 +36,6 @@ namespace MyCollection.Domain.Entities
 
         public bool HasChildren()
         {
-            _childrens ??= new List<Location>();
             return _childrens.Count > 0;
         }
 
@@ -49,13 +46,7 @@ namespace MyCollection.Domain.Entities
 
         public void AddChildrens(ICollection<Location> itemLocations)
         {
-            _childrens ??= new List<Location>();
-
-            foreach (var item in itemLocations)
-            {
-                _childrens.Add(item);
-            }
-
+            _childrens.AddRange(itemLocations);
             UpdateAt = DateTime.Now;
         }
 
@@ -66,7 +57,6 @@ namespace MyCollection.Domain.Entities
 
         public bool HasCollectionItem()
         {
-            _colletionItems ??= new List<CollectionItem>();
             return _colletionItems?.Count > 0;
         }
     }

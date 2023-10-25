@@ -24,26 +24,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\MyCollection.Data\MyCollection.Data.csproj" />
 		<ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
+		<ProjectReference Include="..\MyCollection.Application\MyCollection.Application.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Application\AutoMapper\**" />
-	  <Compile Remove="Application\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Remove="Application\AutoMapper\**" />
-	  <EmbeddedResource Remove="Application\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Remove="Application\AutoMapper\**" />
-	  <Content Remove="Application\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Application\AutoMapper\**" />
-	  <None Remove="Application\**" />
-	</ItemGroup>
-
 </Project>

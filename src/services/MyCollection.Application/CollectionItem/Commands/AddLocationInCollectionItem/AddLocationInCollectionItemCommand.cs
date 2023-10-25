@@ -1,6 +1,5 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using MyCollection.Domain.Contracts;
+﻿using FluentValidation.Results;
+using MyCollection.Core.Contracts;
 using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain.Commands
@@ -24,21 +23,6 @@ namespace MyCollection.Domain.Commands
         {
             ValidationResult = new AddLocationInCollectionItemCommandValidation().Validate(this);
             return ValidationResult.IsValid;
-        }
-    }
-
-
-    public class AddLocationInCollectionItemCommandValidation : AbstractValidator<AddLocationInCollectionItemCommand>
-    {
-        public AddLocationInCollectionItemCommandValidation()
-        {
-            RuleFor(e => e.CollectionItemId)
-            .NotEqual(Guid.Empty)
-            .WithMessage("Informe uma Item corretamente.");
-
-            RuleFor(e => e.LocationId)
-            .NotEqual(Guid.Empty)
-            .WithMessage("Informe uma localização corretamente.");
         }
     }
 }

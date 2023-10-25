@@ -22,7 +22,7 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             var item = _fixture.GenerateCollectionItemValid();
 
             // Act
-            item.LendOneItem(new Contact("Maria Doe", "maria@mail.com", "049999398534"));
+            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", "049999398534"));
 
             // Assert
             Assert.False(item.CanLend());

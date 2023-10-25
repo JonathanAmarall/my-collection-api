@@ -1,22 +1,15 @@
 ﻿using MyCollection.Data.Repositories;
-using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
+using MyCollection.Application;
 
-namespace MyCollection.Api.Setup
+namespace MyCollection.Api.Setup;
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static void AddDependencies(this IServiceCollection services)
     {
-        public static void AddDependencies(this IServiceCollection services)
-        {
-            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
+        services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
 
-            services.AddScoped<CreateLocationCommandHandler>();
-
-            services
-                .AddScoped<CreateCollectionItemCommandHandler>()
-                .AddScoped<LendCollectionItemCommandHandler>()
-                .AddScoped<AddLocationInCollectionCommandHandler>();
-        }
+        services.AddApplication();
     }
 }

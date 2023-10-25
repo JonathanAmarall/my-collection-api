@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCollection.Domain.Contracts;
+using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 
 namespace MyCollection.Data
@@ -8,7 +8,7 @@ namespace MyCollection.Data
     {
         public DbSet<CollectionItem>? CollectionItems { get; set; }
         public DbSet<Location>? Locations { get; set; }
-        public DbSet<Contact>? Contacts { get; set; }
+        public DbSet<Borrower>? Contacts { get; set; }
 
         public MyCollectionContext() { }
 

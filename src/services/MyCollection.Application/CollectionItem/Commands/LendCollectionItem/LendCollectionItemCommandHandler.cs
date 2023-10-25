@@ -1,7 +1,7 @@
 ﻿using MyCollection.Domain.Commands;
-using MyCollection.Domain.Contracts;
-using MyCollection.Domain.Entities;
+using MyCollection.Core.Contracts;
 using MyCollection.Domain.Repositories;
+using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Handler
 {
@@ -35,7 +35,7 @@ namespace MyCollection.Domain.Handler
                     command.ValidationResult);
             }
 
-            var contact = await GetOrCreateContactIfNotExistAsync(command);
+            var contact = await _collectionItemRepository.GetContactByIdAsync((Guid)command.BorrowerId!);
             if (contact is null)
             {
                 return new CommandResult(false, "Contato informado é inválido. Por favor, verifique e tente novamente",
@@ -48,17 +48,6 @@ namespace MyCollection.Domain.Handler
             await _collectionItemRepository.UnitOfWork.Commit();
 
             return new CommandResult(true, "Item emprestado com sucesso.", item, null);
-        }
-
-        private async Task<Contact?> GetOrCreateContactIfNotExistAsync(LendCollectionItemCommand command)
-        {
-            if (command.ContactId is null || command.ContactId == Guid.Empty)
-            {
-                return new Contact(command.FullName!, command.Email!, command.Phone!);
-            }
-
-            var contact = await _collectionItemRepository.GetContactByIdAsync((Guid)command.ContactId);
-            return contact ?? default;
         }
     }
 }

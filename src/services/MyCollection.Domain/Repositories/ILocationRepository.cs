@@ -1,4 +1,4 @@
-﻿using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 
 namespace MyCollection.Domain.Repositories

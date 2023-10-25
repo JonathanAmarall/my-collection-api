@@ -1,7 +1,8 @@
 ﻿using MyCollection.Domain.Commands;
-using MyCollection.Domain.Contracts;
+using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
+using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Handler
 {

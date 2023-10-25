@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
+    <ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
+  </ItemGroup>
+</Project>

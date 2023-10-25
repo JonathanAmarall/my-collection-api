@@ -1,5 +1,6 @@
-﻿using MyCollection.Domain.Commands;
-using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Models;
+using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 
@@ -22,7 +23,7 @@ namespace MyCollection.Domain.Handler
                     command.ValidationResult);
             }
 
-            var item = new CollectionItem(command.Title, command.Autor, command.Quantity, command.Edition, command.ItemType);
+            var item = new CollectionItem(command.Title, command.Autor, command.Quantity, command.Edition, (EType)command.ItemType);
 
             await _collectionItemRepository.CreateAsync(item);
             await _collectionItemRepository.UnitOfWork.Commit();

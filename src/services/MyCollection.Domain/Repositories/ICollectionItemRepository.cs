@@ -1,5 +1,5 @@
-﻿using MyCollection.Core.DTOs;
-using MyCollection.Domain.Contracts;
+﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.DTOs;
 using MyCollection.Domain.Entities;
 
 
@@ -11,8 +11,8 @@ namespace MyCollection.Domain.Repositories
         void Delete(CollectionItem item);
         void Update(CollectionItem item);
         Task<CollectionItem?> GetByIdAsync(Guid collectionItemId);
-        Task<Contact?> GetContactByIdAsync(Guid contactId);
+        Task<Borrower?> GetContactByIdAsync(Guid contactId);
         Task<PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5);
-        Task<PagedList<Contact>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5);
+        Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5);
     }
 }

@@ -32,7 +32,7 @@ namespace MyCollection.Domain.Tests.Handlers
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
+            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
                 .ReturnsAsync(GenericContact());
 
             var locationRepository = new Mock<ILocationRepository>();
@@ -61,7 +61,7 @@ namespace MyCollection.Domain.Tests.Handlers
 
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
+            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
                 .ReturnsAsync(GenericContact());
 
             var locationRepository = new Mock<ILocationRepository>();
@@ -77,9 +77,9 @@ namespace MyCollection.Domain.Tests.Handlers
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
 
-        private static Contact GenericContact()
+        private static Borrower GenericContact()
         {
-            return new Contact("John Doe", "john@mail.com", "5599398654");
+            return new Borrower("John Doe", "john@mail.com", "5599398654");
         }
 
         [Fact]
@@ -133,8 +133,8 @@ namespace MyCollection.Domain.Tests.Handlers
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
-                .ReturnsAsync(null as Contact);
+            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
+                .ReturnsAsync(null as Borrower);
 
             var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
             // Act
@@ -156,7 +156,7 @@ namespace MyCollection.Domain.Tests.Handlers
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.ContactId!))
+            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
                 .ReturnsAsync(GenericContact());
 
             var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
