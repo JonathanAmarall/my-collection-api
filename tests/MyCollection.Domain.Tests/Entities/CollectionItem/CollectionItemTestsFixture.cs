@@ -1,4 +1,5 @@
 ﻿using MyCollection.Domain.Entities;
+using MyCollection.Domain.ValueObjects;
 using System;
 using Xunit;
 
@@ -31,7 +32,8 @@ namespace MyCollection.Domain.Tests
         public CollectionItem GenerateCollectionItemWithLendOneItem(int quantity = 1)
         {
             var item = new CollectionItem("Livro Teste", "John Doe", quantity, "Deluxe", EType.BOOK);
-            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", "49559398564"));
+            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312")));
             return item;
         }
 

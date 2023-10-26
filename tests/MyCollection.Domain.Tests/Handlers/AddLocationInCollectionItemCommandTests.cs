@@ -1,4 +1,5 @@
 ﻿using Moq;
+using MyCollection.Core.Models;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;

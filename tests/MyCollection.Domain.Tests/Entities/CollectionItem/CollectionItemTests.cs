@@ -1,5 +1,6 @@
 using FluentAssertions;
 using MyCollection.Domain.Entities;
+using MyCollection.Domain.ValueObjects;
 using System.Linq;
 using Xunit;
 
@@ -22,7 +23,8 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             var item = _fixture.GenerateCollectionItemValid();
 
             // Act
-            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", "049999398534"));
+            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312")));
 
             // Assert
             Assert.False(item.CanLend());

@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
+using MyCollection.Core.Contracts;
 using MyCollection.Core.DTOs;
-using MyCollection.Domain.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 

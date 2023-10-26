@@ -1,9 +1,10 @@
 ﻿using Moq;
-using MyCollection.Domain.Commands;
+using MyCollection.Core.Models;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 using MyCollection.Domain.Tests.Commands;
+using MyCollection.Domain.ValueObjects;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -79,7 +80,8 @@ namespace MyCollection.Domain.Tests.Handlers
 
         private static Borrower GenericContact()
         {
-            return new Borrower("John Doe", "john@mail.com", "5599398654");
+            return new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312"));
         }
 
         [Fact]
@@ -147,7 +149,7 @@ namespace MyCollection.Domain.Tests.Handlers
         }
 
         [Fact]
-        public async Task LendCollectionItemCommandHandler_ContactIdNull_ShouldReturnErrorS()
+        public async Task LendCollectionItemCommandHandler_ContactIdNull_ShouldReturnErrors()
         {
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandWithoutContactIdValid();
@@ -164,9 +166,9 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.True(result.Success);
-            _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Once);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+            Assert.False(result.Success);
+            _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
     }
 }

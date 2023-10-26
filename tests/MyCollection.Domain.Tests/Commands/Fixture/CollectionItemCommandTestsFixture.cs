@@ -21,7 +21,7 @@ namespace MyCollection.Domain.Tests.Commands
               "Erich Gamma",
               10,
               "Deluxe",
-              EType.BOOK);
+              EType.BOOK.GetHashCode());
 
             return command;
         }
@@ -33,7 +33,7 @@ namespace MyCollection.Domain.Tests.Commands
                  "E",
                  -10,
                  "Deluxe",
-                 EType.BOOK);
+                 EType.BOOK.GetHashCode());
 
             return command;
         }
@@ -42,10 +42,7 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
                Guid.NewGuid(),
-               Guid.NewGuid(),
-               "John Doe",
-               "john.d@mail.com",
-               "559939865");
+               Guid.NewGuid());
 
             return command;
         }
@@ -54,10 +51,7 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
                Guid.NewGuid(),
-               Guid.Empty,
-               "John Doe",
-               "john.d@mail.com",
-               "559939865");
+               Guid.Empty);
 
             return command;
         }
@@ -66,10 +60,7 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
               Guid.Empty,
-              Guid.Empty,
-              "",
-              "",
-              "");
+              Guid.Empty);
 
             return command;
         }

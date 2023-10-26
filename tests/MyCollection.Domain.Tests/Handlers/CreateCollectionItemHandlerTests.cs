@@ -1,5 +1,5 @@
 ﻿using Moq;
-using MyCollection.Domain.Commands;
+using MyCollection.Core.Models;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
@@ -27,7 +27,6 @@ namespace MyCollection.Domain.Tests.Handlers
             collectionItemRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
 
             var command = _fixture.GenerateCreateCollectionItemCommandValid();
-
             var handler = new CreateCollectionItemCommandHandler(collectionItemRepository.Object);
 
             // Act
