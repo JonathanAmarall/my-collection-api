@@ -50,7 +50,7 @@ namespace MyCollection.Data.Repositories
 
         public async Task<Core.DTOs.PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
-            var query = _context.CollectionItems!.Include(c => c.Contacts).AsQueryable();
+            var query = _context.CollectionItems!.Include(c => c.Borrowers).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {

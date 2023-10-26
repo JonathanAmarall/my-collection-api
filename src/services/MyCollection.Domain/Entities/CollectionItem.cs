@@ -5,7 +5,7 @@ namespace MyCollection.Domain.Entities
 {
     public class CollectionItem : EntityBase, IAggregateRoot
     {
-        private List<Borrower> _contacts = new();
+        private readonly List<Borrower> _borrowers = new();
 
         public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType)
         {
@@ -27,9 +27,9 @@ namespace MyCollection.Domain.Entities
         public ECollectionStatus Status { get; private set; }
 
         // EF Rel.
-        public ICollection<Borrower> Contacts
+        public ICollection<Borrower> Borrowers
         {
-            get => _contacts;
+            get => _borrowers;
         }
 
         public Guid? LocationId { get; private set; }
@@ -37,7 +37,7 @@ namespace MyCollection.Domain.Entities
 
         public void LendOneItem(Borrower borrower)
         {
-            _contacts.Add(borrower);
+            _borrowers.Add(borrower);
 
             Quantity--;
             if (Quantity == 0)
@@ -48,7 +48,7 @@ namespace MyCollection.Domain.Entities
 
         public void RecoveredItem(Borrower borrower)
         {
-            _contacts?.Remove(borrower);
+            _borrowers?.Remove(borrower);
 
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;

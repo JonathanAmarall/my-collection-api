@@ -51,7 +51,7 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             var numberOfItemsConsideringLoanedItem = 5;
             var numberOriginalOfItens = numberOfItemsConsideringLoanedItem + 1;
             var item = _fixture.GenerateCollectionItemWithLendOneItem(numberOriginalOfItens);
-            var contactCopy = item.Contacts!.First();
+            var contactCopy = item.Borrowers!.First();
             // Act
             item.RecoveredItem(contactCopy);
 
@@ -59,7 +59,7 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             item.Quantity.Should().Be(numberOriginalOfItens);
             item.Status.Should().Be(ECollectionStatus.AVAILABLE);
             item.UpdateAt.Should().NotBeNull();
-            item.Contacts.Should().NotContain(contactCopy);
+            item.Borrowers.Should().NotContain(contactCopy);
         }
     }
 }
