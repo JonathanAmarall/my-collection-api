@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyCollection.Data.Migrations
 {
-    public partial class init_migrate : Migration
+    /// <inheritdoc />
+    public partial class initmigrate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -14,8 +16,9 @@ namespace MyCollection.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Initials = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Initials = table.Column<string>(type: "varchar(100)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Level = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     ParentId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
@@ -35,12 +38,12 @@ namespace MyCollection.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Autor = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", maxLength: 150, nullable: false),
+                    Autor = table.Column<string>(type: "varchar(100)", maxLength: 150, nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     Edition = table.Column<string>(type: "varchar(100)", nullable: true),
                     ItemType = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     LocationId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
@@ -49,8 +52,8 @@ namespace MyCollection.Data.Migrations
                 {
                     table.PrimaryKey("PK_CollectionItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CollectionItems_Locations_LocationId",
-                        column: x => x.LocationId,
+                        name: "FK_CollectionItems_Locations_Id",
+                        column: x => x.Id,
                         principalTable: "Locations",
                         principalColumn: "Id");
                 });
@@ -60,10 +63,14 @@ namespace MyCollection.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FullName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
+                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
                     Phone = table.Column<string>(type: "varchar(100)", nullable: false),
-                    CollectionItemId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Street = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
+                    PostalCode = table.Column<string>(type: "varchar(100)", maxLength: 8, nullable: false),
+                    City = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
+                    Number = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -71,21 +78,12 @@ namespace MyCollection.Data.Migrations
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacts_CollectionItems_CollectionItemId",
-                        column: x => x.CollectionItemId,
+                        name: "FK_Contacts_CollectionItems_Id",
+                        column: x => x.Id,
                         principalTable: "CollectionItems",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CollectionItems_LocationId",
-                table: "CollectionItems",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contacts_CollectionItemId",
-                table: "Contacts",
-                column: "CollectionItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Locations_ParentId",
@@ -93,6 +91,7 @@ namespace MyCollection.Data.Migrations
                 column: "ParentId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -18,8 +18,13 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    DataSeeders.ApplySeeders(app.Services).Wait();
+}
+
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
@@ -27,11 +32,10 @@ app.MapHealthChecks("/health", new HealthCheckOptions
     ResponseWriter = CustomUIResponseWriter.WriteHealthCheckResponse
 });
 
-DataSeeders.ApplySeeders(app.Services).Wait();
 
 app.UseCors("CorsPolicy");
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

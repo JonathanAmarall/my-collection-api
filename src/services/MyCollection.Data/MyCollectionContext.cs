@@ -12,8 +12,9 @@ namespace MyCollection.Data
 
         public MyCollectionContext() { }
 
-        public MyCollectionContext(DbContextOptions<MyCollectionContext> options) : 
-            base(options) { }
+        public MyCollectionContext(DbContextOptions<MyCollectionContext> options) :
+            base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

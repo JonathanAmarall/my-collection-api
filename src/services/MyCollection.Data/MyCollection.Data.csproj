@@ -20,5 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 
 </Project>

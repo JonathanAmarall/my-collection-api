@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCollection.Core.Contracts;
 using MyCollection.Core.DTOs;
 using MyCollection.Data.Extensions;
-using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 
@@ -36,11 +36,11 @@ namespace MyCollection.Data.Repositories
         public async Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.Contacts!.AsQueryable();
-            
+
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
                 query = query.Where(x =>
-                                   x.Email.ToUpper().Contains(globalFilter.ToUpper()) ||
+                                   x.Email.Value.ToUpper().Contains(globalFilter.ToUpper()) ||
                                    x.FullName.ToUpper().Contains(globalFilter.ToUpper()) ||
                                    x.Phone!.ToUpper().Contains(globalFilter.ToUpper())
                                );

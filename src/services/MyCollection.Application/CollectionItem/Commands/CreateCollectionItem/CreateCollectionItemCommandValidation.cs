@@ -18,7 +18,8 @@ namespace MyCollection.Domain
                 .GreaterThan(0);
 
             RuleFor(e => e.ItemType)
-                .IsInEnum().WithMessage("Por favor, informe um tipo de Item válido");
+                .NotNull()
+                .WithMessage("Por favor, informe um tipo de Item válido");
         }
     }
 }

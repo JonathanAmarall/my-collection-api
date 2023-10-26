@@ -1,6 +1,6 @@
-﻿using MyCollection.Data.Repositories;
+﻿using MyCollection.Application;
+using MyCollection.Data.Repositories;
 using MyCollection.Domain.Repositories;
-using MyCollection.Application;
 
 namespace MyCollection.Api.Setup;
 public static class DependencyInjection
