@@ -35,7 +35,7 @@ namespace MyCollection.Data.Repositories
 
         public async Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
         {
-            var query = _context.Contacts!.AsQueryable();
+            var query = _context.Borrowers!.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(globalFilter))
             {
@@ -86,7 +86,7 @@ namespace MyCollection.Data.Repositories
 
         public async Task<Borrower?> GetContactByIdAsync(Guid contactId)
         {
-            return await _context.Contacts!.FirstOrDefaultAsync(x => x.Id == contactId);
+            return await _context.Borrowers!.FirstOrDefaultAsync(x => x.Id == contactId);
         }
 
         public void Update(CollectionItem item)

@@ -16,8 +16,8 @@ namespace MyCollection.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Initials = table.Column<string>(type: "varchar(100)", maxLength: 20, nullable: false),
-                    Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Initials = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Level = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     ParentId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -38,10 +38,10 @@ namespace MyCollection.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "varchar(100)", maxLength: 150, nullable: false),
-                    Autor = table.Column<string>(type: "varchar(100)", maxLength: 150, nullable: false),
+                    Title = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Autor = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    Edition = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Edition = table.Column<string>(type: "text", nullable: true),
                     ItemType = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     LocationId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -52,38 +52,43 @@ namespace MyCollection.Data.Migrations
                 {
                     table.PrimaryKey("PK_CollectionItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CollectionItems_Locations_Id",
-                        column: x => x.Id,
+                        name: "FK_CollectionItems_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contacts",
+                name: "Borrowers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
-                    Phone = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Street = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
-                    PostalCode = table.Column<string>(type: "varchar(100)", maxLength: 8, nullable: false),
-                    City = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
-                    Number = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Street = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    PostalCode = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
+                    City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Number = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.Id);
+                    table.PrimaryKey("PK_Borrowers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacts_CollectionItems_Id",
+                        name: "FK_Borrowers_CollectionItems_Id",
                         column: x => x.Id,
                         principalTable: "CollectionItems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollectionItems_LocationId",
+                table: "CollectionItems",
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Locations_ParentId",
@@ -95,7 +100,7 @@ namespace MyCollection.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Contacts");
+                name: "Borrowers");
 
             migrationBuilder.DropTable(
                 name: "CollectionItems");

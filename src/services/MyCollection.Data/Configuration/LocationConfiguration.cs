@@ -26,7 +26,7 @@ namespace MyCollection.Data.Configuration
 
             builder.HasMany(x => x.CollectionItems)
                 .WithOne(x => x.Location)
-                .HasForeignKey(x => x.Id)
+                .HasForeignKey(x => x.LocationId)
                 .OnDelete(DeleteBehavior.NoAction);
 
         }

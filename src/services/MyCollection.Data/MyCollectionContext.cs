@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
+using System.Reflection;
 
 namespace MyCollection.Data
 {
@@ -8,7 +9,7 @@ namespace MyCollection.Data
     {
         public DbSet<CollectionItem>? CollectionItems { get; set; }
         public DbSet<Location>? Locations { get; set; }
-        public DbSet<Borrower>? Contacts { get; set; }
+        public DbSet<Borrower>? Borrowers { get; set; }
 
         public MyCollectionContext() { }
 
@@ -18,10 +19,7 @@ namespace MyCollection.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
-               e => e.GetProperties()
-                   .Where(p => p.ClrType == typeof(string))))
-                property.SetColumnType("varchar(100)");
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyCollectionContext).Assembly);
 

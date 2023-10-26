@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyCollection.Data.Migrations
 {
     [DbContext(typeof(MyCollectionContext))]
-    [Migration("20231026120532_init-migrate")]
+    [Migration("20231026140310_init-migrate")]
     partial class initmigrate
     {
         /// <inheritdoc />
@@ -35,39 +35,40 @@ namespace MyCollection.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Borrowers");
                 });
 
             modelBuilder.Entity("MyCollection.Domain.Entities.CollectionItem", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Autor")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Edition")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("integer");
@@ -88,12 +89,14 @@ namespace MyCollection.Data.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("CollectionItems");
                 });
@@ -110,12 +113,12 @@ namespace MyCollection.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Initials")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int>("Level")
                         .ValueGeneratedOnAdd()
@@ -140,7 +143,7 @@ namespace MyCollection.Data.Migrations
                     b.HasOne("MyCollection.Domain.Entities.CollectionItem", null)
                         .WithMany("Borrowers")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.OwnsOne("MyCollection.Domain.ValueObjects.Address", "Address", b1 =>
@@ -151,30 +154,30 @@ namespace MyCollection.Data.Migrations
                             b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("character varying(256)")
                                 .HasColumnName("City");
 
                             b1.Property<string>("Number")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("character varying(256)")
                                 .HasColumnName("Number");
 
                             b1.Property<string>("PostalCode")
                                 .IsRequired()
                                 .HasMaxLength(8)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("character varying(8)")
                                 .HasColumnName("PostalCode");
 
                             b1.Property<string>("Street")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("character varying(256)")
                                 .HasColumnName("Street");
 
                             b1.HasKey("BorrowerId");
 
-                            b1.ToTable("Contacts");
+                            b1.ToTable("Borrowers");
 
                             b1.WithOwner()
                                 .HasForeignKey("BorrowerId");
@@ -188,12 +191,12 @@ namespace MyCollection.Data.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(256)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("character varying(256)")
                                 .HasColumnName("Email");
 
                             b1.HasKey("BorrowerId");
 
-                            b1.ToTable("Contacts");
+                            b1.ToTable("Borrowers");
 
                             b1.WithOwner()
                                 .HasForeignKey("BorrowerId");
@@ -210,9 +213,8 @@ namespace MyCollection.Data.Migrations
                 {
                     b.HasOne("MyCollection.Domain.Entities.Location", "Location")
                         .WithMany("CollectionItems")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Location");
                 });

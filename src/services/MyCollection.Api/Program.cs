@@ -22,7 +22,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    DataSeeders.ApplySeeders(app.Services).Wait();
 }
 
 
@@ -32,6 +31,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
     ResponseWriter = CustomUIResponseWriter.WriteHealthCheckResponse
 });
 
+DataSeeders.ApplySeeders(app.Services).Wait();
 
 app.UseCors("CorsPolicy");
 

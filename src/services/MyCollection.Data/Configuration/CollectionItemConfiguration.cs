@@ -32,10 +32,12 @@ namespace MyCollection.Data.Configuration
 
             builder.HasOne(item => item.Location)
                 .WithMany(location => location.CollectionItems)
-                .HasForeignKey(item => item.LocationId);
+                .HasForeignKey(item => item.Id)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(item => item.Borrowers)
                 .WithOne()
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(item => item.Id);
         }
     }
