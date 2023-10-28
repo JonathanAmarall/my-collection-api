@@ -1,4 +1,4 @@
-﻿namespace MyCollection.Core.Contracts
+﻿namespace MyCollection.Core.Data
 {
     public interface IUnitOfWork
     {

@@ -5,7 +5,6 @@ namespace MyCollection.Domain.Entities
 {
     public class Borrower : EntityBase
     {
-        protected Borrower() { }
         public Borrower(string firstName, string lastName, Email email, string phone, Address address)
         {
             FirstName = firstName;

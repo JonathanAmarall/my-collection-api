@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using Moq;
-using MyCollection.Core.Models;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
@@ -33,7 +33,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Act
             var result = (CommandResult)await handler.HandleAsync(validCommand);
             // Arrange
-            result.Success.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
             result.ValidationResult.Should().BeNull();
         }
 
@@ -52,7 +52,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(validCommand);
             // Arrange
             var resultDataLocation = result.Data as Location;
-            result.Success.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
             result.ValidationResult.Should().BeNull();
             resultDataLocation!.Level.Should().Be(parentLocation.Level + nextLevel);
         }
@@ -66,7 +66,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Act
             var result = (CommandResult)await handler.HandleAsync(validCommand);
             // Arrange
-            result.Success.Should().BeFalse();
+            result.IsSuccess.Should().BeFalse();
             result.ValidationResult.Should().NotBeNull();
         }
     }

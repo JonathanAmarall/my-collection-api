@@ -3,7 +3,7 @@ using MyCollection.Core.Contracts;
 
 namespace MyCollection.Domain.Entities
 {
-    public class Location : EntityBase, IAggregateRoot
+    public class Location : AggregateRoot
     {
         private List<Location> _childrens = new();
         private List<CollectionItem>? _colletionItems = new();

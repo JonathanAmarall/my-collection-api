@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCollection.Core.Contracts;
+using MyCollection.Core.Data;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
 

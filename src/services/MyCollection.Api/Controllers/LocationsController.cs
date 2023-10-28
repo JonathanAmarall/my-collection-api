@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Core.Models;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
@@ -38,7 +39,7 @@ namespace MyCollection.Api.Controllers
             [FromServices] CreateLocationCommandHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.Success)
+            if (result.IsFailure)
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
 
             return CustomReponse(result.Data);

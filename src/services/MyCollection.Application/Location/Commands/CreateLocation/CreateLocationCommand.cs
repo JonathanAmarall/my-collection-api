@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using MyCollection.Core.Contracts;
+using MyCollection.Core.Messages.Commands;
 using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain.Commands

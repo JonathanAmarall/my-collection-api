@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCollection.Core.Contracts;
+using MyCollection.Core.Data;
 using MyCollection.Core.DTOs;
 using MyCollection.Data.Extensions;
 using MyCollection.Domain.Entities;

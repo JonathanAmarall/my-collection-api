@@ -1,6 +1,7 @@
 ﻿using MyCollection.Core.Contracts;
 using FluentValidation.Results;
 using System.Text.Json.Serialization;
+using MyCollection.Core.Messages.Commands;
 
 namespace MyCollection.Domain
 {

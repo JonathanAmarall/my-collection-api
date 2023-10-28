@@ -4,8 +4,6 @@ namespace MyCollection.Domain.ValueObjects;
 
 public sealed class Address : ValueObject
 {
-    protected Address() { }
-
     public Address(string street, string postalCode, string city, string number)
     {
         Street = street;

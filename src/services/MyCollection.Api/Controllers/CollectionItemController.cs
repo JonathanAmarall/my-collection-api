@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCollection.Api.Dto;
 using MyCollection.Core.DTOs;
-using MyCollection.Core.Models;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Domain;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
@@ -30,7 +30,7 @@ namespace MyCollection.Api.Controllers
             [FromServices] CreateCollectionItemCommandHandler handler)
         {
             var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);
@@ -47,7 +47,7 @@ namespace MyCollection.Api.Controllers
                 return BadRequest();
 
             var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);
@@ -65,7 +65,7 @@ namespace MyCollection.Api.Controllers
                 return BadRequest();
 
             var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);

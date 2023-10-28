@@ -1,5 +1,5 @@
 ﻿using Moq;
-using MyCollection.Core.Models;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
@@ -44,7 +44,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.True(result.Success);
+            Assert.True(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Once);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
@@ -73,7 +73,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
@@ -99,7 +99,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
@@ -120,7 +120,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
@@ -143,7 +143,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
@@ -166,7 +166,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             //Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }

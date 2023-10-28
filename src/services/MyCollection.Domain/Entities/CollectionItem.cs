@@ -3,7 +3,7 @@ using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Entities
 {
-    public class CollectionItem : EntityBase, IAggregateRoot
+    public class CollectionItem : AggregateRoot
     {
         private readonly List<Borrower> _borrowers = new();
 

@@ -1,4 +1,6 @@
-﻿namespace MyCollection.Core.Contracts
+﻿using MyCollection.Core.Messages.Commands;
+
+namespace MyCollection.Core.Contracts
 {
     public interface IHandler<T> where T : ICommand
     {

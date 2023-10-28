@@ -1,4 +1,5 @@
 ﻿using Moq;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Core.Models;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
@@ -33,7 +34,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(result.IsSuccess);
             collectionItemRepository.Verify(r => r.CreateAsync(It.IsAny<CollectionItem>()), Times.Once);
             collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
@@ -52,7 +53,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var result = (CommandResult)await handler.HandleAsync(command);
 
             // Assert
-            Assert.False(result.Success);
+            Assert.False(result.IsSuccess);
             collectionItemRepository.Verify(r => r.CreateAsync(It.IsAny<CollectionItem>()), Times.Never);
             collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }

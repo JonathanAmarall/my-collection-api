@@ -2,7 +2,7 @@
 using MyCollection.Core.Contracts;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
-using MyCollection.Core.Models;
+using MyCollection.Core.Messages.Commands;
 
 namespace MyCollection.Domain.Handler
 {

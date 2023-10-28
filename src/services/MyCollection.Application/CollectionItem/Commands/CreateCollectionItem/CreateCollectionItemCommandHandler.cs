@@ -1,4 +1,5 @@
 ﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Messages.Commands;
 using MyCollection.Core.Models;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
