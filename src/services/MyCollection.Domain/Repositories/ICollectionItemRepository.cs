@@ -1,5 +1,4 @@
-﻿using MyCollection.Core.Contracts;
-using MyCollection.Core.Data;
+﻿using MyCollection.Core.Data;
 using MyCollection.Core.DTOs;
 using MyCollection.Domain.Entities;
 

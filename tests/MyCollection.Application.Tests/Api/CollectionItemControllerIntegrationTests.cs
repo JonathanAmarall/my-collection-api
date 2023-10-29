@@ -21,7 +21,7 @@ namespace MyCollection.Application.Tests.Api
 
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var collectionItemPagedList = content.ToObject<PagedListDto<CollectionItem>>();
+            var collectionItemPagedList = content.ToObject<PagedListDto<Domain.Entities.CollectionItem>>();
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             collectionItemPagedList.TotalCount.Should().BeGreaterThan(0);

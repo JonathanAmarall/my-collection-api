@@ -1,6 +1,5 @@
 ﻿using Moq;
 using MyCollection.Core.Messages.Commands;
-using MyCollection.Core.Models;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
@@ -29,7 +28,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = new AddLocationInCollectionItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
@@ -45,7 +44,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.True(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Once);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Once);
         }
 
         [Fact]
@@ -54,7 +53,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = new AddLocationInCollectionItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(null as CollectionItem);
@@ -67,7 +66,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         [Fact]
@@ -84,7 +83,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         [Fact]
@@ -93,7 +92,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = new AddLocationInCollectionItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
@@ -109,7 +108,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         private static CollectionItem GenericCollectionItem()

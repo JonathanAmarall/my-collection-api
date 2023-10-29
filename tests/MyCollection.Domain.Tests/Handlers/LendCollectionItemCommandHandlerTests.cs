@@ -29,7 +29,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
@@ -37,7 +37,7 @@ namespace MyCollection.Domain.Tests.Handlers
                 .ReturnsAsync(GenericContact());
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
+            locationRepository.Setup(c => c.UnitOfWork.Commit(default)).ReturnsAsync(true);
 
             var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
             // Act
@@ -46,7 +46,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.True(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Once);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Once);
         }
 
         private static CollectionItem GenericCollectionItem(int quantity = 1)
@@ -66,7 +66,7 @@ namespace MyCollection.Domain.Tests.Handlers
                 .ReturnsAsync(GenericContact());
 
             var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit()).ReturnsAsync(true);
+            locationRepository.Setup(c => c.UnitOfWork.Commit(default)).ReturnsAsync(true);
 
             var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
             // Act
@@ -75,7 +75,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         private static Borrower GenericContact()
@@ -89,7 +89,7 @@ namespace MyCollection.Domain.Tests.Handlers
         {
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(null as CollectionItem);
@@ -101,7 +101,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem(0));
@@ -122,7 +122,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
@@ -145,7 +145,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandWithoutContactIdValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit())
+            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
@@ -168,7 +168,7 @@ namespace MyCollection.Domain.Tests.Handlers
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
-            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(), Times.Never);
+            _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
     }
 }

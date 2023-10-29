@@ -2,6 +2,6 @@
 {
     public interface IUnitOfWork
     {
-        Task<bool> Commit();
+        Task<bool> Commit(CancellationToken cancellationToken = default);
     }
 }

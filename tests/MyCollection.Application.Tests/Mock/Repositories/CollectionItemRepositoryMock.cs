@@ -13,24 +13,24 @@ public class CollectionItemRepositoryMock : ICollectionItemRepository
     }
 
     public IUnitOfWork UnitOfWork { get; }
-    public Task CreateAsync(CollectionItem item)
+    public Task CreateAsync(Domain.Entities.CollectionItem item)
     {
         throw new NotImplementedException();
     }
 
-    public void Delete(CollectionItem item)
+    public void Delete(Domain.Entities.CollectionItem item)
     {
         throw new NotImplementedException();
     }
 
-    public void Update(CollectionItem item)
+    public void Update(Domain.Entities.CollectionItem item)
     {
         throw new NotImplementedException();
     }
 
-    public Task<CollectionItem?> GetByIdAsync(Guid collectionItemId)
+    public Task<Domain.Entities.CollectionItem?> GetByIdAsync(Guid collectionItemId)
     {
-        var item = new CollectionItem("Livro ABC", "Jonhn Doe", 10, string.Empty, EType.BOOK);
+        var item = new Domain.Entities.CollectionItem("Livro ABC", "Jonhn Doe", 10, string.Empty, EType.BOOK);
         return Task.FromResult(item);
     }
 
@@ -39,11 +39,11 @@ public class CollectionItemRepositoryMock : ICollectionItemRepository
         throw new NotImplementedException();
     }
 
-    public Task<PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status,
+    public Task<PagedList<MyCollection.Domain.Entities.CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status,
         EType? type, int pageNumber = 1, int pageSize = 5)
     {
         var fixture = new Fixture();
-        var itens = fixture.Create<PagedList<CollectionItem>>();
+        var itens = fixture.Create<PagedList<MyCollection.Domain.Entities.CollectionItem>>();
         return Task.FromResult(itens);
     }
 

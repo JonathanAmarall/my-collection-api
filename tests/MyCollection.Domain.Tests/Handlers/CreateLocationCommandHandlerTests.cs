@@ -20,7 +20,7 @@ namespace MyCollection.Domain.Tests.Handlers
         {
             _fixture = new Fixture();
             _locationRepositoryMock = new Mock<ILocationRepository>();
-            _locationRepositoryMock.Setup(c => c.UnitOfWork.Commit())
+            _locationRepositoryMock.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
         }
 

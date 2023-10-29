@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyCollection.Core.Contracts;
 using MyCollection.Core.Data;
+using MyCollection.Core.Models;
 using MyCollection.Domain.Entities;
 using System.Reflection;
 
@@ -9,15 +11,19 @@ namespace MyCollection.Data
 {
     public class MyCollectionContext : DbContext, IUnitOfWork
     {
+        private readonly IMediator _mediator;
+
         public DbSet<CollectionItem>? CollectionItems { get; set; }
         public DbSet<Location>? Locations { get; set; }
         public DbSet<Borrower>? Borrowers { get; set; }
 
         public MyCollectionContext() { }
 
-        public MyCollectionContext(DbContextOptions<MyCollectionContext> options) :
+        public MyCollectionContext(DbContextOptions<MyCollectionContext> options, IMediator mediator) :
             base(options)
-        { }
+        {
+            _mediator = mediator;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,11 +34,13 @@ namespace MyCollection.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> Commit(CancellationToken cancellationToken = default)
         {
-            DateTime utcNow = new();
+            DateTime utcNow = DateTime.UtcNow;
 
             UpdateAuditableEntities(utcNow);
+
+            await PublishDomainEvents(cancellationToken);
 
             return await SaveChangesAsync() > 0;
         }
@@ -53,5 +61,20 @@ namespace MyCollection.Data
             }
         }
 
+        private async Task PublishDomainEvents(CancellationToken cancellationToken)
+        {
+            List<EntityEntry<AggregateRoot>> aggregateRoots = ChangeTracker
+                .Entries<AggregateRoot>()
+                .Where(entityEntry => entityEntry.Entity.DomainEvents.Any())
+                .ToList();
+
+            List<IDomainEvent> domainEvents = aggregateRoots.SelectMany(entityEntry => entityEntry.Entity.DomainEvents).ToList();
+
+            aggregateRoots.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
+
+            IEnumerable<Task> tasks = domainEvents.Select(domainEvent => _mediator.Publish(domainEvent, cancellationToken));
+
+            await Task.WhenAll(tasks);
+        }
     }
 }

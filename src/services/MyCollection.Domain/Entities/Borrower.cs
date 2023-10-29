@@ -1,4 +1,5 @@
-﻿using MyCollection.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MyCollection.Core.Contracts;
 using MyCollection.Core.Models;
 using MyCollection.Domain.ValueObjects;
 
@@ -6,7 +7,10 @@ namespace MyCollection.Domain.Entities
 {
     public class Borrower : EntityBase, IAuditableEntity
     {
-        protected Borrower() { }
+        protected Borrower()
+        {
+        }
+
         public Borrower(string firstName, string lastName, Email email, string phone, Address address)
         {
             FirstName = firstName;
@@ -24,7 +28,10 @@ namespace MyCollection.Domain.Entities
 
         public Address Address { get; private set; }
 
-        public DateTime CreatedAt {get ; }
-        public DateTime? UpdateAt {get ; }
+
+        public CollectionItem CollectionItem { get; set; }
+
+        public DateTime CreatedAt { get; }
+        public DateTime? UpdateAt { get; }
     }
 }

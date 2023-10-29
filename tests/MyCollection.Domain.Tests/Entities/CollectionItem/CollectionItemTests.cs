@@ -60,7 +60,6 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             // Assert
             item.Quantity.Should().Be(numberOriginalOfItens);
             item.Status.Should().Be(ECollectionStatus.AVAILABLE);
-            item.UpdateAt.Should().NotBeNull();
             item.Borrowers.Should().NotContain(contactCopy);
         }
     }

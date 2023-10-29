@@ -1,5 +1,6 @@
 ﻿using MyCollection.Core.Contracts;
 using MyCollection.Core.Models;
+using MyCollection.Domain.Events;
 
 namespace MyCollection.Domain.Entities
 {
@@ -16,6 +17,8 @@ namespace MyCollection.Domain.Entities
             ItemType = itemType;
 
             Status = ECollectionStatus.AVAILABLE;
+
+            AddDomainEvent(new CreatedCollectionItemEvent(this));
         }
 
         public string Title { get; private set; }
@@ -44,6 +47,8 @@ namespace MyCollection.Domain.Entities
             {
                 Status = ECollectionStatus.UNAVAILABLE;
             }
+
+            AddDomainEvent(new LendItemDomainEvent(borrower.Id, this));
         }
 
         public void RecoveredItem(Borrower borrower)
@@ -75,7 +80,7 @@ namespace MyCollection.Domain.Entities
             return Location is null ? string.Empty : Location.Initials;
         }
 
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
         public DateTime? UpdateAt { get; }
     }
 }
