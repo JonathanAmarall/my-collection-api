@@ -3,7 +3,7 @@ using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Entities
 {
-    public class CollectionItem : AggregateRoot
+    public class CollectionItem : AggregateRoot, IAuditableEntity
     {
         private readonly List<Borrower> _borrowers = new();
 
@@ -41,9 +41,9 @@ namespace MyCollection.Domain.Entities
 
             Quantity--;
             if (Quantity == 0)
+            {
                 Status = ECollectionStatus.UNAVAILABLE;
-
-            UpdateAt = DateTime.Now;
+            }
         }
 
         public void RecoveredItem(Borrower borrower)
@@ -52,15 +52,12 @@ namespace MyCollection.Domain.Entities
 
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;
-            UpdateAt = DateTime.Now;
         }
 
         public void AddLocation(Location location)
         {
             LocationId = location.Id;
             Location = location;
-
-            UpdateAt = DateTime.Now;
         }
 
         public bool CanLend()
@@ -77,5 +74,8 @@ namespace MyCollection.Domain.Entities
         {
             return Location is null ? string.Empty : Location.Initials;
         }
+
+        public DateTime CreatedAt { get; }
+        public DateTime? UpdateAt { get; }
     }
 }

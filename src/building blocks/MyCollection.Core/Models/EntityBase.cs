@@ -1,11 +1,10 @@
 ﻿namespace MyCollection.Core.Models
 {
-    public abstract class EntityBase 
+    public abstract class EntityBase
     {
         protected EntityBase()
         {
             Id = Guid.NewGuid();
-            CreatedAt = DateTime.Now;
         }
 
         protected EntityBase(Guid id)
@@ -16,19 +15,15 @@
             }
 
             Id = id;
-            CreatedAt = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public DateTime? UpdateAt { get; protected set; }
 
-        public override bool Equals(object  other)
+
+        public override bool Equals(object other)
         {
-            var compareTo = other as EntityBase;
-
+            if (other is not EntityBase compareTo) return false;
             if (ReferenceEquals(this, compareTo)) return true;
-            if (ReferenceEquals(null, compareTo)) return false;
 
             return Id.Equals(compareTo.Id);
         }

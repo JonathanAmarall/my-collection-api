@@ -3,7 +3,7 @@ using MyCollection.Core.Contracts;
 
 namespace MyCollection.Domain.Entities
 {
-    public class Location : AggregateRoot
+    public class Location : AggregateRoot, IAuditableEntity
     {
         private List<Location> _childrens = new();
         private List<CollectionItem>? _colletionItems = new();
@@ -19,6 +19,8 @@ namespace MyCollection.Domain.Entities
         public string Initials { get; private set; }
         public string Description { get; private set; }
         public int Level { get; private set; }
+        public DateTime CreatedAt { get; }
+        public DateTime? UpdateAt { get; }
 
         // EF Rel.
         public ICollection<Location>? Childrens
@@ -47,7 +49,6 @@ namespace MyCollection.Domain.Entities
         public void AddChildrens(ICollection<Location> itemLocations)
         {
             _childrens.AddRange(itemLocations);
-            UpdateAt = DateTime.Now;
         }
 
         public void LinkACollectionItem(CollectionItem item)
