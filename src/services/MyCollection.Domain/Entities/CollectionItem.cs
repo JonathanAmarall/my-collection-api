@@ -49,7 +49,7 @@ namespace MyCollection.Domain.Entities
                 Status = ECollectionStatus.UNAVAILABLE;
             }
 
-            AddDomainEvent(new LendItemDomainEvent(borrower.Id, this));
+            AddDomainEvent(new RentItemDomainEvent(borrower.Id, this));
         }
 
         public void RecoveredItem(Borrower borrower)
