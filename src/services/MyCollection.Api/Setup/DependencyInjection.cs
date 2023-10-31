@@ -9,6 +9,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
+        services.AddScoped<IBorrowerRepository, BorrowerRepository>();
 
         services.AddApplication();
     }

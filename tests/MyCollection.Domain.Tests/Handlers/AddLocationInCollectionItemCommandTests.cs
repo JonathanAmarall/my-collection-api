@@ -39,7 +39,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new AddLocationInCollectionCommandHandler(_locationRepository.Object, _collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.True(result.IsSuccess);
@@ -61,7 +61,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new AddLocationInCollectionCommandHandler(_locationRepository.Object, _collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
@@ -78,7 +78,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new AddLocationInCollectionCommandHandler(_locationRepository.Object, _collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
@@ -103,7 +103,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new AddLocationInCollectionCommandHandler(_locationRepository.Object, _collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);

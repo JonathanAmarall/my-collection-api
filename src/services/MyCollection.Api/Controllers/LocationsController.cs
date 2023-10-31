@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCollection.Core.Messages.Commands;
-using MyCollection.Core.Models;
 using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
@@ -38,27 +37,35 @@ namespace MyCollection.Api.Controllers
         public async Task<ActionResult> Post([FromBody] CreateLocationCommand command,
             [FromServices] CreateLocationCommandHandler handler)
         {
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<Location>)await handler.HandleAsync(command);
             if (result.IsFailure)
+            {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
+            }
 
             return CustomReponse(result.Data);
         }
 
+        // TODO: Mover para Command/Handler
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id, [FromServices] ILocationRepository locationRepository)
         {
             var location = await locationRepository.GetByIdAsync(id);
-            if (location == null)
-                return BadRequest();
+            if (location is null)
+            {
+                return NotFound();
+            }
 
             if (location.HasChildren())
-                return BadRequest(new
-                    { Message = "Esta localização não pode ser excluída, pois possui Localizações pendentes." });
+            {
+                AddProcessingError("Esta localização não pode ser excluída, pois possui Localizações pendentes.");
+            }
 
             if (location.HasCollectionItem())
-                return BadRequest(new
-                    { Message = "Esta localização não pode ser excluída, pois possui Itens armazenados." });
+            {
+                AddProcessingError("Esta localização não pode ser excluída, pois possui Itens armazenados.");
+
+            }
 
             locationRepository.Delete(location);
             await locationRepository.UnitOfWork.Commit();

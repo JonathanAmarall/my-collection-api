@@ -1,8 +1,8 @@
-﻿using MyCollection.Domain.Commands;
-using MyCollection.Core.Contracts;
+﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Messages.Commands;
+using MyCollection.Domain.Commands;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Repositories;
-using MyCollection.Core.Messages.Commands;
 
 namespace MyCollection.Domain.Handler
 {
@@ -19,7 +19,7 @@ namespace MyCollection.Domain.Handler
         {
             if (!command.IsValid())
             {
-                return new CommandResult(false, "Ops, parece que há algo de errado.", command, command.ValidationResult);
+                return CommandResult<Location>.Failure("Ops, parece que há algo de errado.", command.ValidationResult);
             }
 
             int level = 0;
@@ -37,7 +37,7 @@ namespace MyCollection.Domain.Handler
             await _locationRepository.CreateAsync(location);
             await _locationRepository.UnitOfWork.Commit();
 
-            return new CommandResult(true, "Localização salva com sucesso.", location);
+            return CommandResult<Location>.Success("Localização salva com sucesso.", location);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Moq;
 using MyCollection.Core.Messages.Commands;
-using MyCollection.Core.Models;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
@@ -31,7 +30,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new CreateCollectionItemCommandHandler(collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -50,7 +49,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var handler = new CreateCollectionItemCommandHandler(collectionItemRepository.Object);
 
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             // Assert
             Assert.False(result.IsSuccess);

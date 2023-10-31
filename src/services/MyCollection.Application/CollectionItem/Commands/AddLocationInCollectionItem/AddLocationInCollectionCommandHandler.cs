@@ -1,8 +1,8 @@
-﻿using MyCollection.Domain.Commands;
-using MyCollection.Core.Contracts;
-using MyCollection.Domain.Repositories;
-using MyCollection.Core.Models;
+﻿using MyCollection.Core.Contracts;
 using MyCollection.Core.Messages.Commands;
+using MyCollection.Domain.Commands;
+using MyCollection.Domain.Entities;
+using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Domain.Handler
 {
@@ -21,29 +21,26 @@ namespace MyCollection.Domain.Handler
         {
             if (!command.IsValid())
             {
-                return new CommandResult(false, "Ops, parece que há algo de errado.", command,
-                    command.ValidationResult);
+                return CommandResult<CollectionItem>.Failure("Ops, parece que há algo de errado.", command.ValidationResult);
             }
-            
+
             var item = await _collectionItemRepository.GetByIdAsync(command.CollectionItemId);
             if (item is null)
             {
-                return new CommandResult(false, "Item não localizado. Verifique e tente novamente.", command,
-                    command.ValidationResult);
+                return CommandResult<CollectionItem>.Failure("Item não localizado. Verifique e tente novamente.", command.ValidationResult);
             }
 
             var location = await _locationRepository.GetByIdAsync(command.LocationId);
             if (location is null)
             {
-                return new CommandResult(false, "Localização inválida. Verifique e tente novamente.", command,
-                    command.ValidationResult);
+                return CommandResult<CollectionItem>.Failure("Localização inválida. Verifique e tente novamente.", command.ValidationResult);
             }
 
             item.AddLocation(location);
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();
 
-            return new CommandResult(true, "Localização adicionado com sucesso.", item, null);
+            return CommandResult<CollectionItem>.Success("Localização adicionado com sucesso.", item);
         }
     }
 }

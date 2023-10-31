@@ -19,8 +19,14 @@ namespace MyCollection.Api.Controllers
             [FromServices] ICollectionItemRepository collectionItemRepository,
             [FromQuery] QueryCollectionItemResponse query)
         {
-            var items = await collectionItemRepository.GetAllPagedAsync(query.GlobalFilter,
-                query.SortOrder, query.SortField, query.Status, query.Type, query.PageNumber, query.PageSize);
+            var items = await collectionItemRepository.GetAllPagedAsync(
+                query.GlobalFilter,
+                query.SortOrder,
+                query.SortField,
+                query.Status,
+                query.Type,
+                query.PageNumber,
+                query.PageSize);
 
             return Ok(items);
         }
@@ -29,8 +35,8 @@ namespace MyCollection.Api.Controllers
         public async Task<ActionResult> Post([FromBody] CreateCollectionItemCommand command,
             [FromServices] CreateCollectionItemCommandHandler handler)
         {
-            var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.IsSuccess)
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
+            if (result.IsFailure)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);
@@ -46,8 +52,8 @@ namespace MyCollection.Api.Controllers
             if (id != command.CollectionItemId)
                 return BadRequest();
 
-            var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.IsSuccess)
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
+            if (result.IsFailure)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);
@@ -60,12 +66,19 @@ namespace MyCollection.Api.Controllers
         public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
             [FromServices] AddLocationInCollectionCommandHandler handler, [FromServices] ICollectionItemRepository repository)
         {
-            var item = await repository.GetByIdAsync(id);
             if (id != command.CollectionItemId)
-                return BadRequest();
+            {
+                return NotFound();
+            }
 
-            var result = (CommandResult)await handler.HandleAsync(command);
-            if (!result.IsSuccess)
+            var item = await repository.GetByIdAsync(id);
+            if (item is null)
+            {
+                return NotFound();
+            }
+
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
+            if (result.IsFailure)
             {
                 result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
                 AddProcessingError(result.Message);
@@ -79,14 +92,6 @@ namespace MyCollection.Api.Controllers
             [FromServices] ILocationRepository locationRepository)
         {
             return Ok(new { Location = await locationRepository.GetFullLocationTag(id) });
-        }
-
-        [HttpGet("contacts")]
-        public async Task<ActionResult> GetContacts(
-            [FromServices] ICollectionItemRepository collectionItemRepository,
-            string? globalFilter, int pageNumber = 1, int pageSize = 5)
-        {
-            return Ok(await collectionItemRepository.GetAllContactsPagedAsync(globalFilter, pageNumber, pageSize));
         }
     }
 }

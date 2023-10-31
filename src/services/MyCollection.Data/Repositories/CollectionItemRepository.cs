@@ -28,27 +28,7 @@ namespace MyCollection.Data.Repositories
             _context.CollectionItems!.Remove(item);
         }
 
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
-
-        public async Task<PagedList<Borrower>> GetAllContactsPagedAsync(string? globalFilter, int pageNumber = 1, int pageSize = 5)
-        {
-            var query = _context.Borrowers!.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(globalFilter))
-            {
-                query = query.Where(x =>
-                                   x.Email.Value.ToUpper().Contains(globalFilter.ToUpper()) ||
-                                   x.FullName.ToUpper().Contains(globalFilter.ToUpper()) ||
-                                   x.Phone!.ToUpper().Contains(globalFilter.ToUpper())
-                               );
-            }
-            return await query.ToPagedListAsync(pageNumber, pageSize);
-        }
-
-        public async Task<Core.DTOs.PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
+        public async Task<PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.CollectionItems!.Include(c => c.Borrowers).AsQueryable();
 
@@ -84,16 +64,23 @@ namespace MyCollection.Data.Repositories
             return await _context.CollectionItems!.FirstOrDefaultAsync(x => x.Id == collectionItemId);
         }
 
-        public async Task<Borrower?> GetContactByIdAsync(Guid contactId)
-        {
-            return await _context.Borrowers!.FirstOrDefaultAsync(x => x.Id == contactId);
-        }
-
         public void Update(CollectionItem item)
         {
             _context.Entry(item).State = EntityState.Modified;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context?.Dispose();
+            }
+        }
     }
 }

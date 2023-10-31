@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using MyCollection.Core.Messages.Commands;
 using MyCollection.Domain.Commands;
@@ -14,11 +13,9 @@ namespace MyCollection.Domain.Tests.Handlers
 {
     public class CreateLocationCommandHandlerTests
     {
-        private readonly Fixture _fixture;
         private readonly Mock<ILocationRepository> _locationRepositoryMock;
         public CreateLocationCommandHandlerTests()
         {
-            _fixture = new Fixture();
             _locationRepositoryMock = new Mock<ILocationRepository>();
             _locationRepositoryMock.Setup(c => c.UnitOfWork.Commit(default))
                 .ReturnsAsync(true);
@@ -31,7 +28,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var validCommand = new CreateLocationCommand("CXA", "Caixa", null);
             var handler = new CreateLocationCommandHandler(_locationRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(validCommand);
+            var result = (CommandResult<Location>)await handler.HandleAsync(validCommand);
             // Arrange
             result.IsSuccess.Should().BeTrue();
             result.ValidationResult.Should().BeNull();
@@ -49,9 +46,9 @@ namespace MyCollection.Domain.Tests.Handlers
             _locationRepositoryMock.Setup(x => x.GetByIdAsync(validCommand.ParentId!.Value))
                 .ReturnsAsync(parentLocation);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(validCommand);
+            var result = (CommandResult<Location>)await handler.HandleAsync(validCommand);
             // Arrange
-            var resultDataLocation = result.Data as Location;
+            var resultDataLocation = result.Data;
             result.IsSuccess.Should().BeTrue();
             result.ValidationResult.Should().BeNull();
             resultDataLocation!.Level.Should().Be(parentLocation.Level + nextLevel);
@@ -64,7 +61,7 @@ namespace MyCollection.Domain.Tests.Handlers
             var validCommand = new CreateLocationCommand(string.Empty, string.Empty, null);
             var handler = new CreateLocationCommandHandler(_locationRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(validCommand);
+            var result = (CommandResult<Location>)await handler.HandleAsync(validCommand);
             // Arrange
             result.IsSuccess.Should().BeFalse();
             result.ValidationResult.Should().NotBeNull();

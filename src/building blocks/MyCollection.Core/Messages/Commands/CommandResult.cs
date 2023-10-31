@@ -1,11 +1,10 @@
 ﻿using FluentValidation.Results;
-using MyCollection.Core.Contracts;
 
 namespace MyCollection.Core.Messages.Commands
 {
-    public class CommandResult : ICommandResult
+    public class CommandResult<T> : ICommandResult
     {
-        public CommandResult(bool isSuccess, string message, object data, ValidationResult? validationResult = null)
+        public CommandResult(bool isSuccess, string message, T data, ValidationResult? validationResult = null)
         {
             ValidationResult = validationResult;
             Message = message;
@@ -16,7 +15,17 @@ namespace MyCollection.Core.Messages.Commands
         public ValidationResult? ValidationResult { get; private set; }
         public string Message { get; private set; }
         public bool IsSuccess { get; private set; }
-        public object Data { get; private set; }
+        public T Data { get; private set; }
         public bool IsFailure => !IsSuccess;
+
+        public static ICommandResult Failure(string message, ValidationResult? validationResult)
+        {
+            return new CommandResult<T>(false, message, default, validationResult);
+        }
+
+        public static ICommandResult Success(string message, T data)
+        {
+            return new CommandResult<T>(true, message, data);
+        }
     }
 }

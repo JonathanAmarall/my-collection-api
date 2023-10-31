@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MyCollection.Core.Contracts;
+﻿using MyCollection.Core.Contracts;
 using MyCollection.Core.Models;
 using MyCollection.Domain.ValueObjects;
 
 namespace MyCollection.Domain.Entities
 {
-    public class Borrower : EntityBase, IAuditableEntity
+    public class Borrower : AggregateRoot, IAuditableEntity
     {
         protected Borrower()
         {
@@ -27,11 +26,10 @@ namespace MyCollection.Domain.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public Address Address { get; private set; }
-
-
-        public CollectionItem CollectionItem { get; set; }
-
         public DateTime CreatedAt { get; }
         public DateTime? UpdateAt { get; }
+
+        // EF Rel.
+        public CollectionItem? CollectionItem { get; private set; }
     }
 }

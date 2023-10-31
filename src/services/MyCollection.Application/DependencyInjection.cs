@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MyCollection.Application.Borrower.Commands.CreateBorrower;
 using MyCollection.Domain.Handler;
+using System.Reflection;
 
 namespace MyCollection.Application;
 
@@ -14,8 +15,9 @@ public static class DependencyInjection
             .AddScoped<CreateCollectionItemCommandHandler>()
             .AddScoped<CreateLocationCommandHandler>()
             .AddScoped<LendCollectionItemCommandHandler>()
-            .AddScoped<AddLocationInCollectionCommandHandler>();
-            
+            .AddScoped<AddLocationInCollectionCommandHandler>()
+            .AddScoped<CreateBorrowerCommandHandler>();
+
         return services;
     }
 }

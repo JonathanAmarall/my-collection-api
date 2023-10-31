@@ -26,10 +26,6 @@ namespace MyCollection.Data.Repositories
             _context.Locations!.Remove(location);
         }
 
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
 
         public async Task<Location?> GetByIdAsync(Guid id)
         {
@@ -89,6 +85,20 @@ namespace MyCollection.Data.Repositories
         public void Update(Location location)
         {
             _context.Locations!.Update(location);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context?.Dispose();
+            }
         }
     }
 }

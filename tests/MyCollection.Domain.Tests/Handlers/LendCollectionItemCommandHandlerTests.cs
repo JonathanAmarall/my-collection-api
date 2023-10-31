@@ -5,7 +5,6 @@ using MyCollection.Domain.Handler;
 using MyCollection.Domain.Repositories;
 using MyCollection.Domain.Tests.Commands;
 using MyCollection.Domain.ValueObjects;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,11 +15,24 @@ namespace MyCollection.Domain.Tests.Handlers
     {
         private readonly CollectionItemCommandTestsFixture _fixture;
         private readonly Mock<ICollectionItemRepository> _collectionItemRepository;
+        private readonly Mock<IBorrowerRepository> _borrowerRepositoryMock;
+        private readonly Mock<ILocationRepository> _locationRepositoryMock;
 
         public LendCollectionItemCommandHandlerTests(CollectionItemCommandTestsFixture fixture)
         {
             _fixture = fixture;
+
             _collectionItemRepository = new Mock<ICollectionItemRepository>();
+            _collectionItemRepository.Setup(x => x.UnitOfWork.Commit(default))
+                .ReturnsAsync(true);
+
+            _borrowerRepositoryMock = new Mock<IBorrowerRepository>();
+            _borrowerRepositoryMock.Setup(x => x.UnitOfWork.Commit(default))
+                .ReturnsAsync(true);
+
+            _locationRepositoryMock = new Mock<ILocationRepository>();
+            _locationRepositoryMock.Setup(x => x.UnitOfWork.Commit(default))
+               .ReturnsAsync(true);
         }
 
         [Fact]
@@ -29,19 +41,15 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
-                .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
-                .ReturnsAsync(GenericContact());
 
-            var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit(default)).ReturnsAsync(true);
+            _borrowerRepositoryMock.Setup(c => c.GetByIdAsync(command.BorrowerId!))
+                .ReturnsAsync(GenericBorrower());
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.True(result.IsSuccess);
@@ -62,26 +70,18 @@ namespace MyCollection.Domain.Tests.Handlers
 
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
-                .ReturnsAsync(GenericContact());
 
-            var locationRepository = new Mock<ILocationRepository>();
-            locationRepository.Setup(c => c.UnitOfWork.Commit(default)).ReturnsAsync(true);
+            _borrowerRepositoryMock.Setup(c => c.GetByIdAsync(command.BorrowerId!))
+                .ReturnsAsync(GenericBorrower());
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
-        }
-
-        private static Borrower GenericContact()
-        {
-            return new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
-                "", new Address("Rua tal", "9846000", "Los Angeles", "312"));
         }
 
         [Fact]
@@ -94,9 +94,9 @@ namespace MyCollection.Domain.Tests.Handlers
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(null as CollectionItem);
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
@@ -115,9 +115,9 @@ namespace MyCollection.Domain.Tests.Handlers
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem(0));
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
@@ -131,17 +131,15 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
-                .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
+
+            _borrowerRepositoryMock.Setup(c => c.GetByIdAsync(command.BorrowerId!))
                 .ReturnsAsync(null as Borrower);
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
-
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
@@ -154,21 +152,27 @@ namespace MyCollection.Domain.Tests.Handlers
             // Arrange
             var command = _fixture.GenerateLendCollectionItemCommandWithoutContactIdValid();
 
-            _collectionItemRepository.Setup(c => c.UnitOfWork.Commit(default))
-                .ReturnsAsync(true);
             _collectionItemRepository.Setup(c => c.GetByIdAsync(command.CollectionItemId))
                 .ReturnsAsync(GenericCollectionItem());
-            _collectionItemRepository.Setup(c => c.GetContactByIdAsync((Guid)command.BorrowerId!))
-                .ReturnsAsync(GenericContact());
 
-            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object);
+            _borrowerRepositoryMock.Setup(c => c.GetByIdAsync(command.BorrowerId!))
+                .ReturnsAsync(GenericBorrower());
+
+            var handler = new LendCollectionItemCommandHandler(_collectionItemRepository.Object, _borrowerRepositoryMock.Object);
             // Act
-            var result = (CommandResult)await handler.HandleAsync(command);
+            var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
 
             //Assert
             Assert.False(result.IsSuccess);
             _collectionItemRepository.Verify(r => r.Update(It.IsAny<CollectionItem>()), Times.Never);
             _collectionItemRepository.Verify(r => r.UnitOfWork.Commit(default), Times.Never);
         }
+
+        private static Borrower GenericBorrower()
+        {
+            return new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312"));
+        }
+
     }
 }
