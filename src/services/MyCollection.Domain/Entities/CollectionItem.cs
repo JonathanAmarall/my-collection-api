@@ -25,9 +25,10 @@ namespace MyCollection.Domain.Entities
         public string Autor { get; private set; }
         public int Quantity { get; private set; }
         public string? Edition { get; private set; }
-
         public EType ItemType { get; private set; }
         public ECollectionStatus Status { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; }
 
         // EF Rel.
         public ICollection<Borrower> Borrowers
@@ -80,7 +81,5 @@ namespace MyCollection.Domain.Entities
             return Location is null ? string.Empty : Location.Initials;
         }
 
-        public DateTime CreatedAt { get; private set; }
-        public DateTime? UpdateAt { get; }
     }
 }

@@ -26,10 +26,11 @@ namespace MyCollection.Domain.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public Address Address { get; private set; }
-        public DateTime CreatedAt { get; }
-        public DateTime? UpdateAt { get; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; }
 
         // EF Rel.
+        public Guid? CollectionItemId { get; private set; }
         public CollectionItem? CollectionItem { get; private set; }
     }
 }

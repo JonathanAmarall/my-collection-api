@@ -29,6 +29,8 @@ namespace MyCollection.Data.Configuration
                 .HasForeignKey(x => x.LocationId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Property(x => x.CreatedAt);
+            builder.Property(x => x.UpdatedAt);
         }
     }
 }

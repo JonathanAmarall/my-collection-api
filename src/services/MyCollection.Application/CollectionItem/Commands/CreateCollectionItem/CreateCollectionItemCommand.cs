@@ -1,14 +1,13 @@
-﻿using MyCollection.Core.Contracts;
-using FluentValidation.Results;
-using System.Text.Json.Serialization;
+﻿using FluentValidation.Results;
 using MyCollection.Core.Messages.Commands;
+using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain
 {
     public class CreateCollectionItemCommand : ICommand
     {
         [JsonIgnore]
-        internal ValidationResult? ValidationResult { get;  set; }
+        internal ValidationResult? ValidationResult { get; set; }
 
         public CreateCollectionItemCommand(string title, string autor, int quantity, string? edition, int itemType)
         {

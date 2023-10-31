@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MyCollection.Core.Exceptions;
+using MyCollection.Core.Models;
 using System.Net;
 using System.Text.Json;
 
@@ -51,7 +52,7 @@ public class ExceptionHandlerMiddleware
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        string response = JsonSerializer.Serialize(errors, serializerOptions);
+        string response = JsonSerializer.Serialize(new ApiErrorResponse(errors.ToList()), serializerOptions);
 
         await httpContext.Response.WriteAsync(response);
     }

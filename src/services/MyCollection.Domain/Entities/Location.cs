@@ -1,5 +1,5 @@
-﻿using MyCollection.Core.Models;
-using MyCollection.Core.Contracts;
+﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Models;
 
 namespace MyCollection.Domain.Entities
 {
@@ -20,7 +20,7 @@ namespace MyCollection.Domain.Entities
         public string Description { get; private set; }
         public int Level { get; private set; }
         public DateTime CreatedAt { get; }
-        public DateTime? UpdateAt { get; }
+        public DateTime? UpdatedAt { get; }
 
         // EF Rel.
         public ICollection<Location>? Childrens

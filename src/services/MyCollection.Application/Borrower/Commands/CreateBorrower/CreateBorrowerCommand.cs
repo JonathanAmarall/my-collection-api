@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 using MyCollection.Core.Messages.Commands;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MyCollection.Application.Borrower.Commands.CreateBorrower
 {

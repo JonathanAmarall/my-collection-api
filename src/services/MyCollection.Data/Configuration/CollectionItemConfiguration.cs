@@ -37,8 +37,12 @@ namespace MyCollection.Data.Configuration
 
             builder.HasMany(item => item.Borrowers)
                 .WithOne(b => b.CollectionItem)
+                .HasForeignKey(item => item.CollectionItemId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasForeignKey(item => item.Id);
+                .IsRequired(false);
+
+            builder.Property(x => x.CreatedAt);
+            builder.Property(x => x.UpdatedAt);
         }
     }
 }

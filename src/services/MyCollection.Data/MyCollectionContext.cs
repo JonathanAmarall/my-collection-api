@@ -56,7 +56,7 @@ namespace MyCollection.Data
 
                 if (entityEntry.State == EntityState.Modified)
                 {
-                    entityEntry.Property(nameof(IAuditableEntity.UpdateAt)).CurrentValue = utcNow;
+                    entityEntry.Property(nameof(IAuditableEntity.UpdatedAt)).CurrentValue = utcNow;
                 }
             }
         }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using MyCollection.Core.Models;
 using System.Security.Claims;
 
 
@@ -8,7 +10,7 @@ namespace MyCollection.Api.Controllers
     [ApiController]
     public abstract class MainController : ControllerBase
     {
-        protected ICollection<string> Errors = new List<string>();
+        protected ApiErrorResponse ApiErrorResponse { get; private set; } = new();
 
         protected ActionResult CustomReponse(object result = null!)
         {
@@ -17,10 +19,7 @@ namespace MyCollection.Api.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
-            {
-                {"Messages", Errors.ToArray() }
-            }));
+            return BadRequest(ApiErrorResponse);
         }
 
         protected ActionResult CustomReponse(ModelStateDictionary modelState)
@@ -37,17 +36,30 @@ namespace MyCollection.Api.Controllers
 
         protected void AddProcessingError(string error)
         {
-            Errors.Add(error);
+            ApiErrorResponse.AddError(error);
+        }
+
+        protected void AddProcessingErrors(List<string> errors)
+        {
+            ApiErrorResponse = new ApiErrorResponse(errors);
+        }
+
+        protected void AddProcessingErrors(ValidationResult validationResult)
+        {
+            validationResult.Errors
+                .ToList().
+                ForEach(e =>
+                AddProcessingError(e.ErrorMessage));
         }
 
         protected void ClearProcessingErrors()
         {
-            Errors.Clear();
+            ApiErrorResponse.Response.Clear();
         }
 
         protected bool OperationValid()
         {
-            return !Errors.Any();
+            return !ApiErrorResponse.HasErrors();
         }
 
         protected Guid GetUserId()
@@ -62,6 +74,5 @@ namespace MyCollection.Api.Controllers
 
             return result;
         }
-
     }
 }

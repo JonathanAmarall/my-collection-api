@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyCollection.Api.Dto;
+using MyCollection.Api.Models.Request;
 using MyCollection.Core.DTOs;
 using MyCollection.Core.Messages.Commands;
 using MyCollection.Domain;
@@ -12,12 +12,12 @@ namespace MyCollection.Api.Controllers
 {
     [Route("api/v1/collection-items")]
     [ApiController]
-    public class CollectionItemController : MainController
+    public class CollectionItemsController : MainController
     {
         [HttpGet]
         public async Task<ActionResult<PagedList<CollectionItem>>> Get(
             [FromServices] ICollectionItemRepository collectionItemRepository,
-            [FromQuery] QueryCollectionItemResponse query)
+            [FromQuery] GetAllPagedCollectionItemQueryRequest query)
         {
             var items = await collectionItemRepository.GetAllPagedAsync(
                 query.GlobalFilter,
@@ -55,7 +55,7 @@ namespace MyCollection.Api.Controllers
             var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
             if (result.IsFailure)
             {
-                result.ValidationResult?.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
+                AddProcessingErrors(result.ValidationResult!);
                 AddProcessingError(result.Message);
             }
 

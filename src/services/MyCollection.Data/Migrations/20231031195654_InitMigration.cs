@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyCollection.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigrate : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,9 +19,9 @@ namespace MyCollection.Data.Migrations
                     Initials = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Level = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,9 +44,9 @@ namespace MyCollection.Data.Migrations
                     Edition = table.Column<string>(type: "text", nullable: true),
                     ItemType = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    LocationId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,18 +72,24 @@ namespace MyCollection.Data.Migrations
                     City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Number = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CollectionItemId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Borrowers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Borrowers_CollectionItems_Id",
-                        column: x => x.Id,
+                        name: "FK_Borrowers_CollectionItems_CollectionItemId",
+                        column: x => x.CollectionItemId,
                         principalTable: "CollectionItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Borrowers_CollectionItemId",
+                table: "Borrowers",
+                column: "CollectionItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CollectionItems_LocationId",

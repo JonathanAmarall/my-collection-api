@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCollection.Application.Tests", "tests\MyCollection.Application.Tests\MyCollection.Application.Tests.csproj", "{13E9B18D-52E5-46B6-91B4-7CFAA82CE697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCollection.Application", "src\services\MyCollection.Application\MyCollection.Application.csproj", "{F7BD1CE7-9048-4143-91A5-CD836759AA0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCollection.Application", "src\services\MyCollection.Application\MyCollection.Application.csproj", "{F7BD1CE7-9048-4143-91A5-CD836759AA0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{94B44AB4-04A7-468B-B7E2-50C077E008ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,7 @@ Global
 		{947EE356-F75C-451D-87D0-45833BC07CAB} = {9234AFFE-18F3-4B28-B888-3ED48B0586D9}
 		{13E9B18D-52E5-46B6-91B4-7CFAA82CE697} = {7B9CF376-DF58-416F-A6A7-C023E044C8EA}
 		{F7BD1CE7-9048-4143-91A5-CD836759AA0A} = {EEB2C3D6-B7EA-48D2-A492-947BDBC4BF4C}
+		{94B44AB4-04A7-468B-B7E2-50C077E008ED} = {9234AFFE-18F3-4B28-B888-3ED48B0586D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {412F4AA7-0950-4313-B2C3-A54F809FB690}

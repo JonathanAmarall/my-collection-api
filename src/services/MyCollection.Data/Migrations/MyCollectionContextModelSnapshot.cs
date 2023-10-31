@@ -25,6 +25,10 @@ namespace MyCollection.Data.Migrations
             modelBuilder.Entity("MyCollection.Domain.Entities.Borrower", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CollectionItemId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -42,10 +46,12 @@ namespace MyCollection.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdateAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionItemId");
 
                     b.ToTable("Borrowers");
                 });
@@ -88,7 +94,7 @@ namespace MyCollection.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-                    b.Property<DateTime?>("UpdateAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
@@ -125,7 +131,7 @@ namespace MyCollection.Data.Migrations
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("UpdateAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
@@ -137,11 +143,10 @@ namespace MyCollection.Data.Migrations
 
             modelBuilder.Entity("MyCollection.Domain.Entities.Borrower", b =>
                 {
-                    b.HasOne("MyCollection.Domain.Entities.CollectionItem", null)
+                    b.HasOne("MyCollection.Domain.Entities.CollectionItem", "CollectionItem")
                         .WithMany("Borrowers")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .HasForeignKey("CollectionItemId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.OwnsOne("MyCollection.Domain.ValueObjects.Address", "Address", b1 =>
                         {
@@ -201,6 +206,8 @@ namespace MyCollection.Data.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("CollectionItem");
 
                     b.Navigation("Email")
                         .IsRequired();
