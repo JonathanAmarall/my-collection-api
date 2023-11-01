@@ -6,9 +6,7 @@ namespace MyCollection.Domain.Entities
 {
     public class Borrower : AggregateRoot, IAuditableEntity
     {
-        protected Borrower()
-        {
-        }
+        protected Borrower() { }
 
         public Borrower(string firstName, string lastName, Email email, string phone, Address address)
         {
@@ -28,9 +26,5 @@ namespace MyCollection.Domain.Entities
         public Address Address { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; }
-
-        // EF Rel.
-        public Guid? CollectionItemId { get; private set; }
-        public CollectionItem? CollectionItem { get; private set; }
     }
 }

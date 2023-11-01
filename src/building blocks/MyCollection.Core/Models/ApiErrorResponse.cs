@@ -19,15 +19,9 @@
 
         public bool HasErrors() => Errors.Count > 0;
 
-        public void AddErrors()
-        {
-            _response.Add(Message, Errors.ToArray());
-        }
-
         public void AddError(string error)
         {
             Errors.Add(error);
-            _response.Add(Message, Errors.ToArray());
         }
     }
 }

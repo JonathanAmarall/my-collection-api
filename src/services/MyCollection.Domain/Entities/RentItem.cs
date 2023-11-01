@@ -9,7 +9,7 @@ namespace MyCollection.Domain.Entities
     {
         private const int RentDueInDays = 5;
 
-        public RentItem(int rentedQuantity, CollectionItem collectionItem, Borrower borrower)
+        public RentItem(int rentedQuantity, Guid collectionItemId, Guid borrowerId)
         {
             if (rentedQuantity <= 0)
             {
@@ -18,10 +18,8 @@ namespace MyCollection.Domain.Entities
 
             RentDueDate = DateTime.Now.AddDays(RentDueInDays);
             RentedQuantity = rentedQuantity;
-            CollectionItemId = collectionItem.Id;
-            CollectionItem = collectionItem;
-            BorrowerId = borrower.Id;
-            Borrower = borrower;
+            CollectionItemId = collectionItemId;
+            BorrowerId = borrowerId;
         }
 
         public int RentedQuantity { get; private set; }
@@ -30,10 +28,10 @@ namespace MyCollection.Domain.Entities
         public DateTime RentDueDate { get; private set; }
 
         public Guid CollectionItemId { get; private set; }
-        public CollectionItem CollectionItem { get; private set; }
+        public CollectionItem CollectionItem { get; private set; } = null;
 
         public Guid BorrowerId { get; private set; }
-        public Borrower Borrower { get; private set; }
+        public Borrower Borrower { get; private set; } = null;
 
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; }

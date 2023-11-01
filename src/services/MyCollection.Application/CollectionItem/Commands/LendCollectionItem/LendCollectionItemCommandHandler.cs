@@ -41,7 +41,7 @@ namespace MyCollection.Domain.Handler
                 return CommandResult<CollectionItem>.Failure("Contato informado é inválido. Por favor, verifique e tente novamente", null);
             }
 
-            item.LendOneItem(borrower);
+            item.LendOneItem(borrower, command.RentQuantity);
 
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();

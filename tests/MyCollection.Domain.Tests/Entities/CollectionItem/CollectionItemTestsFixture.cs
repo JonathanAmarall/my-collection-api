@@ -33,7 +33,8 @@ namespace MyCollection.Domain.Tests
         {
             var item = new CollectionItem("Livro Teste", "John Doe", quantity, "Deluxe", EType.BOOK);
             item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
-                "", new Address("Rua tal", "9846000", "Los Angeles", "312")));
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312")),
+                1);
             return item;
         }
 

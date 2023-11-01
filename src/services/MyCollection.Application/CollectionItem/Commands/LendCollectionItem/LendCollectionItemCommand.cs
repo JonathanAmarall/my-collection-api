@@ -9,14 +9,16 @@ namespace MyCollection.Domain.Commands
         [JsonIgnore]
         public ValidationResult? ValidationResult { get; set; }
 
-        public LendCollectionItemCommand(Guid collectionItemId, Guid borrowerId)
+        public LendCollectionItemCommand(Guid collectionItemId, Guid borrowerId, int rentQuantity)
         {
             CollectionItemId = collectionItemId;
             BorrowerId = borrowerId;
+            RentQuantity = rentQuantity;
         }
 
         public Guid CollectionItemId { get; private set; }
         public Guid BorrowerId { get; private set; }
+        public int RentQuantity { get; private set; }
 
         public bool IsValid()
         {

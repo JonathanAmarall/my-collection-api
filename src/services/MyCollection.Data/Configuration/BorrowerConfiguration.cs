@@ -50,11 +50,6 @@ namespace MyCollection.Data.Configuration
 
             builder.Property(x => x.Phone).IsRequired();
 
-            builder.HasOne(b => b.CollectionItem)
-                .WithMany(item => item.Borrowers)
-                .HasForeignKey(b => b.CollectionItemId)
-                .IsRequired(false);
-
             builder.Ignore(x => x.FullName);
 
             builder.Property(x => x.CreatedAt);

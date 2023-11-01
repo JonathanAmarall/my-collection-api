@@ -1,4 +1,5 @@
 ﻿using MyCollection.Core.Contracts;
+using MyCollection.Core.Exceptions;
 using MyCollection.Core.Models;
 using MyCollection.Domain.Events;
 
@@ -6,8 +7,6 @@ namespace MyCollection.Domain.Entities
 {
     public class CollectionItem : AggregateRoot, IAuditableEntity
     {
-        private readonly List<Borrower> _borrowers = new();
-
         public CollectionItem(string title, string autor, int quantity, string? edition, EType itemType)
         {
             Title = title;
@@ -31,33 +30,32 @@ namespace MyCollection.Domain.Entities
         public DateTime? UpdatedAt { get; }
 
         // EF Rel.
-        public ICollection<Borrower> Borrowers
-        {
-            get => _borrowers;
-        }
-
         public Guid? LocationId { get; private set; }
         public Location? Location { get; private set; }
+        public IReadOnlyCollection<RentItem>? Rentals { get; private set; } = new List<RentItem>();
 
-        public void LendOneItem(Borrower borrower)
+        public void LendOneItem(Borrower borrower, int rentQuantity)
         {
-            _borrowers.Add(borrower);
+            if (rentQuantity > Quantity)
+            {
+                throw new DomainException("Quantity for rent unavailable.");
+            }
 
             Quantity--;
+
             if (Quantity == 0)
             {
                 Status = ECollectionStatus.UNAVAILABLE;
             }
 
-            AddDomainEvent(new RentItemDomainEvent(borrower.Id, this));
+            AddDomainEvent(new RentItemDomainEvent(borrower.Id, this, rentQuantity));
         }
 
         public void RecoveredItem(Borrower borrower)
         {
-            _borrowers?.Remove(borrower);
-
             Quantity++;
             Status = ECollectionStatus.AVAILABLE;
+            // TODO: Disparar evento
         }
 
         public void AddLocation(Location location)
@@ -80,6 +78,5 @@ namespace MyCollection.Domain.Entities
         {
             return Location is null ? string.Empty : Location.Initials;
         }
-
     }
 }

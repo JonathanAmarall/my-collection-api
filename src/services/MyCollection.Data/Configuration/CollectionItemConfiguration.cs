@@ -35,7 +35,7 @@ namespace MyCollection.Data.Configuration
                 .HasForeignKey(item => item.Id)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasMany(item => item.Borrowers)
+            builder.HasMany(item => item.Rentals)
                 .WithOne(b => b.CollectionItem)
                 .HasForeignKey(item => item.CollectionItemId)
                 .OnDelete(DeleteBehavior.SetNull)

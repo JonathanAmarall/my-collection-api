@@ -6,11 +6,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyCollection.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMigration : Migration
+    public partial class InitMigrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Borrowers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Street = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    PostalCode = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
+                    City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Number = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Borrowers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
@@ -59,37 +80,34 @@ namespace MyCollection.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Borrowers",
+                name: "RentItem",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    PostalCode = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
-                    City = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Number = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    RentedQuantity = table.Column<int>(type: "integer", nullable: false),
+                    QuantityReturned = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    RentDueDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CollectionItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BorrowerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    CollectionItemId = table.Column<Guid>(type: "uuid", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Borrowers", x => x.Id);
+                    table.PrimaryKey("PK_RentItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Borrowers_CollectionItems_CollectionItemId",
+                        name: "FK_RentItem_Borrowers_BorrowerId",
+                        column: x => x.BorrowerId,
+                        principalTable: "Borrowers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentItem_CollectionItems_CollectionItemId",
                         column: x => x.CollectionItemId,
                         principalTable: "CollectionItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Borrowers_CollectionItemId",
-                table: "Borrowers",
-                column: "CollectionItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CollectionItems_LocationId",
@@ -100,11 +118,24 @@ namespace MyCollection.Data.Migrations
                 name: "IX_Locations_ParentId",
                 table: "Locations",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentItem_BorrowerId",
+                table: "RentItem",
+                column: "BorrowerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentItem_CollectionItemId",
+                table: "RentItem",
+                column: "CollectionItemId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "RentItem");
+
             migrationBuilder.DropTable(
                 name: "Borrowers");
 

@@ -42,7 +42,8 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
                Guid.NewGuid(),
-               Guid.NewGuid());
+               Guid.NewGuid(),
+               1);
 
             return command;
         }
@@ -51,7 +52,8 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
                Guid.NewGuid(),
-               Guid.Empty);
+               Guid.Empty,
+               1);
 
             return command;
         }
@@ -60,7 +62,8 @@ namespace MyCollection.Domain.Tests.Commands
         {
             var command = new LendCollectionItemCommand(
               Guid.Empty,
-              Guid.Empty);
+              Guid.Empty,
+              -12);
 
             return command;
         }

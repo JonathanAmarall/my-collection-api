@@ -28,9 +28,6 @@ namespace MyCollection.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CollectionItemId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -50,8 +47,6 @@ namespace MyCollection.Data.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CollectionItemId");
 
                     b.ToTable("Borrowers");
                 });
@@ -141,13 +136,46 @@ namespace MyCollection.Data.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("MyCollection.Domain.Entities.RentItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BorrowerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CollectionItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("QuantityReturned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateTime>("RentDueDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("RentedQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BorrowerId");
+
+                    b.HasIndex("CollectionItemId");
+
+                    b.ToTable("RentItem");
+                });
+
             modelBuilder.Entity("MyCollection.Domain.Entities.Borrower", b =>
                 {
-                    b.HasOne("MyCollection.Domain.Entities.CollectionItem", "CollectionItem")
-                        .WithMany("Borrowers")
-                        .HasForeignKey("CollectionItemId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.OwnsOne("MyCollection.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("BorrowerId")
@@ -207,8 +235,6 @@ namespace MyCollection.Data.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("CollectionItem");
-
                     b.Navigation("Email")
                         .IsRequired();
                 });
@@ -233,9 +259,28 @@ namespace MyCollection.Data.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("MyCollection.Domain.Entities.RentItem", b =>
+                {
+                    b.HasOne("MyCollection.Domain.Entities.Borrower", "Borrower")
+                        .WithMany()
+                        .HasForeignKey("BorrowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCollection.Domain.Entities.CollectionItem", "CollectionItem")
+                        .WithMany("Rentals")
+                        .HasForeignKey("CollectionItemId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Borrower");
+
+                    b.Navigation("CollectionItem");
+                });
+
             modelBuilder.Entity("MyCollection.Domain.Entities.CollectionItem", b =>
                 {
-                    b.Navigation("Borrowers");
+                    b.Navigation("Rentals");
                 });
 
             modelBuilder.Entity("MyCollection.Domain.Entities.Location", b =>

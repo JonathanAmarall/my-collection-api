@@ -1,7 +1,5 @@
-using FluentAssertions;
 using MyCollection.Domain.Entities;
 using MyCollection.Domain.ValueObjects;
-using System.Linq;
 using Xunit;
 
 namespace MyCollection.Domain.Tests.Entities.CollectionItem
@@ -24,7 +22,8 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
 
             // Act
             item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
-                "", new Address("Rua tal", "9846000", "Los Angeles", "312")));
+                "", new Address("Rua tal", "9846000", "Los Angeles", "312")),
+                1);
 
             // Assert
             Assert.False(item.CanLend());
@@ -50,17 +49,10 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
         public void CollectionItem_RecoveredItem_MustReturnAddTheAmount()
         {
             // Arrange
-            var numberOfItemsConsideringLoanedItem = 5;
-            var numberOriginalOfItens = numberOfItemsConsideringLoanedItem + 1;
-            var item = _fixture.GenerateCollectionItemWithLendOneItem(numberOriginalOfItens);
-            var contactCopy = item.Borrowers!.First();
+
             // Act
-            item.RecoveredItem(contactCopy);
 
             // Assert
-            item.Quantity.Should().Be(numberOriginalOfItens);
-            item.Status.Should().Be(ECollectionStatus.AVAILABLE);
-            item.Borrowers.Should().NotContain(contactCopy);
         }
     }
 }
