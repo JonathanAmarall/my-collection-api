@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationEvents\Borrowers\" />
-    <Folder Include="Tasks\" />
-    <Folder Include="Services\" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyCollection.Core\MyCollection.Core.csproj" />
   </ItemGroup>
 
 </Project>

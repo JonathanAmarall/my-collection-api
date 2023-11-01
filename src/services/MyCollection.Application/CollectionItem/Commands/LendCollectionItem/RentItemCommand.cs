@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace MyCollection.Domain.Commands
 {
-    public class LendCollectionItemCommand : ICommand
+    public class RentItemCommand : ICommand
     {
         [JsonIgnore]
         public ValidationResult? ValidationResult { get; set; }
 
-        public LendCollectionItemCommand(Guid collectionItemId, Guid borrowerId, int rentQuantity)
+        public RentItemCommand(Guid collectionItemId, Guid borrowerId, int rentQuantity)
         {
             CollectionItemId = collectionItemId;
             BorrowerId = borrowerId;

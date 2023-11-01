@@ -34,7 +34,7 @@ namespace MyCollection.Domain.Entities
         public Location? Location { get; private set; }
         public IReadOnlyCollection<RentItem>? Rentals { get; private set; } = new List<RentItem>();
 
-        public void LendOneItem(Borrower borrower, int rentQuantity)
+        public void RentItem(Borrower borrower, int rentQuantity)
         {
             if (rentQuantity > Quantity)
             {

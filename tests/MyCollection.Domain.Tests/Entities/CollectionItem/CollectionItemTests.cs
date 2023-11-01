@@ -21,7 +21,7 @@ namespace MyCollection.Domain.Tests.Entities.CollectionItem
             var item = _fixture.GenerateCollectionItemValid();
 
             // Act
-            item.LendOneItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
+            item.RentItem(new Borrower("Maria Doe", "maria@mail.com", Email.Create("johndoe@mail.com"),
                 "", new Address("Rua tal", "9846000", "Los Angeles", "312")),
                 1);
 

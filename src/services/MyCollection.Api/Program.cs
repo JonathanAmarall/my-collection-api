@@ -10,7 +10,7 @@ builder.Services.AddCorsConfiguration();
 builder.Services.AddApiConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
-builder.Services.AddDependencies();
+builder.Services.AddDependencies(builder.Configuration);
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy())
@@ -23,7 +23,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {

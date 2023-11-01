@@ -38,9 +38,9 @@ namespace MyCollection.Domain.Tests.Commands
             return command;
         }
 
-        public LendCollectionItemCommand GenerateLendCollectionItemCommandValid()
+        public RentItemCommand GenerateLendCollectionItemCommandValid()
         {
-            var command = new LendCollectionItemCommand(
+            var command = new RentItemCommand(
                Guid.NewGuid(),
                Guid.NewGuid(),
                1);
@@ -48,9 +48,9 @@ namespace MyCollection.Domain.Tests.Commands
             return command;
         }
 
-        public LendCollectionItemCommand GenerateLendCollectionItemCommandWithoutContactIdValid()
+        public RentItemCommand GenerateLendCollectionItemCommandWithoutContactIdValid()
         {
-            var command = new LendCollectionItemCommand(
+            var command = new RentItemCommand(
                Guid.NewGuid(),
                Guid.Empty,
                1);
@@ -58,9 +58,9 @@ namespace MyCollection.Domain.Tests.Commands
             return command;
         }
 
-        public LendCollectionItemCommand GenerateLendCollectionItemCommandInvalid()
+        public RentItemCommand GenerateLendCollectionItemCommandInvalid()
         {
-            var command = new LendCollectionItemCommand(
+            var command = new RentItemCommand(
               Guid.Empty,
               Guid.Empty,
               -12);

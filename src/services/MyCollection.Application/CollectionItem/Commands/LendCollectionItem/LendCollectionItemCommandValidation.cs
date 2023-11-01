@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace MyCollection.Domain.Commands
 {
-    public class LendCollectionItemCommandValidation : AbstractValidator<LendCollectionItemCommand>
+    public class LendCollectionItemCommandValidation : AbstractValidator<RentItemCommand>
     {
         public LendCollectionItemCommandValidation()
         {

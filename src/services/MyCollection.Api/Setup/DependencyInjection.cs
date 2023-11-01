@@ -1,16 +1,15 @@
 ﻿using MyCollection.Application;
-using MyCollection.Data.Repositories;
-using MyCollection.Domain.Repositories;
+using MyCollection.Data;
+using MyCollection.MessageBus;
 
 namespace MyCollection.Api.Setup;
 public static class DependencyInjection
 {
-    public static void AddDependencies(this IServiceCollection services)
+    public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
-        services.AddScoped<ILocationRepository, LocationRepository>();
-        services.AddScoped<IBorrowerRepository, BorrowerRepository>();
-
-        services.AddApplication();
+        services
+            .AddData(configuration)
+            .AddApplication()
+            .AddMessageBus(configuration);
     }
 }

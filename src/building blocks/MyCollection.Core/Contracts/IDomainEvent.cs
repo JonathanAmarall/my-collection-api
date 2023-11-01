@@ -2,5 +2,5 @@ using MediatR;
 
 namespace MyCollection.Core.Contracts
 {
-    public interface IDomainEvent : INotification {}
+    public interface IDomainEvent : INotification { }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyCollection.Data;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace MyCollection.Api.Setup
 {
@@ -12,13 +10,6 @@ namespace MyCollection.Api.Setup
             {
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-
-            services.AddDbContext<MyCollectionContext>(options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-            });
-
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }
 }

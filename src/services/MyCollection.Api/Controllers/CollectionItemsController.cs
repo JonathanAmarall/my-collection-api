@@ -46,7 +46,7 @@ namespace MyCollection.Api.Controllers
         }
 
         [HttpPost("{id:guid}/lend")]
-        public async Task<ActionResult> Post(Guid id, [FromBody] LendCollectionItemCommand command,
+        public async Task<ActionResult> Post(Guid id, [FromBody] RentItemCommand command,
             [FromServices] LendCollectionItemCommandHandler handler)
         {
             if (id != command.CollectionItemId)

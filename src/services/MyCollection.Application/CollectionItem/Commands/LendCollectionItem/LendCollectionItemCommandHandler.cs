@@ -6,7 +6,7 @@ using MyCollection.Domain.Repositories;
 
 namespace MyCollection.Domain.Handler
 {
-    public class LendCollectionItemCommandHandler : IHandlerAsync<LendCollectionItemCommand>
+    public class LendCollectionItemCommandHandler : IHandlerAsync<RentItemCommand>
     {
         private readonly ICollectionItemRepository _collectionItemRepository;
         private readonly IBorrowerRepository _borrowerRepository;
@@ -17,7 +17,7 @@ namespace MyCollection.Domain.Handler
             _borrowerRepository = borrowerRepository;
         }
 
-        public async Task<ICommandResult> HandleAsync(LendCollectionItemCommand command)
+        public async Task<ICommandResult> HandleAsync(RentItemCommand command)
         {
             if (!command.IsValid())
             {
@@ -41,7 +41,7 @@ namespace MyCollection.Domain.Handler
                 return CommandResult<CollectionItem>.Failure("Contato informado é inválido. Por favor, verifique e tente novamente", null);
             }
 
-            item.LendOneItem(borrower, command.RentQuantity);
+            item.RentItem(borrower, command.RentQuantity);
 
             _collectionItemRepository.Update(item);
             await _collectionItemRepository.UnitOfWork.Commit();

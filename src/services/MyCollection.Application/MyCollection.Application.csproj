@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
+    <ProjectReference Include="..\..\building blocks\MyCollection.MessageBus\MyCollection.MessageBus.csproj" />
     <ProjectReference Include="..\MyCollection.Domain\MyCollection.Domain.csproj" />
   </ItemGroup>
 </Project>

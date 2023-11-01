@@ -26,7 +26,7 @@ public class ExceptionHandlerMiddleware
             // Call the next delegate/middleware in the pipeline.
             await _next(context);
         }
-        catch (PropertyQueryNullException ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex, "An exception occurred: {Message}", ex.Message);
             await HandleExceptionAsync(context, ex);
