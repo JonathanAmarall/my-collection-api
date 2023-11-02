@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationEvents\Borrowers\" />
     <Folder Include="Tasks\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
+    <ProjectReference Include="..\MyCollection.Application\MyCollection.Application.csproj" />
   </ItemGroup>
 
 </Project>
