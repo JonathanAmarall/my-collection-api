@@ -1,19 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Tasks\" />
-    <Folder Include="Services\" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\building blocks\MyCollection.Core\MyCollection.Core.csproj" />
     <ProjectReference Include="..\MyCollection.Application\MyCollection.Application.csproj" />
   </ItemGroup>
-
 </Project>
