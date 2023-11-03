@@ -12,10 +12,16 @@
         public ApiErrorResponse(List<string> errors)
         {
             Errors.AddRange(errors);
-            _response.Add(Message, Errors.ToArray());
         }
 
-        public Dictionary<string, string[]> Response { get => _response; }
+        public Dictionary<string, string[]> Response
+        {
+            get
+            {
+                _response.Add(Message, Errors.ToArray());
+                return _response;
+            }
+        }
 
         public bool HasErrors() => Errors.Count > 0;
 

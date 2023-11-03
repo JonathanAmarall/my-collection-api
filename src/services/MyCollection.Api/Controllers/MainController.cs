@@ -46,10 +46,13 @@ namespace MyCollection.Api.Controllers
 
         protected void AddProcessingErrors(ValidationResult validationResult)
         {
-            validationResult.Errors
-                .ToList().
-                ForEach(e =>
-                AddProcessingError(e.ErrorMessage));
+            if (validationResult is not null)
+            {
+                validationResult.Errors
+                    .ToList().
+                    ForEach(e =>
+                    AddProcessingError(e.ErrorMessage));
+            }
         }
 
         protected void ClearProcessingErrors()

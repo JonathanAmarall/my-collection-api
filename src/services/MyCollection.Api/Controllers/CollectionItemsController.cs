@@ -55,8 +55,8 @@ namespace MyCollection.Api.Controllers
             var result = (CommandResult<CollectionItem>)await handler.HandleAsync(command);
             if (result.IsFailure)
             {
-                AddProcessingErrors(result.ValidationResult!);
                 AddProcessingError(result.Message);
+                AddProcessingErrors(result.ValidationResult!);
             }
 
             return CustomReponse(new { result.Message });
