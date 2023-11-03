@@ -1,6 +1,6 @@
 using MyCollection.Application.Worker;
-using MyCollection.Data;
 using MyCollection.BackgroundTasks;
+using MyCollection.Data;
 using MyCollection.MessageBus;
 
 IHost host = Host.CreateDefaultBuilder(args)
