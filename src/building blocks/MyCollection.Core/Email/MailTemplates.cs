@@ -12,7 +12,7 @@
 
         public static (string subject, string body) CreateWelcomeBorrowerMail(string emailTo, string fullName)
            => ("Welcome to My Collection! 🎉",
-               $"\"Welcome to My Collection {fullName}" +
+               $"Welcome to My Collection {fullName}" +
                Environment.NewLine +
                Environment.NewLine +
                $"You have registered with the email {emailTo}.");
