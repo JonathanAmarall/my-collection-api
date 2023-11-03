@@ -5,14 +5,14 @@ namespace MyCollection.Domain.Events
 {
     public sealed class RentItemDomainEvent : IDomainEvent
     {
-        internal RentItemDomainEvent(Guid borrowerId, CollectionItem item, int rentedQuantity)
+        internal RentItemDomainEvent(Borrower borrower, CollectionItem item, int rentedQuantity)
         {
-            BorrowerId = borrowerId;
+            Borrower = borrower;
             Item = item;
             RentedQuantity = rentedQuantity;
         }
 
-        public Guid BorrowerId { get; set; }
+        public Borrower Borrower { get; set; }
         public CollectionItem Item { get; set; }
         public int RentedQuantity { get; set; }
     }

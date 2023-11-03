@@ -48,7 +48,7 @@ namespace MyCollection.Domain.Entities
                 Status = ECollectionStatus.UNAVAILABLE;
             }
 
-            AddDomainEvent(new RentItemDomainEvent(borrower.Id, this, rentQuantity));
+            AddDomainEvent(new RentItemDomainEvent(borrower, this, rentQuantity));
         }
 
         public void RecoveredItem(Borrower borrower)
