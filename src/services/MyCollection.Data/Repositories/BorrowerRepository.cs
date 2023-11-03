@@ -49,7 +49,6 @@ namespace MyCollection.Data.Repositories
         public async Task<Borrower?> GetByIdAsync(Guid borrowerId)
         {
             return await _context.Borrowers!.FirstOrDefaultAsync(x => x.Id == borrowerId);
-
         }
 
         public void Dispose()
