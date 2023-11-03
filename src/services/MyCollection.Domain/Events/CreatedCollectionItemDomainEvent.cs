@@ -3,9 +3,9 @@ using MyCollection.Domain.Entities;
 
 namespace MyCollection.Domain.Events
 {
-    public class CreatedCollectionItemEvent : IDomainEvent
+    public class CreatedCollectionItemDomainEvent : IDomainEvent
     {
-        public CreatedCollectionItemEvent(CollectionItem item)
+        public CreatedCollectionItemDomainEvent(CollectionItem item)
         {
             Item = item;
         }

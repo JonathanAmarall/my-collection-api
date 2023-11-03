@@ -1,5 +1,6 @@
 ﻿using MyCollection.Core.Contracts;
 using MyCollection.Core.Models;
+using MyCollection.Domain.Events;
 using MyCollection.Domain.ValueObjects;
 
 namespace MyCollection.Domain.Entities
@@ -15,6 +16,8 @@ namespace MyCollection.Domain.Entities
             Email = email;
             Phone = phone;
             Address = address;
+
+            AddDomainEvent(new CreatedBorrowerDomainEvent(this));
         }
 
         public string FirstName { get; private set; }

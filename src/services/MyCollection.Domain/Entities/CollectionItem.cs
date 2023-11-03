@@ -17,7 +17,7 @@ namespace MyCollection.Domain.Entities
 
             Status = ECollectionStatus.AVAILABLE;
 
-            AddDomainEvent(new CreatedCollectionItemEvent(this));
+            AddDomainEvent(new CreatedCollectionItemDomainEvent(this));
         }
 
         public string Title { get; private set; }

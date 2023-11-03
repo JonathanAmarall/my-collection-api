@@ -3,9 +3,9 @@ using MyCollection.Domain.Events;
 
 namespace MyCollection.Application.CollectionItem.Events;
 
-public class CreatedCollectionItemEventHandler : IDomainEventHandler<CreatedCollectionItemEvent>
+public class CreatedCollectionItemEventHandler : IDomainEventHandler<CreatedCollectionItemDomainEvent>
 {
-    public async Task Handle(CreatedCollectionItemEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(CreatedCollectionItemDomainEvent notification, CancellationToken cancellationToken)
     {
         Console.WriteLine($"O Item {notification.Item.Title} foi cadastrado.");
 

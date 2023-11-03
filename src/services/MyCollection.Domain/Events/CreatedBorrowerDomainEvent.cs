@@ -3,7 +3,7 @@ using MyCollection.Domain.Entities;
 
 namespace MyCollection.Domain.Events
 {
-    public record CreatedBorrowerEvent(Borrower Borrower) : IDomainEvent
+    public record CreatedBorrowerDomainEvent(Borrower Borrower) : IDomainEvent
     {
 
     }
