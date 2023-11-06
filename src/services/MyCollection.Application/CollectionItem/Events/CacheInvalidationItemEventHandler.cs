@@ -19,15 +19,15 @@ namespace MyCollection.Application.CollectionItem.Events
 
         public async Task Handle(RentItemDomainEvent notification, CancellationToken cancellationToken)
         {
-            await InternalHandler(notification.Item.Id);
+            await InternalHandler();
         }
 
         public async Task Handle(CreatedCollectionItemDomainEvent notification, CancellationToken cancellationToken)
         {
-            await InternalHandler(notification.Item.Id!);
+            await InternalHandler();
         }
 
-        public async Task InternalHandler(Guid itemId)
+        public async Task InternalHandler()
         {
             var keys = GetPersistedKeys();
 
@@ -53,7 +53,10 @@ namespace MyCollection.Application.CollectionItem.Events
                 foreach (var item in cacheEntries)
                 {
                     ICacheEntry cacheItemValue = item.GetType().GetProperty("Value").GetValue(item, null);
-                    persistedKeys.Add(cacheItemValue.Key.ToString());
+                    if (cacheItemValue is not null)
+                    {
+                        persistedKeys.Add(cacheItemValue.Key.ToString()!);
+                    }
                 }
             }
 
