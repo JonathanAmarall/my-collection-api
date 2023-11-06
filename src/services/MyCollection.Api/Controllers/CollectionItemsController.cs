@@ -62,6 +62,10 @@ namespace MyCollection.Api.Controllers
             return CustomReponse(new { result.Message });
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> Get(Guid id, [FromServices] ICollectionItemRepository repository) => 
+             Ok(await repository.GetByIdAsync(id));
+
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> AddLocation(Guid id, [FromBody] AddLocationInCollectionItemCommand command,
             [FromServices] AddLocationInCollectionCommandHandler handler, [FromServices] ICollectionItemRepository repository)

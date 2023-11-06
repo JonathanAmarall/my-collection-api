@@ -17,10 +17,15 @@ namespace MyCollection.Data
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            services.AddScoped<ICollectionItemRepository, CollectionItemRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddScoped<IBorrowerRepository, BorrowerRepository>();
-            services.AddScoped<IRentItemRepository, RentItemRepository>();
+            services.AddMemoryCache();
+
+            services
+                .AddScoped<ICollectionItemRepository, CollectionItemRepository>()
+                .AddScoped<ILocationRepository, LocationRepository>()
+                .AddScoped<IBorrowerRepository, BorrowerRepository>()
+                .AddScoped<IRentItemRepository, RentItemRepository>();
+
+            services.Decorate<ICollectionItemRepository, CacheItemRepository>();
 
             return services;
         }

@@ -17,7 +17,6 @@ namespace MyCollection.Data
         public DbSet<Location>? Locations { get; set; }
         public DbSet<Borrower>? Borrowers { get; set; }
 
-        public MyCollectionContext() { }
 
         public MyCollectionContext(DbContextOptions<MyCollectionContext> options, IMediator mediator) :
             base(options)

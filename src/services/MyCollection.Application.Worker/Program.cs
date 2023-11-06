@@ -6,6 +6,7 @@ using MyCollection.MessageBus;
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
+        services.AddMemoryCache();
         services.AddHostedService<Worker>();
         services
         .AddData(hostContext.Configuration)

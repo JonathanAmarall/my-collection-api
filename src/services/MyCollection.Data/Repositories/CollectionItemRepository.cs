@@ -28,7 +28,7 @@ namespace MyCollection.Data.Repositories
             _context.CollectionItems!.Remove(item);
         }
 
-        public async Task<PagedList<CollectionItem>> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
+        public async Task<PagedList<CollectionItem>?> GetAllPagedAsync(string? globalFilter, string? sortOrder, string? sortField, ECollectionStatus? status, EType? type, int pageNumber = 1, int pageSize = 5)
         {
             var query = _context.CollectionItems!.Include(c => c.Rentals).AsQueryable();
 
