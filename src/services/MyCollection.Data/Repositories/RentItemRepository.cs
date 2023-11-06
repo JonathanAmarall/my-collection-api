@@ -27,6 +27,14 @@ namespace MyCollection.Data.Repositories
             return await _context.Set<RentItem>().ToListAsync();
         }
 
+        public async Task<List<RentItem>?> GetExpiredRents(int quantityToBeObtained = 10)
+            => await _context.Set<RentItem>().Where(x => x.RentDueDate >= DateTime.UtcNow).ToListAsync();
+
+        public void UpdateRange(List<RentItem> rentItems)
+        {
+            _context.Set<RentItem>().UpdateRange(rentItems);
+        }
+
         public void Dispose()
         {
             Dispose(true);

@@ -8,5 +8,9 @@ namespace MyCollection.Domain.Repositories
         Task<RentItem> CreateAsync(RentItem item);
 
         Task<List<RentItem>> GetAllAsync();
+
+        Task<List<RentItem>?> GetExpiredRents(int quantityToBeObtained = 10);
+
+        void UpdateRange(List<RentItem> rentItems);
     }
 }

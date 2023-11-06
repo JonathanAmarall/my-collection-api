@@ -24,16 +24,10 @@ namespace MyCollection.BackgroundTasks.IntegrationEvents.Item
         {
             var borrower = await _borrowerRepository.GetByIdAsync(notification.BorrowerId);
 
-            if(borrower is null)
-            {
-                _logger.LogError("BorrowerId is invalid: {id}", notification.BorrowerId);
-                throw new ArgumentNullException(nameof(borrower));
-            }
-
             var (subject, body) = MailTemplates.CreateRentedMessageBorrowerEmail(
                 notification.ItemTitle,
                 notification.DueDate,
-                borrower.FullName,
+                borrower!.FullName,
                 borrower.Email.Value);
 
             var mailRequest = new MailRequest(borrower.Email.Value, subject, body);

@@ -48,5 +48,11 @@ namespace MyCollection.Domain.Entities
             QuantityReturned = quantityReturned;
             AddDomainEvent(new ReturnItemDomainEvent(BorrowerId, CollectionItem, quantityReturned));
         }
+
+        public bool RentDueDateIsExpired()
+        {
+            var nowUtc = DateTime.UtcNow;
+            return nowUtc >= RentDueDate;
+        }
     }
 }
